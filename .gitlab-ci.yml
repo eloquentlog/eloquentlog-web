@@ -1,0 +1,58 @@
+stages:
+  - vet
+  - test
+  - qa
+
+lint:
+  stage: vet
+  image: node:11.10.0
+  variables:
+    NODE_ENV: development
+  before_script:
+    - node --version
+    - npm install --global npm
+    - npm --version
+    - npm install
+  script:
+    - make lint
+  cache:
+    paths:
+      - node_modules
+  except:
+    - tags
+
+unit-test:
+  stage: test
+  image: node:11.10.0
+  variables:
+    NODE_ENV: test
+  before_script:
+    - node --version
+    - npm install --global npm
+    - npm --version
+    - npm install
+  script:
+    - make test
+  cache:
+    paths:
+      - node_modules
+  except:
+    - tags
+
+coverage:
+  stage: qa
+  image: node:11.10.0
+  variables:
+    NODE_ENV: test
+  before_script:
+    - node --version
+    - npm install --global npm
+    - npm --version
+    - npm install
+  script:
+    - make test:coverage
+  cache:
+    paths:
+      - node_modules
+  except:
+    - tags

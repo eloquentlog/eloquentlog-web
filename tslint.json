@@ -1,0 +1,31 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-react"
+    ],
+    "jsRules": {
+      "max-line-length": [true, 80],
+      "semicolon": [true, "always"],
+      "no-console": [false],
+      "quotemark": [true, "single"],
+      "trailing-comma": [true, "never"],
+      "only-arrow-functions": [false],
+      "object-literal-sort-keys": [false],
+      "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
+      "one-variable-per-declaration": [false]
+    },
+    "rules": {
+      "max-line-length": [true, 80],
+      "semicolon": [true, "always"],
+      "no-console": [false],
+      "quotemark": [true, "single"],
+      "trailing-comma": [true, "never"],
+      "only-arrow-functions": [false],
+      "object-literal-sort-keys": [false],
+      "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
+      "one-variable-per-declaration": [false],
+      "interface-name": [true, "never-prefix"]
+    },
+    "rulesDirectory": []
+}

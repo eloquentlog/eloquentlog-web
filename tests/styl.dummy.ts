@@ -1,0 +1,1 @@
+jest.mock('stylus', () => 'stylus');
