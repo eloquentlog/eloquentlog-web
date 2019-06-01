@@ -19,5 +19,7 @@ module.exports = {
 , transform: {
     ...tsPreset.transform
   }
-, setupTestFrameworkScriptFile: '<rootDir>/tests/enzyme.ts'
+, setupFilesAfterEnv: [
+    '<rootDir>/tests/enzyme.ts'
+  ]
 };
