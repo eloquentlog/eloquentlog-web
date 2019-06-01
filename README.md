@@ -10,15 +10,29 @@ Eloquentlog
 ╚╩╝└─┘└─┘  ╚  ┴└─└─┘┘└┘ ┴ └─┘┘└┘─┴┘
 ```
 
+The frontend web application of [Eloquentlog](https://eloquentlog.com).
+
+
 ## Repository
 
 https://gitlab.com/eloquentlog/eloquentlog-web-frontend
+
+
+## Requirements
+
+* Node.js
 
 
 ## Setup
 
 ```zsh
 % npm install
+```
+
+## Build
+
+```zsh
+% make build
 ```
 
 
@@ -31,24 +45,34 @@ https://gitlab.com/eloquentlog/eloquentlog-web-frontend
 % make lint
 ```
 
-### Test
-
-```zsh
-% make test
-```
-
-### Run server
+### Run
 
 ```zsh
 % make serve
 ```
 
 
+## Testing
+
+```zsh
+% make test
+```
+
+
 ## License
+
+```text
+ ┏━╸╻  ┏━┓┏━┓╻ ╻┏━╸┏┓╻╺┳╸╻  ┏━┓┏━╸
+ ┣╸ ┃  ┃ ┃┃┓┃┃ ┃┣╸ ┃┗┫ ┃ ┃  ┃ ┃┃╺┓
+ ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
+
+ Web Frontend
+ Copyright (c) 2018-2019 Lupine Software LLC
+```
 
 `AGPL-3.0`
 
-```zsh
+```text
 This is free software: You can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
