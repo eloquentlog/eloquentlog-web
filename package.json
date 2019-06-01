@@ -10,20 +10,22 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "express": "4.16.4",
-    "inferno": "^1.4.0",
-    "inferno-compat": "^1.4.0",
-    "inferno-server": "^1.4.0",
+    "express": "4.17.1",
+    "inferno": "^7.1.13",
+    "inferno-compat": "^7.1.13",
+    "inferno-server": "^7.1.13",
     "isomorphic-unfetch": "3.0.0",
-    "module-alias": "^2.0.0",
-    "next": "7.0.2",
-    "react": "16.6.3",
-    "react-dom": "16.6.3",
+    "module-alias": "^2.2.0",
+    "next": "8.1.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-hyperscript": "3.2.0",
     "stylus": "0.54.5"
   },
   "license": "AGPL-3.0",
   "devDependencies": {
+    "acorn": "6.1.1",
+    "@babel/core": "7.2.2",
     "@types/enzyme": "3.1.15",
     "@types/enzyme-adapter-react-16": "1.0.3",
     "@types/jest": "23.3.10",
@@ -40,6 +42,7 @@
     "ts-jest": "23.10.5",
     "tslint": "5.11.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.1.6"
+    "typescript": "3.1.6",
+    "webpack": "4.28.4"
   }
 }
