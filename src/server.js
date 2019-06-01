@@ -1,9 +1,9 @@
 const port = parseInt(process.env.PORT, 10) || 3000;
-const dev = process.env.NODE_ENV !== 'production';
+const development = process.env.NODE_ENV !== 'production';
 
 const moduleAlias = require('module-alias');
 
-if (!dev) {
+if (!development) {
   moduleAlias.addAlias('react', 'inferno-compat');
   moduleAlias.addAlias('react-dom/server', 'inferno-server');
   moduleAlias.addAlias('react-dom', 'inferno-compat');
@@ -16,8 +16,8 @@ const express = require('express');
 const next = require('next');
 
 const app = next({
-  dir: 'src', // next application source
-  dev
+  dir: 'src' // next application source
+, dev: development
 });
 const handle = app.getRequestHandler();
 

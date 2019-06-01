@@ -6,7 +6,7 @@ const withStylus = require('@zeit/next-stylus')
 
 module.exports = withTypescript(withStylus({
   distDir: '../.build' // instead `.next`
-, webpack: (config, {dev, isServer}) => {
+, webpack: (config, {isDevelopment, isServer}) => {
 
     if (isServer) {
       config.plugins.push(new ForkTsCheckWebpackPlugin({
@@ -14,7 +14,7 @@ module.exports = withTypescript(withStylus({
       }));
     }
 
-    if (dev) {
+    if (isDevelopment) {
       return config;
     }
 
