@@ -1,5 +1,4 @@
-/.build
-/.coverage
+/dst
 
 /node_modules
 /venv

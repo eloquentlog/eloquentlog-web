@@ -52,13 +52,6 @@ https://gitlab.com/eloquentlog/eloquentlog-web-frontend
 ```
 
 
-## Testing
-
-```zsh
-% make test
-```
-
-
 ## License
 
 ```text
@@ -67,7 +60,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-frontend
  ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
 
  Web Frontend
- Copyright (c) 2018-2019 Lupine Software LLC
+ Copyright (c) 2019 Lupine Software LLC
 ```
 
 `AGPL-3.0`

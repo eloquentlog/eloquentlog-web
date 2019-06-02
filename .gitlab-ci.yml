@@ -1,7 +1,5 @@
 stages:
   - vet
-  - test
-  - qa
 
 .nodejs: &nodejs
   image: node:11.9.0
@@ -23,29 +21,3 @@ lint:
     - npm install
   script:
     - make lint
-
-unit-test:
-  stage: test
-  <<: *nodejs
-  variables:
-    NODE_ENV: test
-  before_script:
-    - node --version
-    - npm install --global npm
-    - npm --version
-    - npm install
-  script:
-    - make test
-
-coverage:
-  stage: qa
-  <<: *nodejs
-  variables:
-    NODE_ENV: test
-  before_script:
-    - node --version
-    - npm install --global npm
-    - npm --version
-    - npm install
-  script:
-    - make test:coverage
