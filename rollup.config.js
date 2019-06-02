@@ -4,6 +4,7 @@ import json from 'rollup-plugin-json';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
+import typescript from 'rollup-plugin-typescript2';
 
 const buildDevelopment = {
   input: './src/index.ts'
@@ -18,11 +19,16 @@ const buildDevelopment = {
     })
   , json()
   , nodeResolve({
-      jsnext: true
+      browser: true
     , preferBuiltins: false
+    , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
   , commonjs()
+  , typescript({
+      abortOnError: false
+    , cacheRoot: '.cache'
+    })
   , buble()
   ]
 };
@@ -40,11 +46,16 @@ const buildProduction = {
     })
   , json()
   , nodeResolve({
-      jsnext: true
+      browser: true
     , preferBuiltins: false
+    , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
   , commonjs()
+  , typescript({
+      abortOnError: true
+    , cacheRoot: '.cache'
+    })
   , buble()
   , terser()
   ]

@@ -1,6 +1,11 @@
 {
   "name": "eloquentlog-web-frontend",
   "version": "0.0.1",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/eloquentlog/eloquentlog-web-frontend"
+  },
   "scripts": {
     "build:production": "rollup -c --configBuildProduction",
     "build:development": "rollup -c --configBuildDevelopment",
@@ -9,26 +14,23 @@
     "watch:lint": "rollup -w -c --configBuildDevelopment",
     "serve": "rollup -w -c --configServe"
   },
-  "dependencies": {
+  "devDependencies": {
     "inferno": "^7.1.13",
     "inferno-router": "^7.1.13",
     "inferno-hyperscript": "^7.1.13",
     "isomorphic-unfetch": "3.0.0",
     "js-cookie": "2.2.0",
-    "stylus": "0.54.5"
-  },
-  "license": "AGPL-3.0",
-  "devDependencies": {
-    "rollup": "^0.65.2",
-    "rollup-plugin-buble": "0.19.2",
-    "rollup-plugin-commonjs": "9.1.6",
+    "rollup": "0.68.2",
+    "rollup-plugin-buble": "0.19.6",
+    "rollup-plugin-commonjs": "9.3.4",
     "rollup-plugin-json": "2.3.0",
-    "rollup-plugin-node-builtins": "2.1.2",
     "rollup-plugin-node-globals": "1.4.0",
-    "rollup-plugin-node-resolve": "3.4.0",
+    "rollup-plugin-node-resolve": "4.2.4",
     "rollup-plugin-replace": "2.0.0",
     "rollup-plugin-serve": "1.0.1",
     "rollup-plugin-terser": "2.0.2",
+    "rollup-plugin-typescript2": "0.21.1",
+    "stylus": "0.54.5",
     "tslint": "5.17.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.1"
