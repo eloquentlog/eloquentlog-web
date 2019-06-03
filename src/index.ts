@@ -1,11 +1,11 @@
-import { render } from 'inferno';
+import { render, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter, Route } from 'inferno-router';
 import { version } from '../package.json';
 
 import { Login } from './login';
 
-const Top = () => {
+const Top = (): VNode => {
   return h('.content', [
     h('h2', 'Top')
   , h('p', version)
@@ -13,7 +13,7 @@ const Top = () => {
   ]);
 };
 
-const App = () => {
+const App = (): VNode => {
   return h(BrowserRouter, [
     , h(Route, { exact: true, path: '/', component: Top })
     , h(Route, { path: '/login', component: Login })
