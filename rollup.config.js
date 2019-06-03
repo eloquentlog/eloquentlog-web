@@ -1,7 +1,7 @@
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
-import nodeResolve from 'rollup-plugin-node-resolve';
+import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
@@ -18,7 +18,7 @@ const buildDevelopment = {
       'process.env.NODE_ENV': JSON.stringify('development')
     })
   , json()
-  , nodeResolve({
+  , resolve({
       browser: true
     , preferBuiltins: false
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
@@ -45,7 +45,7 @@ const buildProduction = {
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   , json()
-  , nodeResolve({
+  , resolve({
       browser: true
     , preferBuiltins: false
     , mainFields: ['module', 'main', 'jsnext:main']
