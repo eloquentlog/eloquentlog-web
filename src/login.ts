@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
+
+import { getClient } from './util/client';
 
 interface LoginProps {
   username: string;
@@ -9,10 +10,7 @@ interface LoginProps {
   [index: string]: any;
 }
 
-// TODO
-const BACKEND_API_PROTOCOL: string = 'http';
-const BACKEND_API_HOST: string = '127.0.0.1';
-const BACKEND_API_PORT: string = '8000';
+const client = getClient();
 
 const validate = (name: string, v: string): boolean => {
   if (name === 'username') {
@@ -49,16 +47,6 @@ const handleSubmit = (props: LoginProps, event: Event): void => {
       props.username === undefined || props.password === undefined) {
     return;
   }
-
-  const client = axios.create({
-    baseURL: `${BACKEND_API_PROTOCOL}://
-${BACKEND_API_HOST}:${BACKEND_API_PORT}/_api`
-  , timeout: 1800
-  , headers: {
-      'Accept': 'application/json'
-    , 'Content-Type': 'application/json; charset=utf-8'
-    }
-  });
 
   client.post('/login', {
     username: props.username
