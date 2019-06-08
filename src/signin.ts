@@ -1,13 +1,14 @@
+import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
+import { inputFieldsLocker } from './util/form';
 
-interface LoginProps {
-  username: string;
-  password: string;
+interface SigninProps {
   errors: string[];
-  [index: string]: any;
+  history: H.History;
+  setToken: (token: string) => void;
 }
 
 const client = getClient();
@@ -21,7 +22,7 @@ const validate = (name: string, v: string): boolean => {
   return false;
 };
 
-const handleChange = (props: LoginProps, event: Event): void => {
+const handleChange = (props: SigninProps, event: Event): void => {
   event.preventDefault();
   const target = event.target as HTMLInputElement
       , value = target.value
@@ -31,31 +32,48 @@ const handleChange = (props: LoginProps, event: Event): void => {
   const e: number = props.errors.indexOf(target.id);
   if (e > -1) {
     props.errors.splice(e, 1);
-  }
-  if (validate(target.id, value) !== true) {
-    props[target.id] = undefined;
+  } else if (validate(target.id, value) !== true) {
     props.errors.push(target.id);
-    return;
   }
-  props[target.id] = value;
 };
 
-const handleSubmit = (props: LoginProps, event: Event): void => {
+const lock = inputFieldsLocker(['username', 'password', 'submit'])
+    , unlock = lock
+    ;
+
+const handleSubmit = (props: SigninProps, event: Event): void => {
   event.preventDefault();
 
+  const t = event.target as Element;
+
+  lock();
+
+  const username = (t.querySelector('#username') as HTMLInputElement).value
+      , password = (t.querySelector('#password') as HTMLInputElement).value
+      ;
+
   if (props.errors.length > 0 ||
-      props.username === undefined || props.password === undefined) {
+      username === null || password === null) {
+    unlock();
     return;
   }
 
   client.post('/login', {
-    username: props.username
-  , password: props.password
+    username
+  , password
   })
   .then((res: any) => {
-    console.log(res);
+    unlock();
+
+    const token = res.data.voucher;
+    props.setToken(token);
+    props.history.push('/');
   })
   .catch((err: any) => {
+    unlock();
+
+    // TODO:
+    // * display validation messages
     console.log(err);
   });
 };
@@ -63,11 +81,21 @@ const handleSubmit = (props: LoginProps, event: Event): void => {
 // TODO:
 // * should we have a loading state? (as component)
 // * validators
-export const Login = (props: LoginProps): VNode => {
-  props.errors = [];
+export const Signin = (
+  props: SigninProps
+, route: any
+): VNode => {
+  // for flash message (from location.state)
+  props.history = route.router.history as H.History;
+  const location = props.history.location;
 
   return h('.content', [
-    h('form', {
+    h('ul', [
+      h('li', {}, h('a', { href: '/' }, 'Top'))
+    , h('li', {}, h('a', { href: '/signup' }, 'Sign up'))
+    ])
+  , (location.state === undefined) ? null : h('p.message', location.state)
+  , h('form#signin', {
       noValidate: true
     , onSubmit: linkEvent(props, handleSubmit)
     }, [
@@ -87,13 +115,17 @@ export const Login = (props: LoginProps): VNode => {
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('button#submit', { type: 'submit' }, 'Login')
+    , h('button#submit', { type: 'submit' }, 'Sign in')
     ])
   ]);
 };
 
-Login.defaultHooks = {
+Signin.defaultProps = {
+  errors: []
+};
+
+Signin.defaultHooks = {
   onComponentDidMount (_: any): void {
-    document.title = 'Login - ' + document.title;
+    document.title = 'Sign in - ' + document.title;
   }
 };
