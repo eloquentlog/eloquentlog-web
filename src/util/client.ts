@@ -9,7 +9,7 @@ export const getClient = () => {
   const client = axios.create({
     baseURL: `${BACKEND_API_PROTOCOL}://
 ${BACKEND_API_HOST}:${BACKEND_API_PORT}/_api`
-  , timeout: 1800
+  , timeout: 0
   , headers: {
       'Accept': 'application/json'
     , 'Content-Type': 'application/json; charset=utf-8'
