@@ -3,7 +3,11 @@ import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
-import { inputFieldsLocker } from './util/form';
+import {
+  cleanErrors
+, handleErrors
+, inputFieldsLocker
+} from './util/form';
 
 interface SigninProps {
   errors: string[];
@@ -11,15 +15,14 @@ interface SigninProps {
   setToken: (token: string) => void;
 }
 
-const client = getClient();
+const client = getClient((status: number): boolean => {
+  return (status >= 200 && status < 300) ||
+         [401, 422].some((n: number): boolean => n === status);
+});
 
-const validate = (name: string, v: string): boolean => {
-  if (name === 'username') {
-    return (v !== null && v.includes('@') && v.length >= 6);
-  } else if (name === 'password') {
-    return (v !== null && v.length >= 8);
-  }
-  return false;
+// Checks if required field is not empty
+const validate = (_: string, v: string): boolean => {
+  return v !== '';
 };
 
 const handleChange = (props: SigninProps, event: Event): void => {
@@ -37,7 +40,12 @@ const handleChange = (props: SigninProps, event: Event): void => {
   }
 };
 
-const lock = inputFieldsLocker(['username', 'password', 'submit'])
+const fields = [
+  'username'
+, 'password'
+];
+
+const lock = inputFieldsLocker(fields.concat('submit'))
     , unlock = lock
     ;
 
@@ -47,13 +55,17 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   const t = event.target as Element;
 
   lock();
+  cleanErrors(t, fields);
 
-  const username = (t.querySelector('#username') as HTMLInputElement).value
-      , password = (t.querySelector('#password') as HTMLInputElement).value
-      ;
+  const [
+    username
+  , password
+  ] = fields.map(
+    (f: string): string => (t.querySelector('#' + f) as HTMLInputElement).value
+  );
 
   if (props.errors.length > 0 ||
-      username === null || password === null) {
+     [username, password].some((v: string): boolean => v === '')) {
     unlock();
     return;
   }
@@ -62,25 +74,26 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     username
   , password
   })
-  .then((res: any) => {
-    unlock();
+  .then((res: any): void => {
+    if (res.status !== 200) {
+      const data = res.data;
+      handleErrors(t, data);
+      unlock();
+      return;
+    }
 
     const token = res.data.voucher;
     props.setToken(token);
     props.history.push('/');
   })
-  .catch((err: any) => {
+  .catch((err: any): void => {
     unlock();
 
-    // TODO:
-    // * display validation messages
+    // TODO
     console.log(err);
   });
 };
 
-// TODO:
-// * should we have a loading state? (as component)
-// * validators
 export const Signin = (
   props: SigninProps
 , route: any
@@ -94,13 +107,15 @@ export const Signin = (
       h('li', {}, h('a', { href: '/' }, 'Top'))
     , h('li', {}, h('a', { href: '/signup' }, 'Sign up'))
     ])
-  , (location.state === undefined) ? null : h('p.message', location.state)
+  , h('#message',
+      (location.state === undefined) ? null : h('p', location.state)
+    )
   , h('form#signin', {
       noValidate: true
     , onSubmit: linkEvent(props, handleSubmit)
     }, [
       h('.control-group', [
-        h('label.label', { for: 'username' }, 'Username')
+        h('label.label.required', { for: 'username' }, 'Username')
       , h('input#username', {
           type: 'email'
         , name: 'username'
@@ -108,7 +123,7 @@ export const Signin = (
         })
       ])
     , h('.control-group', [
-        h('label.label', { for: 'password' }, 'Password')
+        h('label.label.required', { for: 'password' }, 'Password')
       , h('input#password', {
           type: 'password'
         , name: 'password'
