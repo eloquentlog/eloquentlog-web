@@ -1,15 +1,24 @@
+import path from 'path';
+
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
+import css from 'rollup-plugin-css-only';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
+import stylus from 'rollup-plugin-stylus-compiler';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 
-const buildDevelopment = {
-  input: './src/index.ts'
+const root = __dirname
+    , src = path.join(root, 'src')
+    , dst = path.join(root, 'dst')
+    ;
+
+const development = {
+  input: path.join(src, 'index.ts')
 , output: {
-    file: './dst/index.js'
+    file: path.join(dst, 'index.js')
   , format: 'iife'
   , sourcemap: true
   }
@@ -24,6 +33,8 @@ const buildDevelopment = {
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , stylus()
+  , css()
   , commonjs()
   , typescript({
       abortOnError: false
@@ -33,10 +44,10 @@ const buildDevelopment = {
   ]
 };
 
-const buildProduction = {
-  input: './src/index.ts'
+const production = {
+  input: path.join(src, 'index.ts')
 , output: [{
-    file: './dst/index.min.js'
+    file: path.join(dst, 'index.min.js')
   , format: 'iife'
   , sourcemap: false
   }]
@@ -51,6 +62,8 @@ const buildProduction = {
     , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , stylus()
+  , css()
   , commonjs()
   , typescript({
       abortOnError: true
@@ -63,14 +76,14 @@ const buildProduction = {
 
 export default (args) => {
   if (args.configBuildDevelopment === true) {
-    return buildDevelopment;
+    return development;
   } else if (args.configServe === true) {
     // NOTE:
     // The import of rollup-plugin-serve makes
     // rollup never stopping :'(
     const s = 'rollup-plugin-serve';
     import(s).then((serve) => {
-      buildDevelopment.plugins.push(
+      development.plugins.push(
         serve({
           contentBase: ['src', 'dst']
         , historyApiFallback: [
@@ -81,7 +94,7 @@ export default (args) => {
         })
       );
     });
-    return buildDevelopment;
+    return development;
   }
-  return buildProduction;
+  return production;
 };

@@ -9,6 +9,8 @@ import {
 , inputFieldsLocker
 } from './util/form';
 
+import './styl/signin.styl';
+
 interface SigninProps {
   errors: string[];
   history: H.History;
@@ -102,35 +104,43 @@ export const Signin = (
   props.history = route.router.history as H.History;
   const location = props.history.location;
 
-  return h('.content', [
+  return h('#signin.content', [
     h('ul', [
       h('li', {}, h('a', { href: '/' }, 'Top'))
-    , h('li', {}, h('a', { href: '/signup' }, 'Sign up'))
     ])
-  , h('#message',
-      (location.state === undefined) ? null : h('p', location.state)
-    )
-  , h('form#signin', {
+  , (location.state === undefined) ?
+      h('#message.message.hidden') :
+      h('#message.message.warn', h('p', location.state))
+  , h('form.form', {
       noValidate: true
     , onSubmit: linkEvent(props, handleSubmit)
     }, [
-      h('.control-group', [
-        h('label.label.required', { for: 'username' }, 'Username')
+      h('.required.field', [
+        // E-mail === Username (for now)
+        h('label.label', { for: 'username' }, 'E-mail address')
       , h('input#username', {
-          type: 'email'
+          type: 'text'
         , name: 'username'
+        , placeHolder: 'ahoj@eloquentlog.com'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('.control-group', [
-        h('label.label.required', { for: 'password' }, 'Password')
+    , h('.required.field', [
+        h('label.label', { for: 'password' }, 'Password')
       , h('input#password', {
           type: 'password'
         , name: 'password'
+        , autocomplete: 'off'
+        , placeHolder: 'Keep it secret ;)'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('button#submit', { type: 'submit' }, 'Sign in')
+    , h('button#submit.flat.button', { type: 'submit' }, 'Sign in')
+    ])
+  , h('p', [
+      h('a.reset-password', { href: '/' }, 'Fogot your password?')
+    , 'or new to Eloquentlog?'
+    , h('a.signup', { href: '/signup' }, 'Sign up')
     ])
   ]);
 };

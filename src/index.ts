@@ -7,6 +7,10 @@ import { version } from '../package.json';
 import { Signin } from './signin';
 import { Signup } from './signup';
 
+// shared
+import 'styr';
+import './styl/_common.styl';
+
 interface TopProps {
   history: H.History;
   signedIn: boolean;

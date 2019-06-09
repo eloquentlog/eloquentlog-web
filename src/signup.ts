@@ -9,6 +9,8 @@ import {
 , inputFieldsLocker
 } from './util/form';
 
+import './styl/signup.styl';
+
 interface SignupProps {
   errors: string[];
   history: H.History;
@@ -113,52 +115,59 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
 };
 
 export const Signup = (props: SignupProps): VNode => {
-  return h('.content', [
+  return h('#signup.content', [
     h('ul', [
       h('li', {}, h('a', { href: '/' }, 'Top'))
-    , h('li', {}, h('a', { href: '/signin' }, 'Sign in'))
     ])
-  , h('#message')
-  , h('form#signup', {
+  , h('#message.message.hidden')
+  , h('form.form', {
       noValidate: true
     , autocomplete: 'off'
     , onSubmit: linkEvent(props, handleSubmit)
     }, [
-      h('.control-group', [
-        h('label.label.required', { for: 'email' }, 'E-mail Address')
+      h('.required.field', [
+        h('label.label', { for: 'email' }, 'E-mail Address')
       , h('input#email', {
-          type: 'email'
+          type: 'text'
         , name: 'email'
+        , placeHolder: 'ahoj@eloquentlog.com'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('.control-group', [
+    , h('.field', [
         h('label.label', { for: 'name' }, 'Name')
       , h('input#name', {
           type: 'text'
         , name: 'name'
+        , placeHolder: 'Albrecht Dürer (optional)'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('.control-group', [
+    , h('.field', [
         h('label.label', { for: 'username' }, 'Username')
       , h('input#username', {
           type: 'text'
         , name: 'username'
+        , placeHolder: 'albrecht (optional)'
         , autocomplete: 'off'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('.control-group', [
-        h('label.label.required', { for: 'password' }, 'Password')
+    , h('.required.field', [
+        h('label.label', { for: 'password' }, 'Password')
       , h('input#password', {
           type: 'password'
         , name: 'password'
+        , placeHolder: 'Keep it secret ;)'
         , autocomplete: 'new-password'
         , onInput: linkEvent(props, handleChange)
         })
       ])
-    , h('button#submit', { type: 'submit' }, 'Sign up')
+    , h('button#submit.flat.button', { type: 'submit' }, 'Sign up')
+    ])
+  , h('p', [
+    , 'Already have an account?'
+    , h('a.signin', { href: '/signin' }, 'Sign in')
     ])
   ]);
 };
