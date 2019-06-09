@@ -16,17 +16,18 @@ export const inputFieldsLocker = (ids: string[]): () => void => {
   };
 };
 
-export const cleanErrors = (form: Element, fields: string[]): void => {
+export const cleanErrors = (form: Element, inputIds: string[]): void => {
   const msgContainer = document.getElementById('message');
   msgContainer.innerHTML = '';
   msgContainer.classList.remove('error');
+  msgContainer.classList.add('hidden');
 
-  fields.forEach((field: string): void => {
-    const group = form.querySelector('#' + field).parentElement
-        , errors = group.querySelector('.errors')
+  inputIds.forEach((id: string): void => {
+    const field = form.querySelector('#' + id).parentElement
+        , errors = field.querySelector('.errors')
         ;
     if (errors !== null) {
-      group.removeChild(errors);
+      field.removeChild(errors);
     }
   });
 };
@@ -43,12 +44,14 @@ export const handleErrors = (form: Element, data: Response): void => {
     message.innerHTML = data.message;
     msgContainer.innerHTML = '';
     msgContainer.appendChild(message);
+    msgContainer.classList.remove('hidden');
     msgContainer.classList.add('error');
   }
 
   if (data.errors !== undefined) {
     data.errors.forEach((e: ValidationError): void => {
-      const group = form.querySelector('#' + e.field).parentNode
+      const id = e.field;
+      const field = form.querySelector('#' + id).parentNode
           , errors = document.createElement('ul')
           ;
       errors.classList.add('errors');
@@ -58,7 +61,7 @@ export const handleErrors = (form: Element, data: Response): void => {
         error.innerHTML = m;
         errors.appendChild(error);
       });
-      group.appendChild(errors);
+      field.appendChild(errors);
     });
   }
 };
