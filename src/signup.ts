@@ -3,29 +3,33 @@ import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
-import { inputFieldsLocker } from './util/form';
+import {
+  cleanErrors
+, handleErrors
+, inputFieldsLocker
+} from './util/form';
 
 interface SignupProps {
   errors: string[];
   history: H.History;
 }
 
-const client = getClient();
+const client = getClient((status: number): boolean => {
+  return (status >= 200 && status < 300) ||
+         [422].some((n: number): boolean => n === status);
+});
 
+// Checks if required field is not empty
 const validate = (name: string, v: string): boolean => {
   let result = false;
   switch (name) {
     case 'email':
-      result = (v !== null && v.includes('@') && v.length >= 6);
+    case 'password':
+      result = (v !== '');
       break;
     case 'name':
-      result = (v === null || (v.length >= 6 && v.length <= 64));
-      break;
     case 'username':
-      result = (v === null || (v.length >= 3 && v.length <= 32));
-      break;
-    case 'password':
-      result = (v !== null && v.length >= 8 && v.length <= 1024);
+      result = true;
       break;
     default:
       break;
@@ -67,16 +71,19 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   const t = event.target as Element;
 
   lock();
+  cleanErrors(t, fields);
 
   const [
     email
   , name
   , username
   , password
-  ] = fields.map(f => (t.querySelector('#' + f) as HTMLInputElement).value);
+  ] = fields.map(
+    (f: string): string => (t.querySelector('#' + f) as HTMLInputElement).value
+  );
 
   if (props.errors.length > 0 ||
-     [email, password].some((e) => e === '')) {
+     [email, password].some((v: string): boolean => v === '')) {
     unlock();
     return;
   }
@@ -87,35 +94,38 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   , username
   , password
   })
-  .then((_: any) => {
-    unlock();
+  .then((res: any) => {
+    if (res.status !== 200) {
+      const data = res.data;
+      handleErrors(t, data);
+      unlock();
+      return;
+    }
+
     props.history.push('/signin');
   })
   .catch((err: any) => {
     unlock();
 
     // TODO
-    // * display validation messages
     console.log(err);
   });
 };
 
-// TODO:
-// * should we have a loading state? (as component)
-// * validators
 export const Signup = (props: SignupProps): VNode => {
   return h('.content', [
     h('ul', [
       h('li', {}, h('a', { href: '/' }, 'Top'))
     , h('li', {}, h('a', { href: '/signin' }, 'Sign in'))
     ])
+  , h('#message')
   , h('form#signup', {
       noValidate: true
     , autocomplete: 'off'
     , onSubmit: linkEvent(props, handleSubmit)
     }, [
       h('.control-group', [
-        h('label.label', { for: 'email' }, 'E-mail Address')
+        h('label.label.required', { for: 'email' }, 'E-mail Address')
       , h('input#email', {
           type: 'email'
         , name: 'email'
@@ -140,7 +150,7 @@ export const Signup = (props: SignupProps): VNode => {
         })
       ])
     , h('.control-group', [
-        h('label.label', { for: 'password' }, 'Password')
+        h('label.label.required', { for: 'password' }, 'Password')
       , h('input#password', {
           type: 'password'
         , name: 'password'
