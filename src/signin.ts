@@ -5,9 +5,12 @@ import { h } from 'inferno-hyperscript';
 import { getClient } from './util/client';
 import {
   cleanErrors
+, displayMessage
 , handleErrors
 , inputFieldsLocker
 } from './util/form';
+
+import { messages } from './util/message';
 
 import './styl/signin.styl';
 
@@ -67,6 +70,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
 
   if (props.errors.length > 0 ||
      [username, password].some((v: string): boolean => v === '')) {
+    displayMessage(messages.errors.authentication);
     unlock();
     return;
   }
