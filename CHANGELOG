@@ -1,3 +1,6 @@
+Mon 10 Jun 2019 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Add stylus support and the check by stylint
+
 Mon 03 Jun 2019 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Restructured with only inferno.js
 

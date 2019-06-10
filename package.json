@@ -9,10 +9,10 @@
   "scripts": {
     "build:production": "rollup -c --configBuildProduction",
     "build:development": "rollup -c --configBuildDevelopment",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:styl": "stylint -c .stylintrc src",
+    "lint:ts": "tslint -c tslint.json -p tsconfig.json",
     "watch:build": "rollup -w -c --configBuildDevelopment",
-    "watch:lint": "rollup -w -c --configBuildDevelopment",
-    "serve": "rollup -w -c --configServe"
+    "watch:serve": "rollup -w -c --configServe"
   },
   "devDependencies": {
     "@types/history": "4.7.2",
@@ -32,6 +32,7 @@
     "rollup-plugin-stylus-compiler": "1.0.1",
     "rollup-plugin-terser": "5.0.0",
     "rollup-plugin-typescript2": "0.21.1",
+    "stylint": "1.5.9",
     "stylus": "0.54.5",
     "styr": "0.0.32",
     "tslint": "5.17.0",
