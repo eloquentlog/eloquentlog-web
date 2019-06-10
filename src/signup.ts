@@ -73,7 +73,6 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   const t = event.target as Element;
 
   lock();
-  cleanErrors(t, fields);
 
   const [
     email
@@ -99,6 +98,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   .then((res: any) => {
     if (res.status !== 200) {
       const data = res.data;
+      cleanErrors(t, fields);
       handleErrors(t, data);
       unlock();
       return;
@@ -107,6 +107,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
     props.history.push('/signin');
   })
   .catch((err: any) => {
+    cleanErrors(t, fields);
     unlock();
 
     // TODO
@@ -115,61 +116,77 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
 };
 
 export const Signup = (props: SignupProps): VNode => {
-  return h('#signup.content', [
-    h('ul', [
-      h('li', {}, h('a', { href: '/' }, 'Top'))
-    ])
-  , h('#message.message.hidden')
-  , h('form.form', {
-      noValidate: true
-    , autocomplete: 'off'
-    , onSubmit: linkEvent(props, handleSubmit)
-    }, [
-      h('.required.field', [
-        h('label.label', { for: 'email' }, 'E-mail Address')
-      , h('input#email', {
-          type: 'text'
-        , name: 'email'
-        , placeHolder: 'ahoj@eloquentlog.com'
-        , onInput: linkEvent(props, handleChange)
-        })
-      ])
-    , h('.field', [
-        h('label.label', { for: 'name' }, 'Name')
-      , h('input#name', {
-          type: 'text'
-        , name: 'name'
-        , placeHolder: 'Albrecht Dürer (optional)'
-        , onInput: linkEvent(props, handleChange)
-        })
-      ])
-    , h('.field', [
-        h('label.label', { for: 'username' }, 'Username')
-      , h('input#username', {
-          type: 'text'
-        , name: 'username'
-        , placeHolder: 'albrecht (optional)'
-        , autocomplete: 'off'
-        , onInput: linkEvent(props, handleChange)
-        })
-      ])
-    , h('.required.field', [
-        h('label.label', { for: 'password' }, 'Password')
-      , h('input#password', {
-          type: 'password'
-        , name: 'password'
-        , placeHolder: 'Keep it secret ;)'
-        , autocomplete: 'new-password'
-        , onInput: linkEvent(props, handleChange)
-        })
-      ])
-    , h('button#submit.flat.button', { type: 'submit' }, 'Sign up')
-    ])
-  , h('p', [
-    , 'Already have an account?'
-    , h('a.signin', { href: '/signin' }, 'Sign in')
-    ])
-  ]);
+  return h('#signup.content', {},
+    h('.signup.grid', {},
+      h('.row', {},
+        h(`.column-6.offset-5
+.column-v-8.offset-v-4
+.column-l-10.offset-l-3
+.column-m-16`, {},
+          h('.transparent.box', [
+            h('.header', {},
+              h('a', { href: '/' }, 'Eloquentlog')
+            )
+          , h('form.form', {
+              noValidate: true
+            , autocomplete: 'off'
+            , onSubmit: linkEvent(props, handleSubmit)
+            }, [
+              h('h4.header', {}, 'Sign up to Eloquentlog')
+            , h('#message.message.hidden')
+            , h('.required.field', [
+                h('label.label', { for: 'email' }, 'E-mail Address')
+              , h('input#email', {
+                  type: 'text'
+                , name: 'email'
+                , placeHolder: 'ahoj@eloquentlog.com'
+                , autocomplete: 'off'
+                , onInput: linkEvent(props, handleChange)
+                })
+              ])
+            , h('.field', [
+                h('label.label', { for: 'name' }, 'Name')
+              , h('input#name', {
+                  type: 'text'
+                , name: 'name'
+                , placeHolder: 'Albrecht Dürer (optional)'
+                , autocomplete: 'off'
+                , onInput: linkEvent(props, handleChange)
+                })
+              ])
+            , h('.field', [
+                h('label.label', { for: 'username' }, 'Username')
+              , h('input#username', {
+                  type: 'text'
+                , name: 'username'
+                , placeHolder: 'albrecht (optional)'
+                , autocomplete: 'off'
+                , onInput: linkEvent(props, handleChange)
+                })
+              ])
+            , h('.required.field', [
+                h('label.label', { for: 'password' }, 'Password')
+              , h('input#password', {
+                  type: 'password'
+                , name: 'password'
+                , placeHolder: 'Keep it secret ;)'
+                , autocomplete: 'new-password'
+                , onInput: linkEvent(props, handleChange)
+                })
+              ])
+            , h('button#submit.primary.flat.button', { type: 'submit' },
+                'Sign up')
+            ])
+          , h('p', [
+              'Already have an account?'
+            , h('a.signin', { href: '/signin' }, 'Sign in')
+            , '.'
+            ])
+          ])
+        )
+      )
+    )
+  );
 };
 
 Signup.defaultProps = {

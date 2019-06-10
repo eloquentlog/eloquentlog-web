@@ -1,11 +1,48 @@
 // layout
-.content
-  display flex
-  flex-direction column
+$link-color = #95b1d8
+$link-hover-color = #c6d6ed
 
-  // form
-  .message
-    margin 0.26rem 0
+.wrapper
+  .content
+    a,
+    a:visited
+      color $link-color
+      &:hover
+        color $link-hover-color
 
-  .message.hidden
-    display none
+    display flex
+    flex-direction column
+
+    .transparent.box
+      border 0
+      border-radius 0
+      box-shadow 0 0 !important
+
+    // form
+    form.form
+      .header
+        margin-bottom 1.33rem
+
+      .message
+        margin-top 0.26rem
+        margin-bottom 0.64rem
+        &.hidden
+          display none
+
+      section.container
+        padding 0
+
+      label.label
+        font-weight normal
+
+
+// typography
+body
+  .wrapper
+    font-weight 300
+    font-size 1.02em
+    font-family 'Open Sans', 'DejaVu Sans', Arial, Helvetica, sans-serif
+
+    h1, h2, h3, h4, h5, h6
+      font-weight normal
+      font-family 'Open Sans', 'DejaVu Sans', Arial, Helvetica, sans-serif

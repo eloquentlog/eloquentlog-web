@@ -9,8 +9,10 @@ export const inputFieldsLocker = (ids: string[]): () => void => {
       const disabled = e.getAttribute('disabled');
       if (disabled === 'disabled') {
         e.removeAttribute('disabled');
+        e.classList.remove('disabled');
       } else {
         e.setAttribute('disabled', 'disabled');
+        e.classList.add('disabled');
       }
     });
   };
