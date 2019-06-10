@@ -23,7 +23,7 @@
  "namingConvention": false,
  "namingConventionStrict": false,
  "none": "never",
- "noImportant": true,
+ "noImportant": false,
  "parenSpace": false,
  "placeholders": "always",
  "prefixVarsWithDollar": "always",
@@ -40,7 +40,7 @@
    "truncate": true
  },
  "semicolons": "never",
- "sortOrder": "alphabetical",
+ "sortOrder": "grouped",
  "stackedProperties": "never",
  "trailingWhitespace": "never",
  "universal": false,
