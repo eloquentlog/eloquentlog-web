@@ -6,18 +6,26 @@ stages:
   cache:
     paths:
       - node_modules
-  except:
-    - tags
-
-lint:
-  stage: vet
-  <<: *nodejs
-  variables:
-    NODE_ENV: development
   before_script:
     - node --version
     - npm install --global npm
     - npm --version
     - npm install
+  except:
+    - tags
+
+lint-typescript:
+  stage: vet
+  <<: *nodejs
+  variables:
+    NODE_ENV: development
   script:
-    - make lint
+    - make lint:ts
+
+lint-stylus:
+  stage: vet
+  <<: *nodejs
+  variables:
+    NODE_ENV: development
+  script:
+    - make lint:styl
