@@ -21,7 +21,7 @@ export const inputFieldsLocker = (ids: string[]): () => void => {
 export const cleanErrors = (form: Element, inputIds: string[]): void => {
   const msgContainer = document.getElementById('message');
   msgContainer.innerHTML = '';
-  msgContainer.classList.remove('error');
+  msgContainer.classList.remove('critical', 'error', 'warn');
   msgContainer.classList.add('hidden');
 
   inputIds.forEach((id: string): void => {
@@ -39,15 +39,19 @@ export interface ValidationError {
   messages: string[];
 }
 
+export const displayMessage = (message: string): void => {
+  const msgContainer = document.getElementById('message');
+  const msg = document.createElement('p');
+  msg.innerHTML = message;
+  msgContainer.innerHTML = '';
+  msgContainer.appendChild(msg);
+  msgContainer.classList.remove('hidden', 'critical', 'warn');
+  msgContainer.classList.add('error');
+};
+
 export const handleErrors = (form: Element, data: Response): void => {
   if (data.message !== undefined) {
-    const msgContainer = document.getElementById('message');
-    const message = document.createElement('p');
-    message.innerHTML = data.message;
-    msgContainer.innerHTML = '';
-    msgContainer.appendChild(message);
-    msgContainer.classList.remove('hidden');
-    msgContainer.classList.add('error');
+    displayMessage(data.message);
   }
 
   if (data.errors !== undefined) {

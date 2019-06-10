@@ -5,9 +5,12 @@ import { h } from 'inferno-hyperscript';
 import { getClient } from './util/client';
 import {
   cleanErrors
+, displayMessage
 , handleErrors
 , inputFieldsLocker
 } from './util/form';
+
+import { messages } from './util/message';
 
 import './styl/signup.styl';
 
@@ -85,6 +88,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
 
   if (props.errors.length > 0 ||
      [email, password].some((v: string): boolean => v === '')) {
+    displayMessage(messages.errors.registration);
     unlock();
     return;
   }
@@ -98,6 +102,8 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   .then((res: any) => {
     if (res.status !== 200) {
       const data = res.data;
+      data.message = messages.errors.registration;
+
       cleanErrors(t, fields);
       handleErrors(t, data);
       unlock();
@@ -136,6 +142,7 @@ export const Signup = (props: SignupProps): VNode => {
             , h('#message.message.hidden')
             , h('.required.field', [
                 h('label.label', { for: 'email' }, 'E-mail Address')
+              , h('p.description', {}, messages.descriptions.email)
               , h('input#email', {
                   type: 'text'
                 , name: 'email'
@@ -146,30 +153,33 @@ export const Signup = (props: SignupProps): VNode => {
               ])
             , h('.field', [
                 h('label.label', { for: 'name' }, 'Name')
+              , h('p.description', {}, messages.descriptions.name)
               , h('input#name', {
                   type: 'text'
                 , name: 'name'
-                , placeHolder: 'Albrecht Dürer (optional)'
+                , placeHolder: 'Albrecht Dürer'
                 , autocomplete: 'off'
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
             , h('.field', [
                 h('label.label', { for: 'username' }, 'Username')
+              , h('p.description', {}, messages.descriptions.username)
               , h('input#username', {
                   type: 'text'
                 , name: 'username'
-                , placeHolder: 'albrecht (optional)'
+                , placeHolder: 'albrecht'
                 , autocomplete: 'off'
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
             , h('.required.field', [
                 h('label.label', { for: 'password' }, 'Password')
+              , h('p.description', {}, messages.descriptions.password)
               , h('input#password', {
                   type: 'password'
                 , name: 'password'
-                , placeHolder: 'Keep it secret ;)'
+                , placeHolder: 'Make it strong ;)'
                 , autocomplete: 'new-password'
                 , onInput: linkEvent(props, handleChange)
                 })
