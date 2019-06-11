@@ -59,37 +59,42 @@ const handleChange = (props: SignupProps, event: Event): void => {
   }
 };
 
-const fields = [
+const fieldNames = [
   'email'
 , 'name'
 , 'username'
 , 'password'
 ];
 
-const lock = inputFieldsLocker(fields.concat('submit'))
+const lockFields = inputFieldsLocker(fieldNames.concat('submit'));
+const lock = (f: Element): void => {
+        const loader = f.querySelector('.loading');
+        loader.classList.toggle('hidden');
+        lockFields();
+      }
     , unlock = lock
     ;
 
 const handleSubmit = (props: SignupProps, event: Event): void => {
   event.preventDefault();
 
-  const t = event.target as Element;
+  const f = event.target as Element;
 
-  lock();
+  lock(f);
 
   const [
     email
   , name
   , username
   , password
-  ] = fields.map(
-    (f: string): string => (t.querySelector('#' + f) as HTMLInputElement).value
+  ] = fieldNames.map(
+    (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
   );
 
   if (props.errors.length > 0 ||
      [email, password].some((v: string): boolean => v === '')) {
     displayMessage(messages.errors.registration);
-    unlock();
+    unlock(f);
     return;
   }
 
@@ -104,17 +109,18 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
       const data = res.data;
       data.message = messages.errors.registration;
 
-      cleanErrors(t, fields);
-      handleErrors(t, data);
-      unlock();
+      cleanErrors(f, fieldNames);
+      handleErrors(f, data);
+      unlock(f);
       return;
     }
 
-    props.history.push('/signin');
+    // FIXME
+    props.history.push('/signout');
   })
   .catch((err: any) => {
-    cleanErrors(t, fields);
-    unlock();
+    cleanErrors(f, fieldNames);
+    unlock(f);
 
     // TODO
     console.log(err);
@@ -186,6 +192,7 @@ export const Signup = (props: SignupProps): VNode => {
               ])
             , h('button#submit.primary.flat.button', { type: 'submit' },
                 'Sign up')
+            , h('span.loading.hidden')
             ])
           , h('p', [
               'Already have an account?'
