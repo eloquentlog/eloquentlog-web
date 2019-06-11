@@ -45,33 +45,38 @@ const handleChange = (props: SigninProps, event: Event): void => {
   }
 };
 
-const fields = [
+const fieldNames = [
   'username'
 , 'password'
 ];
 
-const lock = inputFieldsLocker(fields.concat('submit'))
+const lockFields = inputFieldsLocker(fieldNames.concat('submit'));
+const lock = (f: Element): void => {
+        const loader = f.querySelector('.loading');
+        loader.classList.toggle('hidden');
+        lockFields();
+      }
     , unlock = lock
     ;
 
 const handleSubmit = (props: SigninProps, event: Event): void => {
   event.preventDefault();
 
-  const t = event.target as Element;
+  const f = event.target as Element;
 
-  lock();
+  lock(f);
 
   const [
     username
   , password
-  ] = fields.map(
-    (f: string): string => (t.querySelector('#' + f) as HTMLInputElement).value
+  ] = fieldNames.map(
+    (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
   );
 
   if (props.errors.length > 0 ||
      [username, password].some((v: string): boolean => v === '')) {
     displayMessage(messages.errors.authentication);
-    unlock();
+    unlock(f);
     return;
   }
 
@@ -82,9 +87,9 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   .then((res: any): void => {
     if (res.status !== 200) {
       const data = res.data;
-      cleanErrors(t, fields);
-      handleErrors(t, data);
-      unlock();
+      cleanErrors(f, fieldNames);
+      handleErrors(f, data);
+      unlock(f);
       return;
     }
 
@@ -93,8 +98,8 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     props.history.push('/');
   })
   .catch((err: any): void => {
-    cleanErrors(t, fields);
-    unlock();
+    cleanErrors(f, fieldNames);
+    unlock(f);
 
     // TODO
     console.log(err);
@@ -152,6 +157,7 @@ export const Signin = (
               ])
             , h('button#submit.primary.flat.button', { type: 'submit' },
                 'Sign in')
+            , h('span.loading.hidden')
             ])
           , h('p', [
               h('a.reset-password', { href: '/' }, 'Fogot your password?')

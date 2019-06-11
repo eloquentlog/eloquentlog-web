@@ -61,7 +61,6 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signup, {
               history: this.props.history
-            , setToken: this.setToken.bind(this)
             });
           }
         })

@@ -1,6 +1,7 @@
 // layout
 $link-color = #95b1d8
 $link-hover-color = #c6d6ed
+$loader-color = #666666
 
 .wrapper
   .content
@@ -35,6 +36,31 @@ $link-hover-color = #c6d6ed
       label.label
         font-weight 600
 
+  // loading animation
+  span.loading
+    display inline-block
+    overflow hidden
+    margin 0 0.68rem
+    height 1.28em
+    color $loader-color
+    vertical-align text-bottom
+    line-height 1.49em
+
+    &::after
+      display inline-table
+      content '|\A/\A–\A\\\A'
+      text-align center
+      white-space pre
+      font-weight boild
+      font-family serif
+      animation spin 0.32s steps(4) infinite
+
+      @keyframes spin
+        to
+          transform translateY( -6.0em)
+
+    &.hidden
+      display none
 
 // typography
 body
