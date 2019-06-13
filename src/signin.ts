@@ -110,8 +110,9 @@ export const Signin = (
   props: SigninProps
 , route: any
 ): VNode => {
-  // for flash message (from location.state)
   props.history = route.router.history as H.History;
+
+  // for flash message (from location.state)
   const location = props.history.location;
 
   return h('#signin.content', {},

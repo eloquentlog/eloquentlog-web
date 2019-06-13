@@ -1,7 +1,7 @@
 import * as H from 'history';
 import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
-import { BrowserRouter, Redirect, Route } from 'inferno-router';
+import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router';
 
 // components
 import { Signin } from './signin';
@@ -14,6 +14,7 @@ interface AppProps {
 
 interface AppState {
   token?: string;
+  route?: string;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -22,13 +23,16 @@ export class App extends Component<AppProps, AppState> {
 
     this.state = {
       token: undefined
+    , route: undefined
     };
   }
 
   public render (): VNode {
-    return h(BrowserRouter, [
-      , h(Route, {
-          exact: true
+    return h(BrowserRouter, {},
+      h(Switch, {}, [
+        h(Route, {
+          strict: true
+        , exact: true
         , path: '/'
         , render: () => {
             return this.signedIn() ? h(Top, {
@@ -42,34 +46,43 @@ export class App extends Component<AppProps, AppState> {
           }
         })
       , h(Route, {
-          path: '/signout'
+          exact: true
+        , path: '/signout'
         , render: () => {
             return h(Redirect, { to: '/signin' });
           }
-      })
+        })
       , h(Route, {
-          path: '/signin'
+          exact: true
+        , path: '/signin'
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signin, {
               history: this.props.history
             , setToken: this.setToken.bind(this)
             });
           }
-      })
+        })
       , h(Route, {
-          path: '/signup'
+          exact: true
+        , path: '/signup'
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signup, {
-              history: this.props.history
+              history: this.props.history,
+              setRoute: this.setRoute.bind(this)
             });
           }
         })
-    ]);
+      ])
+    );
   }
 
   public componentWillMount () {
     const token = window.localStorage.getItem('authorization_token');
     this.setState({ token });
+  }
+
+  public setRoute (route: string): void {
+    this.setState({ route });
   }
 
   public setToken (token: string): void {
