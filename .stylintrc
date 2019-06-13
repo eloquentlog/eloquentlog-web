@@ -40,7 +40,7 @@
    "truncate": true
  },
  "semicolons": "never",
- "sortOrder": "grouped",
+ "sortOrder": "alphabetical",
  "stackedProperties": "never",
  "trailingWhitespace": "never",
  "universal": false,
