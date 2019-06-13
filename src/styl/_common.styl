@@ -25,8 +25,8 @@ $loader-color = #666666
         margin-bottom 1.33rem
 
       .message
-        margin-top 0.26rem
         margin-bottom 0.64rem
+        margin-top 0.26rem
         &.hidden
           display none
 
@@ -38,22 +38,22 @@ $loader-color = #666666
 
   // loading animation
   span.loading
-    display inline-block
-    overflow hidden
-    margin 0 0.68rem
-    height 1.28em
     color $loader-color
-    vertical-align text-bottom
+    display inline-block
+    height 1.28em
     line-height 1.49em
+    margin 0 0.68rem
+    overflow hidden
+    vertical-align text-bottom
 
     &::after
-      display inline-table
+      animation spin 0.32s steps(4) infinite
       content '|\A/\A–\A\\\A'
+      display inline-table
+      font-family serif
+      font-weight boild
       text-align center
       white-space pre
-      font-weight boild
-      font-family serif
-      animation spin 0.32s steps(4) infinite
 
       @keyframes spin
         to
@@ -65,10 +65,10 @@ $loader-color = #666666
 // typography
 body
   .wrapper
-    font-weight 300
-    font-size 1.02em
     font-family 'Open Sans', 'DejaVu Sans', Arial, Helvetica, sans-serif
+    font-size 1.02em
+    font-weight 300
 
     h1, h2, h3, h4, h5, h6
-      font-weight normal
       font-family 'Open Sans', 'DejaVu Sans', Arial, Helvetica, sans-serif
+      font-weight normal
