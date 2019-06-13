@@ -17,6 +17,7 @@ import './styl/signup.styl';
 interface SignupProps {
   errors: string[];
   history: H.History;
+  setRoute: (route: string) => void;
 }
 
 const client = getClient((status: number): boolean => {
@@ -115,8 +116,8 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
       return;
     }
 
-    // FIXME
-    props.history.push('/signout');
+    props.setRoute('/');
+    props.history.push('/');
   })
   .catch((err: any) => {
     cleanErrors(f, fieldNames);
@@ -127,7 +128,12 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   });
 };
 
-export const Signup = (props: SignupProps): VNode => {
+export const Signup = (
+  props: SignupProps
+, route: any
+): VNode => {
+  props.history = route.router.history as H.History;
+
   return h('#signup.content', {},
     h('.signup.grid', {},
       h('.row', {},
