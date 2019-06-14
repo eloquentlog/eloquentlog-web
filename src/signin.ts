@@ -4,10 +4,13 @@ import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
 import {
-  cleanErrors
+  clearErrors
 , displayMessage
 , handleErrors
+, highlightFields
 , inputFieldsLocker
+, removeMessage
+, ValidationError
 } from './util/form';
 
 import { messages } from './util/message';
@@ -15,7 +18,7 @@ import { messages } from './util/message';
 import './styl/signin.styl';
 
 interface SigninProps {
-  errors: string[];
+  errors: ValidationError[];
   history: H.History;
   setToken: (token: string) => void;
 }
@@ -30,19 +33,37 @@ const validate = (_: string, v: string): boolean => {
   return v !== '';
 };
 
+const handleRequired = (
+  props: SigninProps
+, target: HTMLInputElement
+): void  => {
+  if (!validate(target.id, target.value)) {
+    let err = props.errors.find((e: ValidationError): boolean => {
+      return target.id === e.field;
+    });
+    if (err === undefined) {
+      err = {
+        field: target.id
+      , messages: ['Must not be blank']
+      };
+    } else {
+      err.messages = ['Must not be blank'];
+    }
+    props.errors.push(err);
+  }
+};
+
 const handleChange = (props: SigninProps, event: Event): void => {
   event.preventDefault();
-  const target = event.target as HTMLInputElement
-      , value = target.value
-      ;
+  const target = event.target as HTMLInputElement;
 
-  // TODO: create a validator utility
-  const e: number = props.errors.indexOf(target.id);
-  if (e > -1) {
-    props.errors.splice(e, 1);
-  } else if (validate(target.id, value) !== true) {
-    props.errors.push(target.id);
+  const i = props.errors.findIndex(
+    (e: ValidationError): boolean => e.field === target.id
+  );
+  if (i > -1) {
+    props.errors.splice(i, 1);
   }
+  handleRequired(props, target);
 };
 
 const fieldNames = [
@@ -64,6 +85,13 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
 
   const f = event.target as Element;
 
+  props.errors = [];
+  fieldNames.forEach((n: string) => {
+    const field = f.querySelector('#' + n);
+    field.classList.remove('has-errors');
+  });
+  clearErrors(f, fieldNames);
+  removeMessage();
   lock(f);
 
   const [
@@ -73,9 +101,22 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
   );
 
-  if (props.errors.length > 0 ||
-     [username, password].some((v: string): boolean => v === '')) {
-    displayMessage(messages.errors.authentication);
+  // required
+  const requiredValues: { [idx: string]: string; } = {
+    username
+  , password
+  };
+  Object.keys(requiredValues).forEach((k: string): void => {
+    handleRequired(props, f.querySelector('#' + k));
+  });
+
+  if (props.errors.some((e: ValidationError): boolean => {
+    return fieldNames.indexOf(e.field) > -1;
+  })) {
+    displayMessage(messages.errors.registration);
+
+    highlightFields(f, props.errors.map((e) => e.field));
+    handleErrors(f, props.errors);
     unlock(f);
     return;
   }
@@ -87,7 +128,12 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   .then((res: any): void => {
     if (res.status !== 200) {
       const data = res.data;
-      cleanErrors(f, fieldNames);
+
+      data.message = messages.errors.registration;
+      if (data.message !== undefined) {
+        displayMessage(data.message);
+      }
+
       handleErrors(f, data);
       unlock(f);
       return;
@@ -98,7 +144,6 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     props.history.push('/');
   })
   .catch((err: any): void => {
-    cleanErrors(f, fieldNames);
     unlock(f);
 
     // TODO
@@ -135,8 +180,7 @@ export const Signin = (
                 h('#message.message.hidden', { role: 'alert' }) :
                 h('#message.message.warn', { role: 'alert' },
                   h('p', location.state))
-            , h('.required.field', [
-                // E-mail === Username (for now)
+            , h('.required.field', [ // email === username (for now)
                 h('label.label', { for: 'username' }, 'E-mail address')
               , h('input#username', {
                   type: 'text'
