@@ -1,0 +1,29 @@
+
+.wrapper
+  // loading animation
+  $loader-color = #666666
+
+  span.loading
+    color $loader-color
+    display inline-block
+    height 1.28em
+    line-height 1.49em
+    margin 0 0.68rem
+    overflow hidden
+    vertical-align text-bottom
+
+    &::after
+      animation spin 0.32s steps(4) infinite
+      content '|\A/\A–\A\\\A'
+      display inline-table
+      font-family serif
+      font-weight boild
+      text-align center
+      white-space pre
+
+      @keyframes spin
+        to
+          transform translateY( -6.0em)
+
+    &.hidden
+      display none

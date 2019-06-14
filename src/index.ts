@@ -4,7 +4,11 @@ import { h } from 'inferno-hyperscript';
 
 // shared styles
 import 'styr';
-import './styl/_common.styl';
+import './styl/_form.styl';
+import './styl/_layout.styl';
+import './styl/_shared.styl';
+import './styl/_typography.styl';
+import './styl/_util.styl';
 
 // components
 import { App } from './app';
