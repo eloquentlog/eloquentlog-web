@@ -113,7 +113,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldNames.indexOf(e.field) > -1;
   })) {
-    displayMessage(messages.errors.registration);
+    displayMessage(messages.errors.authentication);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
