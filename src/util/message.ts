@@ -5,7 +5,7 @@ export const messages = {
   }
 , descriptions: {
     // signup
-    email: 'You would need this address later to sign in to your account.'
+    email: 'You need this as primary e-mail address to sign in to your account.'
   , name: 'Your fullname. This is an optional field.'
   , username: 'You can change this later as you want if it\'s available.'
   , password: `At least, use one lower and UPPER letter from: A-z,
