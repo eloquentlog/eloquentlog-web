@@ -1,3 +1,5 @@
+@require './partial/_colour'
+
 .wrapper
   // form
   form.form
@@ -10,8 +12,24 @@
       &.hidden
         display none
 
+    input.has-errors
+      border 1px solid $error-border-colour
+
     section.container
       padding 0
 
     label.label
       font-weight 600
+
+    ul.errors
+      list-style none
+      padding-left 0
+      padding-top 0.12rem
+
+      li
+        color $error-text-colour
+        font-size 0.9em
+        padding-left 0
+
+    button
+      margin-top 0.61rem

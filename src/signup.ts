@@ -4,10 +4,13 @@ import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
 import {
-  cleanErrors
+  clearErrors
 , displayMessage
 , handleErrors
+, highlightFields
 , inputFieldsLocker
+, removeMessage
+, ValidationError
 } from './util/form';
 
 import { messages } from './util/message';
@@ -15,7 +18,7 @@ import { messages } from './util/message';
 import './styl/signup.styl';
 
 interface SignupProps {
-  errors: string[];
+  errors: ValidationError[];
   history: H.History;
   setRoute: (route: string) => void;
 }
@@ -43,21 +46,37 @@ const validate = (name: string, v: string): boolean => {
   return result;
 };
 
+const handleRequired = (
+  props: SignupProps
+, target: HTMLInputElement
+): void  => {
+  if (!validate(target.id, target.value)) {
+    let err = props.errors.find((e: ValidationError): boolean => {
+      return target.id === e.field;
+    });
+    if (err === undefined) {
+      err = {
+        field: target.id
+      , messages: ['Must not be blank']
+      };
+    } else {
+      err.messages = ['Must not be blank'];
+    }
+    props.errors.push(err);
+  }
+};
+
 const handleChange = (props: SignupProps, event: Event): void => {
   event.preventDefault();
-  const target = event.target as HTMLInputElement
-      , value = target.value
-      ;
+  const target = event.target as HTMLInputElement;
 
-  // TODO: create a validator utility
-  const e: number = props.errors.indexOf(target.id);
-  if (e > -1) {
-    props.errors.splice(e, 1);
+  const i = props.errors.findIndex(
+    (e: ValidationError): boolean => e.field === target.id
+  );
+  if (i > -1) {
+    props.errors.splice(i, 1);
   }
-  if (validate(target.id, value) !== true) {
-    props.errors.push(target.id);
-    return;
-  }
+  handleRequired(props, target);
 };
 
 const fieldNames = [
@@ -81,6 +100,13 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
 
   const f = event.target as Element;
 
+  props.errors = [];
+  fieldNames.forEach((n: string) => {
+    const field = f.querySelector('#' + n);
+    field.classList.remove('has-errors');
+  });
+  removeMessage();
+  clearErrors(f, fieldNames);
   lock(f);
 
   const [
@@ -91,10 +117,22 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   ] = fieldNames.map(
     (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
   );
+  // required
+  const requiredValues: { [idx: string]: string; } = {
+    email
+  , password
+  };
+  Object.keys(requiredValues).forEach((k: string): void => {
+    handleRequired(props, f.querySelector('#' + k));
+  });
 
-  if (props.errors.length > 0 ||
-     [email, password].some((v: string): boolean => v === '')) {
+  if (props.errors.some((e: ValidationError): boolean => {
+    return fieldNames.indexOf(e.field) > -1;
+  })) {
     displayMessage(messages.errors.registration);
+
+    highlightFields(f, props.errors.map((e) => e.field));
+    handleErrors(f, props.errors);
     unlock(f);
     return;
   }
@@ -106,12 +144,20 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   , password
   })
   .then((res: any) => {
+    // TODO: define an interface for Response
     if (res.status !== 200) {
       const data = res.data;
-      data.message = messages.errors.registration;
 
-      cleanErrors(f, fieldNames);
-      handleErrors(f, data);
+      data.message = messages.errors.registration;
+      if (data.message !== undefined) {
+        displayMessage(data.message);
+      }
+
+      if (data.errors !== undefined) {
+        props.errors = data.errors;
+      }
+      highlightFields(f, props.errors.map((e) => e.field));
+      handleErrors(f, props.errors);
       unlock(f);
       return;
     }
@@ -120,7 +166,6 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
     props.history.push('/');
   })
   .catch((err: any) => {
-    cleanErrors(f, fieldNames);
     unlock(f);
 
     // TODO

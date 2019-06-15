@@ -1,15 +1,33 @@
-$link-color = #95b1d8
-$link-hover-color = #c6d6ed
+@require './partial/_colour'
 
 .wrapper
   .content
     a,
     a:visited
-      color $link-color
+      color $link-colour
       &:hover
-        color $link-hover-color
+        color $link-hover-colour
 
     .transparent.box
       border 0
       border-radius 0
       box-shadow 0 0 !important
+
+    // Note:
+    // Apparently, we can't merge these properties.
+    // Keey them separatedly.
+    *
+      &:-moz-placeholder
+        color $placeholder-text-colour
+        opacity 1
+      &::-moz-placeholder
+        color $placeholder-text-colour
+        opacity 1
+      &:-ms-input-placeholder
+        color $placeholder-text-colour
+      &::-ms-input-placeholder
+        color $placeholder-text-colour
+      &::placeholder
+        color $placeholder-text-colour
+      &::-webkit-input-placeholder
+        color $placeholder-text-colour

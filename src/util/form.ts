@@ -1,4 +1,14 @@
-import { Response } from './client';
+export interface ValidationError {
+  field: string;
+  messages: string[];
+}
+
+export const highlightFields = (form: Element, errors: string[]): void => {
+  errors.forEach((e: string): void => {
+    const field = form.querySelector('#' + e);
+    field.classList.add('has-errors');
+  });
+};
 
 export const inputFieldsLocker = (ids: string[]): () => void => {
   return (): void => {
@@ -18,27 +28,6 @@ export const inputFieldsLocker = (ids: string[]): () => void => {
   };
 };
 
-export const cleanErrors = (form: Element, inputIds: string[]): void => {
-  const msgContainer = document.getElementById('message');
-  msgContainer.innerHTML = '';
-  msgContainer.classList.remove('critical', 'error', 'warn');
-  msgContainer.classList.add('hidden');
-
-  inputIds.forEach((id: string): void => {
-    const field = form.querySelector('#' + id).parentElement
-        , errors = field.querySelector('.errors')
-        ;
-    if (errors !== null) {
-      field.removeChild(errors);
-    }
-  });
-};
-
-export interface ValidationError {
-  field: string;
-  messages: string[];
-}
-
 export const displayMessage = (message: string): void => {
   const msgContainer = document.getElementById('message');
   const msg = document.createElement('p');
@@ -49,25 +38,43 @@ export const displayMessage = (message: string): void => {
   msgContainer.classList.add('error');
 };
 
-export const handleErrors = (form: Element, data: Response): void => {
-  if (data.message !== undefined) {
-    displayMessage(data.message);
-  }
+export const removeMessage = (): void => {
+  const msgContainer = document.getElementById('message');
+  msgContainer.innerHTML = '';
+  msgContainer.classList.remove('critical', 'error', 'warn');
+  msgContainer.classList.add('hidden');
+};
 
-  if (data.errors !== undefined) {
-    data.errors.forEach((e: ValidationError): void => {
+export const clearErrors = (form: Element, inputIds: string[]): void => {
+  inputIds.forEach((id: string): void => {
+    const field = form.querySelector('#' + id).parentElement
+        , ul = field.querySelector('.errors')
+        ;
+    if (ul !== null) {
+      field.removeChild(ul);
+    }
+    field.classList.remove('has-errors');
+  });
+};
+
+export const handleErrors = (
+  form: Element
+, errors: ValidationError[]
+): void => {
+  if (errors !== undefined) {
+    errors.forEach((e: ValidationError): void => {
       const id = e.field;
-      const field = form.querySelector('#' + id).parentNode
-          , errors = document.createElement('ul')
+      const field = form.querySelector('#' + id).parentElement
+          , ul = document.createElement('ul')
           ;
-      errors.classList.add('errors');
+      ul.classList.add('errors');
 
       e.messages.forEach((m: string): void => {
-        const error = document.createElement('li');
-        error.innerHTML = m;
-        errors.appendChild(error);
+        const li = document.createElement('li');
+        li.innerHTML = m;
+        ul.appendChild(li);
       });
-      field.appendChild(errors);
+      field.appendChild(ul);
     });
   }
 };
