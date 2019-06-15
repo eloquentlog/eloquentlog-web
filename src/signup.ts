@@ -33,11 +33,11 @@ const validate = (name: string, v: string): boolean => {
   let result = false;
   switch (name) {
     case 'email':
+    case 'username':
     case 'password':
       result = (v !== '');
       break;
     case 'name':
-    case 'username':
       result = true;
       break;
     default:
@@ -120,6 +120,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   // required
   const requiredValues: { [idx: string]: string; } = {
     email
+  , username
   , password
   };
   Object.keys(requiredValues).forEach((k: string): void => {
@@ -219,7 +220,7 @@ export const Signup = (
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
-            , h('.field', [
+            , h('.required.field', [
                 h('label.label', { for: 'username' }, 'Username')
               , h('p.description', {}, messages.descriptions.username)
               , h('input#username', {
