@@ -13,7 +13,7 @@ import {
 , ValidationError
 } from './util/form';
 
-import { message } from './util/message';
+import { message as msg } from './util/message';
 
 import './styl/signin.styl';
 
@@ -113,7 +113,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldNames.indexOf(e.field) > -1;
   })) {
-    displayMessage(message.flash.signin);
+    displayMessage(msg.flash.signin.failure);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
@@ -130,7 +130,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
       const data = res.data;
 
       if (data.message === undefined) {
-        data.message = message.flash.signin;
+        data.message = msg.flash.signin.failure;
       }
       displayMessage(data.message);
 
@@ -151,14 +151,21 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   });
 };
 
+const getFlashMessage = (location: any): string => {
+  if ((typeof location.state) === 'object' &&
+     location.state.flash !== undefined) {
+    return location.state.flash;
+  }
+  return undefined;
+};
+
 export const Signin = (
   props: SigninProps
 , route: any
 ): VNode => {
   props.history = route.router.history as H.History;
 
-  // for flash message (from location.state)
-  const location = props.history.location;
+  const flashMessage = getFlashMessage(props.history.location);
 
   return h('#signin.content', {},
     h('.signin.grid', {},
@@ -168,7 +175,7 @@ export const Signin = (
 .column-l-10.offset-l-3
 .column-m-16`, {},
           h('.transparent.box', [
-            h('.header', {},
+            h('.title', {},
               h('a', { href: '/' }, 'Eloquentlog')
             )
           , h('form.form', {
@@ -176,10 +183,10 @@ export const Signin = (
             , onSubmit: linkEvent(props, handleSubmit)
             }, [
               h('h4.header', {}, 'Sign in to Eloquentlog')
-            , (location.state === undefined) ?
+            , (flashMessage === undefined) ?
                 h('#message.message.hidden', { role: 'alert' }) :
                 h('#message.message.warn', { role: 'alert' },
-                  h('p', location.state))
+                  h('p', {}, flashMessage))
             , h('.required.field', [ // email === username (for now)
                 h('label.label', { for: 'username' }, 'E-mail address')
               , h('input#username', {
@@ -205,10 +212,12 @@ export const Signin = (
             , h('span.loading.hidden')
             ])
           , h('p', [
-              h('a.reset-password', { href: '/' }, 'Fogot your password?')
-            , 'or new to Eloquentlog?'
+              h('a.reset-password', {
+                href: '/password/reset'
+              }, 'Fogot your password')
+            , '? Or are you new to Eloquentlog? then,'
             , h('a.signup', { href: '/signup' }, 'Sign up')
-            , '.'
+            , ';-)'
             ])
           ])
         )
