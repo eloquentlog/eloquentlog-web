@@ -13,7 +13,7 @@ import {
 , ValidationError
 } from './util/form';
 
-import { messages } from './util/message';
+import { message } from './util/message';
 
 import './styl/signin.styl';
 
@@ -113,7 +113,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldNames.indexOf(e.field) > -1;
   })) {
-    displayMessage(messages.errors.authentication);
+    displayMessage(message.flash.signin);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
@@ -129,10 +129,10 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     if (res.status !== 200) {
       const data = res.data;
 
-      data.message = messages.errors.registration;
-      if (data.message !== undefined) {
-        displayMessage(data.message);
+      if (data.message === undefined) {
+        data.message = message.flash.signin;
       }
+      displayMessage(data.message);
 
       handleErrors(f, data);
       unlock(f);

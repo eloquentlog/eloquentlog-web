@@ -13,7 +13,7 @@ import {
 , ValidationError
 } from './util/form';
 
-import { messages } from './util/message';
+import { message } from './util/message';
 
 import './styl/signup.styl';
 
@@ -130,7 +130,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldNames.indexOf(e.field) > -1;
   })) {
-    displayMessage(messages.errors.registration);
+    displayMessage(message.flash.signup);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
@@ -149,10 +149,10 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
     if (res.status !== 200) {
       const data = res.data;
 
-      data.message = messages.errors.registration;
-      if (data.message !== undefined) {
-        displayMessage(data.message);
+      if (data.message === undefined) {
+        data.message = message.flash.signup;
       }
+      displayMessage(data.message);
 
       if (data.errors !== undefined) {
         props.errors = data.errors;
@@ -200,7 +200,7 @@ export const Signup = (
             , h('#message.message.hidden')
             , h('.required.field', [
                 h('label.label', { for: 'email' }, 'E-mail Address')
-              , h('p.description', {}, messages.descriptions.email)
+              , h('p.description', {}, message.description.signup.email)
               , h('input#email', {
                   type: 'text'
                 , name: 'email'
@@ -211,7 +211,7 @@ export const Signup = (
               ])
             , h('.field', [
                 h('label.label', { for: 'name' }, 'Name')
-              , h('p.description', {}, messages.descriptions.name)
+              , h('p.description', {}, message.description.signup.name)
               , h('input#name', {
                   type: 'text'
                 , name: 'name'
@@ -222,7 +222,7 @@ export const Signup = (
               ])
             , h('.required.field', [
                 h('label.label', { for: 'username' }, 'Username')
-              , h('p.description', {}, messages.descriptions.username)
+              , h('p.description', {}, message.description.signup.username)
               , h('input#username', {
                   type: 'text'
                 , name: 'username'
@@ -233,7 +233,7 @@ export const Signup = (
               ])
             , h('.required.field', [
                 h('label.label', { for: 'password' }, 'Password')
-              , h('p.description', {}, messages.descriptions.password)
+              , h('p.description', {}, message.description.signup.password)
               , h('input#password', {
                   type: 'password'
                 , name: 'password'
