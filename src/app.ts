@@ -4,6 +4,7 @@ import { h } from 'inferno-hyperscript';
 import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router';
 
 // components
+import { PasswordReset } from './password_reset';
 import { Signin } from './signin';
 import { Signup } from './signup';
 import { Top } from './top';
@@ -14,7 +15,6 @@ interface AppProps {
 
 interface AppState {
   token?: string;
-  route?: string;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -23,7 +23,6 @@ export class App extends Component<AppProps, AppState> {
 
     this.state = {
       token: undefined
-    , route: undefined
     };
   }
 
@@ -41,8 +40,20 @@ export class App extends Component<AppProps, AppState> {
               }) :
               h(Redirect, { to: {
                 pathname: '/signin'
-              , state: 'Please sign in'
+              , state: {
+                  flash: 'Please sign in'
+                }
               }});
+          }
+        })
+      , h(Route, {
+          exact: true
+        , path: '/password/reset'
+        , render: () => {
+            const props = {
+              history: this.props.history
+            };
+            return h(PasswordReset, props);
           }
         })
       , h(Route, {
@@ -67,8 +78,7 @@ export class App extends Component<AppProps, AppState> {
         , path: '/signup'
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signup, {
-              history: this.props.history,
-              setRoute: this.setRoute.bind(this)
+              history: this.props.history
             });
           }
         })
@@ -79,10 +89,6 @@ export class App extends Component<AppProps, AppState> {
   public componentWillMount () {
     const token = window.localStorage.getItem('authorization_token');
     this.setState({ token });
-  }
-
-  public setRoute (route: string): void {
-    this.setState({ route });
   }
 
   public setToken (token: string): void {

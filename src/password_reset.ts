@@ -15,38 +15,26 @@ import {
 
 import { message as msg } from './util/message';
 
-import './styl/signup.styl';
+import './styl/password_reset.styl';
 
-interface SignupProps {
+interface PasswordResetProps {
   errors: ValidationError[];
   history: H.History;
+  requested: boolean;
 }
 
 const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [422].some((n: number): boolean => n === status);
+         [401, 422].some((n: number): boolean => n === status);
 });
 
 // Checks if required field is not empty
-const validate = (name: string, v: string): boolean => {
-  let result = false;
-  switch (name) {
-    case 'email':
-    case 'username':
-    case 'password':
-      result = (v !== '');
-      break;
-    case 'name':
-      result = true;
-      break;
-    default:
-      break;
-  }
-  return result;
+const validate = (_: string, v: string): boolean => {
+  return v !== '';
 };
 
 const handleRequired = (
-  props: SignupProps
+  props: PasswordResetProps
 , target: HTMLInputElement
 ): void  => {
   if (!validate(target.id, target.value)) {
@@ -65,7 +53,7 @@ const handleRequired = (
   }
 };
 
-const handleChange = (props: SignupProps, event: Event): void => {
+const handleChange = (props: PasswordResetProps, event: Event): void => {
   event.preventDefault();
   const target = event.target as HTMLInputElement;
 
@@ -80,9 +68,6 @@ const handleChange = (props: SignupProps, event: Event): void => {
 
 const fieldNames = [
   'email'
-, 'name'
-, 'username'
-, 'password'
 ];
 
 const lockFields = inputFieldsLocker(fieldNames.concat('submit'));
@@ -94,7 +79,7 @@ const lock = (f: Element): void => {
     , unlock = lock
     ;
 
-const handleSubmit = (props: SignupProps, event: Event): void => {
+const handleSubmit = (props: PasswordResetProps, event: Event): void => {
   event.preventDefault();
 
   const f = event.target as Element;
@@ -104,23 +89,19 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
     const field = f.querySelector('#' + n);
     field.classList.remove('has-errors');
   });
-  removeMessage();
   clearErrors(f, fieldNames);
+  removeMessage();
   lock(f);
 
   const [
     email
-  , name
-  , username
-  , password
   ] = fieldNames.map(
     (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
   );
+
   // required
   const requiredValues: { [idx: string]: string; } = {
     email
-  , username
-  , password
   };
   Object.keys(requiredValues).forEach((k: string): void => {
     handleRequired(props, f.querySelector('#' + k));
@@ -129,7 +110,7 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldNames.indexOf(e.field) > -1;
   })) {
-    displayMessage(msg.flash.signup.failure);
+    displayMessage(msg.flash.password_reset.failure);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
@@ -137,34 +118,28 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
     return;
   }
 
-  client.post('/register', {
+  client.post('/password/reset', {
     email
-  , name
-  , username
-  , password
   })
-  .then((res: any) => {
-    // TODO: define an interface for Response
+  .then((res: any): void => {
     if (res.status !== 200) {
       const data = res.data;
 
       if (data.message === undefined) {
-        data.message = msg.flash.signup.failure;
+        data.message = msg.flash.password_reset.failure;
       }
       displayMessage(data.message);
 
-      if (data.errors !== undefined) {
-        props.errors = data.errors;
-      }
-      highlightFields(f, props.errors.map((e) => e.field));
-      handleErrors(f, props.errors);
+      handleErrors(f, data);
       unlock(f);
       return;
     }
 
-    props.history.push('/');
+    props.history.push('/password/reset', {
+      flash: msg.flash.password_reset.success
+    });
   })
-  .catch((err: any) => {
+  .catch((err: any): void => {
     unlock(f);
 
     // TODO
@@ -172,82 +147,92 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   });
 };
 
-export const Signup = (
-  props: SignupProps
+const hasRequested = (history: H.History): boolean => {
+  const message = getFlashMessage(history);
+  return message !== undefined || (
+    history.action === 'PUSH' &&
+    history.location.pathname === '/password/reset'
+  );
+};
+
+const getFlashMessage = (history: H.History): string => {
+  const { location } = history;
+  if ((typeof location.state) === 'object' &&
+     location.state.flash !== undefined) {
+    return location.state.flash;
+  }
+  return undefined;
+};
+
+const renderMessage = (message: string): VNode => {
+  return (message === undefined) ?
+    h('#message.message.hidden', { role: 'alert' }) :
+    h('#message.message.success', { role: 'alert' },
+      h('p', {}, message));
+};
+
+export const PasswordReset = (
+  props: PasswordResetProps
 , route: any
 ): VNode => {
-  props.history = route.router.history as H.History;
+  const history = route.router.history as H.History;
 
-  return h('#signup.content', {},
-    h('.signup.grid', {},
+  props.history = history;
+  props.requested = hasRequested(history);
+
+  const flashMessage = getFlashMessage(props.history);
+
+  return h('#password_reset.content', {},
+    h('.password-reset.grid', {},
       h('.row', {},
         h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', [
-            h('.header', {},
-              h('a', { href: '/' }, 'Eloquentlog')
-            )
+          h('.transparent.box', props.requested ? [
+            h('.title', {},
+              h('a', { href: '/' }, 'Eloquentlog'))
+          , h('.container', [
+              h('h4.header', {}, 'Reset password')
+            , renderMessage(flashMessage)
+            , h('h6', {}, 'NOTE')
+            , h('p.note', {},
+                `If you don't receive any email, and it's not in your spam
+folder, this could mean you have signed up with a different address.`)
+            ])
+          , h('p.options', [
+              'Back to'
+            , h('a.signin', { href: '/signin' }, 'Sign in')
+            ])
+          ] : [ // request form
+            h('.title', {},
+              h('a', { href: '/' }, 'Eloquentlog'))
           , h('form.form', {
               noValidate: true
-            , autocomplete: 'off'
             , onSubmit: linkEvent(props, handleSubmit)
             }, [
-              h('h4.header', {}, 'Sign up to Eloquentlog')
-            , h('#message.message.hidden')
+              h('h4.header', {}, 'Reset password')
+            , renderMessage(flashMessage)
             , h('.required.field', [
-                h('label.label', { for: 'email' }, 'E-mail Address')
-              , h('p.description', {}, msg.description.signup.email)
+                h('label.label', { for: 'email' }, 'E-mail address')
+              , h('p.description', {},
+                  msg.description.password_reset.email)
               , h('input#email', {
                   type: 'text'
                 , name: 'email'
+                , autocomplete: 'email'
                 , placeHolder: 'ahoj@eloquentlog.com'
-                , autocomplete: 'off'
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
-            , h('.field', [
-                h('label.label', { for: 'name' }, 'Name')
-              , h('p.description', {}, msg.description.signup.name)
-              , h('input#name', {
-                  type: 'text'
-                , name: 'name'
-                , placeHolder: 'Albrecht Dürer'
-                , autocomplete: 'off'
-                , onInput: linkEvent(props, handleChange)
-                })
-              ])
-            , h('.required.field', [
-                h('label.label', { for: 'username' }, 'Username')
-              , h('p.description', {}, msg.description.signup.username)
-              , h('input#username', {
-                  type: 'text'
-                , name: 'username'
-                , placeHolder: 'albrecht'
-                , autocomplete: 'off'
-                , onInput: linkEvent(props, handleChange)
-                })
-              ])
-            , h('.required.field', [
-                h('label.label', { for: 'password' }, 'Password')
-              , h('p.description', {}, msg.description.signup.password)
-              , h('input#password', {
-                  type: 'password'
-                , name: 'password'
-                , placeHolder: 'Make it strong ;)'
-                , autocomplete: 'new-password'
-                , onInput: linkEvent(props, handleChange)
-                })
-              ])
-            , h('button#submit.primary.flat.button', { type: 'submit' },
-                'Sign up')
+            , h('button#submit.secondary.flat.button', { type: 'submit' },
+                'Request')
             , h('span.loading.hidden')
             ])
           , h('p.options', [
-              'Already have an account?'
+              'Do you back to the'
             , h('a.signin', { href: '/signin' }, 'Sign in')
-            , '.'
+            , '?'
             ])
           ])
         )
@@ -256,12 +241,13 @@ export const Signup = (
   );
 };
 
-Signup.defaultProps = {
+PasswordReset.defaultProps = {
   errors: []
+, requested: false
 };
 
-Signup.defaultHooks = {
+PasswordReset.defaultHooks = {
   onComponentDidMount (_: any): void {
-    document.title = 'Sign up - ' + document.title;
+    document.title = 'Reset password - ' + document.title;
   }
 };

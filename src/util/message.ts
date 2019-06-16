@@ -1,10 +1,21 @@
 export const message = {
   flash: {
-    signin: 'The credentials you\'ve entered are incorrect'
-  , signup: 'Your sign up has been failed'
+    password_reset: {
+      failure: 'Rassword reset request has been failed'
+    , success: 'Password reset has beeen successfuly requested'
+    }
+  , signin: {
+      failure: 'The credentials you\'ve entered are incorrect'
+    }
+  , signup: {
+      failure: 'Your sign up has been failed'
+    }
   }
 , description: {
-    signup: {
+    password_reset: {
+      email: 'You can request it only once per several minutes.'
+    }
+  , signup: {
       email: `You need this as primary e-mail address to sign in to your
 account.`
     , name: 'Your fullname. This is an optional field.'
