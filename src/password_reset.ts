@@ -176,6 +176,17 @@ const getFlashMessage = (history: H.History): string => {
   return undefined;
 };
 
+const renderTitle = (): VNode => {
+  return h('.title', {},
+    h('a', { href: '/' },
+      h('img.logo', {
+        alt: 'Eloquentlog'
+      , src: '/img/wolf-paw-72x72.png'
+      , width: 36
+      , height: 36
+      })));
+};
+
 const renderMessage = (message: string): VNode => {
   return (message === undefined) ?
     h('#message.message.hidden', { role: 'alert' }) :
@@ -200,8 +211,7 @@ export const PasswordReset = (
 .column-l-10.offset-l-3
 .column-m-16`, {},
           h('.transparent.box', props.requested ? [
-            h('.title', {},
-              h('a', { href: '/' }, 'Eloquentlog'))
+            renderTitle()
           , h('.container', [
               h('h4.header', {}, 'Reset password')
             , renderMessage(flashMessage)
@@ -215,8 +225,7 @@ folder, this could mean you have signed up with a different address.`)
             , h('a.signin', { href: '/signin' }, 'Sign in')
             ])
           ] : [ // request form
-            h('.title', {},
-              h('a', { href: '/' }, 'Eloquentlog'))
+            renderTitle()
           , h('form.form', {
               noValidate: true
             , onSubmit: linkEvent(props, handleSubmit)

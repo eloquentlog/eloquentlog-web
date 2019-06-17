@@ -1,4 +1,8 @@
-/dst
+/dst/*
+!/dst/
+!/dst/img
+!/dst/index.html
+
 /.cache
 
 /node_modules
