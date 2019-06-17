@@ -1,0 +1,94 @@
+@require '../partial/_colour'
+
+$dark-bg-colour = #333333
+$dark-txt-colour = #ededed
+$dark-txt-err-colour = #fb3939
+
+$dark-header-border-colour = #888888
+$dark-header-txt-colour = #ababab
+
+$dark-input-bg-colour = #222222
+$dark-input-border-colour = #000000
+$dark-input-txt-colour = #f3f3f3
+
+$dark-label-txt-colour = #9c9b9b
+
+$dark-btn-border-colour = #111111
+$dark-btn-border-hover-colour = #000000
+$dark-btn-hover-colour = #111111
+$dark-btn-txt-colour = #ededed
+$dark-btn-txt-hover-colour = #f2f2f2
+
+$dark-btn-primary-bg-colour = #222222
+$dark-btn-primary-bg-hover-colour = #000000
+$dark-btn-secondary-bg-colour = #333333
+$dark-btn-secondary-bg-hover-colour = #222222
+
+$dark-placeholder-txt-colour = #666666
+
+.wrapper.dark
+  background-color $dark-bg-colour
+  color $dark-txt-colour
+
+  h1.header,
+  h2.header,
+  h3.header,
+  h4.header,
+  h5.header,
+  h6.header
+    border-bottom 1px solid $dark-header-border-colour
+    color $dark-header-txt-colour
+
+  button[type="submit"].button,
+  input[type="submit"].button
+    border 1px solid $dark-btn-border-colour
+    color $dark-btn-txt-colour !important
+    &.primary
+      background-color $dark-btn-primary-bg-colour
+      &:hover
+        background-color $dark-btn-primary-bg-hover-colour !important
+        border 1px solid $dark-btn-border-hover-colour !important
+        color $dark-btn-txt-hover-colour
+    &.secondary
+      background-color $dark-btn-secondary-bg-colour
+      &:hover
+        background-color $dark-btn-secondary-bg-hover-colour !important
+        border 1px solid $dark-btn-border-hover-colour !important
+        color $dark-btn-txt-hover-colour
+
+  .content
+    .transparent.box
+      background-color $dark-bg-colour
+
+    form.form
+      label.label
+        color $dark-label-txt-colour
+      input[type="email"],
+      input[type="password"],
+      input[type="text"]
+        background-color $dark-input-bg-colour
+        border 1px solid $dark-input-border-colour
+        color $dark-input-txt-colour
+
+      ul.errors
+        li
+          color $dark-txt-err-colour
+
+    // Note:
+    // Apparently, we can't merge these properties.
+    // Keey them separatedly.
+    *
+      &:-moz-placeholder
+        color $dark-placeholder-txt-colour
+        opacity 1
+      &::-moz-placeholder
+        color $dark-placeholder-txt-colour
+        opacity 1
+      &:-ms-input-placeholder
+        color $dark-placeholder-txt-colour
+      &::-ms-input-placeholder
+        color $dark-placeholder-txt-colour
+      &::placeholder
+        color $dark-placeholder-txt-colour
+      &::-webkit-input-placeholder
+        color $dark-placeholder-txt-colour

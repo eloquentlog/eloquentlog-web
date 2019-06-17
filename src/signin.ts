@@ -12,6 +12,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { Theme } from './util/theme';
 
 import { message as msg } from './util/message';
 
@@ -20,7 +21,9 @@ import './styl/signin.styl';
 interface SigninProps {
   errors: ValidationError[];
   history: H.History;
+  setTheme: (theme: Theme, update?: boolean) => void;
   setToken: (token: string) => void;
+  theme: Theme;
 }
 
 const client = getClient((status: number): boolean => {
@@ -151,7 +154,17 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   });
 };
 
-const getFlashMessage = (location: any): string => {
+const handleThemeLinkClick = (
+  props: SigninProps
+, event: Event
+): void => {
+  event.preventDefault();
+
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
+};
+
+const getFlashMessage = (history: H.History): string => {
+  const { location } = history;
   if ((typeof location.state) === 'object' &&
      location.state.flash !== undefined) {
     return location.state.flash;
@@ -165,8 +178,7 @@ export const Signin = (
 ): VNode => {
   props.history = route.router.history as H.History;
 
-  const flashMessage = getFlashMessage(props.history.location);
-
+  const flashMessage = getFlashMessage(props.history);
   return h('#signin.content', {},
     h('.signin.grid', {},
       h('.row', {},
@@ -211,13 +223,20 @@ export const Signin = (
                 'Sign in')
             , h('span.loading.hidden')
             ])
-          , h('p', [
+          , h('p.options', [
               h('a.reset-password', {
                 href: '/password/reset'
               }, 'Fogot your password')
             , '? Or are you new to Eloquentlog? then,'
             , h('a.signup', { href: '/signup' }, 'Sign up')
             , ';-)'
+            ])
+          , h('p.links', [
+              'Set theme as'
+            , h('a.theme', {
+                onClick: linkEvent(props, handleThemeLinkClick)
+              }, props.theme === Theme.Light ? 'Dark' : 'Light')
+            , '.'
             ])
           ])
         )
