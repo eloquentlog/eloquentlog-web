@@ -85,7 +85,7 @@ export default (args) => {
     import(s).then((serve) => {
       development.plugins.push(
         serve({
-          contentBase: ['src', 'dst']
+          contentBase: ['dst']
         , historyApiFallback: [
             { from: /.*/, to: 'index.html' }
           ]

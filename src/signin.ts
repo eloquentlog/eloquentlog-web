@@ -188,7 +188,13 @@ export const Signin = (
 .column-m-16`, {},
           h('.transparent.box', [
             h('.title', {},
-              h('a', { href: '/' }, 'Eloquentlog')
+              h('a', { href: '/' },
+                h('img.logo', {
+                  alt: 'Eloquentlog'
+                , src: '/img/wolf-paw-72x72.png'
+                , width: 36
+                , height: 36
+                }))
             )
           , h('form.form', {
               noValidate: true
