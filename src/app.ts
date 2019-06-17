@@ -31,10 +31,8 @@ export class App extends Component<AppProps, AppState> {
   }
 
   public componentWillMount () {
-    console.log('will');
     this.state.token = this.getToken();
     this.state.theme = this.getTheme();
-    console.log(this.state.theme);
   }
 
   public handleTheme (): void {
@@ -45,7 +43,6 @@ export class App extends Component<AppProps, AppState> {
     , (): void => this.setTheme(Theme.Dark, false)
     , (): void => this.setTheme(Theme.Light, false)
     );
-    console.log(this.state.theme);
     applyTheme(this.state.theme);
   }
 
@@ -55,7 +52,6 @@ export class App extends Component<AppProps, AppState> {
   }
 
   public setTheme (theme: Theme, update = true): void {
-    console.log(theme);
     window.localStorage.setItem('theme', theme);
     if (!update) {
       this.state.theme = theme;
