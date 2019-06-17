@@ -12,6 +12,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { Theme } from './util/theme';
 
 import { message as msg } from './util/message';
 
@@ -21,6 +22,8 @@ interface PasswordResetProps {
   errors: ValidationError[];
   history: H.History;
   requested: boolean;
+  setTheme: (theme: Theme, update?: boolean) => void;
+  theme: Theme;
 }
 
 const client = getClient((status: number): boolean => {
@@ -147,6 +150,15 @@ const handleSubmit = (props: PasswordResetProps, event: Event): void => {
   });
 };
 
+const handleThemeLinkClick = (
+  props: PasswordResetProps
+, event: Event
+): void => {
+  event.preventDefault();
+
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
+};
+
 const hasRequested = (history: H.History): boolean => {
   const message = getFlashMessage(history);
   return message !== undefined || (
@@ -175,13 +187,11 @@ export const PasswordReset = (
   props: PasswordResetProps
 , route: any
 ): VNode => {
-  const history = route.router.history as H.History;
+  props.history = route.router.history as H.History;
 
-  props.history = history;
-  props.requested = hasRequested(history);
+  props.requested = hasRequested(props.history);
 
   const flashMessage = getFlashMessage(props.history);
-
   return h('#password_reset.content', {},
     h('.password-reset.grid', {},
       h('.row', {},
@@ -233,6 +243,13 @@ folder, this could mean you have signed up with a different address.`)
               'Do you back to the'
             , h('a.signin', { href: '/signin' }, 'Sign in')
             , '?'
+            ])
+          , h('p.links', [
+              'Set theme as'
+            , h('a.theme', {
+                onClick: linkEvent(props, handleThemeLinkClick)
+              }, props.theme === Theme.Light ? 'Dark' : 'Light')
+            , '.'
             ])
           ])
         )

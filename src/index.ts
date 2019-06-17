@@ -10,6 +10,8 @@ import './styl/_shared.styl';
 import './styl/_typography.styl';
 import './styl/_util.styl';
 
+import './styl/theme/_dark.styl';
+
 // components
 import { App } from './app';
 import { Header } from './header';

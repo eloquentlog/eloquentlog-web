@@ -12,6 +12,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { Theme } from './util/theme';
 
 import { message as msg } from './util/message';
 
@@ -20,6 +21,8 @@ import './styl/signup.styl';
 interface SignupProps {
   errors: ValidationError[];
   history: H.History;
+  setTheme: (theme: Theme, update?: boolean) => void;
+  theme: Theme;
 }
 
 const client = getClient((status: number): boolean => {
@@ -172,6 +175,15 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
   });
 };
 
+const handleThemeLinkClick = (
+  props: SignupProps
+, event: Event
+): void => {
+  event.preventDefault();
+
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
+};
+
 export const Signup = (
   props: SignupProps
 , route: any
@@ -247,6 +259,13 @@ export const Signup = (
           , h('p.options', [
               'Already have an account?'
             , h('a.signin', { href: '/signin' }, 'Sign in')
+            , '.'
+            ])
+          , h('p.links', [
+              'Set theme as'
+            , h('a.theme', {
+                onClick: linkEvent(props, handleThemeLinkClick)
+              }, props.theme === Theme.Light ? 'Dark' : 'Light')
             , '.'
             ])
           ])

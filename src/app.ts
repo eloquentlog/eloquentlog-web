@@ -3,6 +3,8 @@ import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router';
 
+import { applyTheme, matchTheme, Theme } from './util/theme';
+
 // components
 import { PasswordReset } from './password_reset';
 import { Signin } from './signin';
@@ -15,6 +17,7 @@ interface AppProps {
 
 interface AppState {
   token?: string;
+  theme?: Theme;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -23,10 +26,62 @@ export class App extends Component<AppProps, AppState> {
 
     this.state = {
       token: undefined
+    , theme: Theme.Light
     };
   }
 
+  public componentWillMount () {
+    console.log('will');
+    this.state.token = this.getToken();
+    this.state.theme = this.getTheme();
+    console.log(this.state.theme);
+  }
+
+  public handleTheme (): void {
+    const { location } = this.props.history;
+
+    matchTheme(
+      location
+    , (): void => this.setTheme(Theme.Dark, false)
+    , (): void => this.setTheme(Theme.Light, false)
+    );
+    console.log(this.state.theme);
+    applyTheme(this.state.theme);
+  }
+
+  public getTheme (): Theme {
+    const theme = window.localStorage.getItem('theme');
+    return theme as Theme;
+  }
+
+  public setTheme (theme: Theme, update = true): void {
+    console.log(theme);
+    window.localStorage.setItem('theme', theme);
+    if (!update) {
+      this.state.theme = theme;
+    } else {
+      this.setState({ theme });
+    }
+  }
+
+  public getToken (): string {
+    const token = window.localStorage.getItem('authorization_token');
+    return token;
+  }
+
+  public removeToken (): void {
+    window.localStorage.removeItem('authorization_token');
+    this.setState({ token: undefined });
+  }
+
+  public setToken (token: string): void {
+    window.localStorage.setItem('authorization_token', token);
+    this.setState({ token });
+  }
+
   public render (): VNode {
+    this.handleTheme();
+
     return h(BrowserRouter, {},
       h(Switch, {}, [
         h(Route, {
@@ -35,8 +90,10 @@ export class App extends Component<AppProps, AppState> {
         , path: '/'
         , render: () => {
             return this.signedIn() ? h(Top, {
-                signedIn: true
-              , removeToken: this.removeToken.bind(this)
+                removeToken: this.removeToken.bind(this)
+              , signedIn: true
+              , setTheme: this.setTheme.bind(this)
+              , theme: this.state.theme
               }) :
               h(Redirect, { to: {
                 pathname: '/signin'
@@ -52,6 +109,8 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             const props = {
               history: this.props.history
+            , setTheme: this.setTheme.bind(this)
+            , theme: this.state.theme
             };
             return h(PasswordReset, props);
           }
@@ -69,7 +128,9 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signin, {
               history: this.props.history
+            , setTheme: this.setTheme.bind(this)
             , setToken: this.setToken.bind(this)
+            , theme: this.state.theme
             });
           }
         })
@@ -79,26 +140,13 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signup, {
               history: this.props.history
+            , setTheme: this.setTheme.bind(this)
+            , theme: this.state.theme
             });
           }
         })
       ])
     );
-  }
-
-  public componentWillMount () {
-    const token = window.localStorage.getItem('authorization_token');
-    this.setState({ token });
-  }
-
-  public setToken (token: string): void {
-    window.localStorage.setItem('authorization_token', token);
-    this.setState({ token });
-  }
-
-  public removeToken (): void {
-    window.localStorage.removeItem('authorization_token');
-    this.setState({ token: undefined });
   }
 
   private signedIn (): boolean {
