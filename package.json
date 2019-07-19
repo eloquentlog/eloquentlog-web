@@ -35,7 +35,7 @@
     "stylint": "1.5.9",
     "stylus": "0.54.5",
     "styr": "0.0.32",
-    "tslint": "5.17.0",
+    "tslint": "5.18.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.1"
   }
