@@ -31,7 +31,7 @@
     "rollup-plugin-serve": "1.0.1",
     "rollup-plugin-stylus-compiler": "1.0.1",
     "rollup-plugin-terser": "5.0.0",
-    "rollup-plugin-typescript2": "0.21.1",
+    "rollup-plugin-typescript2": "0.22.0",
     "stylint": "1.5.9",
     "stylus": "0.54.5",
     "styr": "0.0.32",
