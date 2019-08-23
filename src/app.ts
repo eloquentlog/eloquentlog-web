@@ -47,7 +47,10 @@ export class App extends Component<AppProps, AppState> {
   }
 
   public getTheme (): Theme {
-    const theme = window.localStorage.getItem('theme');
+    let theme = window.localStorage.getItem('theme');
+    if (theme === null) {
+      theme = Theme.Light;
+    }
     return theme as Theme;
   }
 

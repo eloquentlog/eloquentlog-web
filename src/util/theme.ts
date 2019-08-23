@@ -8,14 +8,18 @@ interface Location {
 }
 
 export const applyTheme = (theme: Theme): void => {
-  const wrapper = document.querySelector('.wrapper');
+  const body = document.querySelector('body');
 
   // default is Theme.Light
   const dark = Theme.Dark as string;
+  const light = Theme.Light as string;
+
   if (theme === Theme.Dark) {
-    wrapper.classList.add(dark);
-  } else if (wrapper.classList.contains(dark)) {
-    wrapper.classList.remove(dark);
+    body.classList.remove(light);
+    body.classList.add(dark);
+  } else if (theme === Theme.Light) {
+    body.classList.remove(dark);
+    body.classList.add(light);
   }
 };
 
