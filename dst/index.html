@@ -9,9 +9,19 @@
 </head>
 <body>
   <div class="wrapper">
-    <div id="header"></div>
+    <div id="header">
+      <div class="content">
+        <div class="global-header"></div>
+      </div>
+    </div>
     <div id="container"></div>
   </div>
+  <script type="text/javascript">
+document.body.setAttribute(
+  'style'
+, 'background-color: #' + (window.localStorage.getItem('theme') === 'dark' ? '333' : 'fff') + ';'
+);
+  </script>
   <script type="text/javascript" src="/index.js" charset="utf-8"></script>
 </body>
 </html>
