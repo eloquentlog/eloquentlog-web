@@ -84,7 +84,7 @@ export default (args) => {
     const s = 'rollup-plugin-serve';
     import(s).then((serve) => {
       development.plugins.push(
-        serve({
+        serve.default({
           contentBase: ['dst']
         , historyApiFallback: [
             { from: /.*/, to: 'index.html' }
@@ -93,6 +93,8 @@ export default (args) => {
         , port: 3000
         })
       );
+    }).catch((e) => {
+      console.log(e);
     });
     return development;
   }

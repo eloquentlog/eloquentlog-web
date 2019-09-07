@@ -4,6 +4,7 @@ import { h } from 'inferno-hyperscript';
 import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router';
 
 import { applyTheme, matchTheme, Theme } from './util/theme';
+import { readToken, saveToken } from './util/token';
 
 // components
 import { PasswordReset } from './password_reset';
@@ -16,22 +17,24 @@ interface AppProps {
 }
 
 interface AppState {
-  token?: string;
+  stamp?: string;
   theme?: Theme;
 }
+
+const tokenKey = 'header.payload';
 
 export class App extends Component<AppProps, AppState> {
   constructor (props: AppProps) {
     super(props);
 
     this.state = {
-      token: undefined
+      stamp: undefined
     , theme: Theme.Light
     };
   }
 
   public componentWillMount () {
-    this.state.token = this.getToken();
+    this.state.stamp = this.getStamp();
     this.state.theme = this.getTheme();
   }
 
@@ -63,19 +66,17 @@ export class App extends Component<AppProps, AppState> {
     }
   }
 
-  public getToken (): string {
-    const token = window.localStorage.getItem('authorization_token');
-    return token;
+  public delStamp (): void {
+    this.setState({ stamp: this.putStamp(undefined) });
   }
 
-  public removeToken (): void {
-    window.localStorage.removeItem('authorization_token');
-    this.setState({ token: undefined });
+  public putStamp (value: string): string {
+    saveToken(tokenKey, value);
+    return this.getStamp();
   }
 
-  public setToken (token: string): void {
-    window.localStorage.setItem('authorization_token', token);
-    this.setState({ token });
+  public setStamp (stamp: string): void {
+    this.setState({ stamp });
   }
 
   public render (): VNode {
@@ -89,7 +90,7 @@ export class App extends Component<AppProps, AppState> {
         , path: '/'
         , render: () => {
             return this.signedIn() ? h(Top, {
-                removeToken: this.removeToken.bind(this)
+                delStamp: this.delStamp.bind(this)
               , signedIn: true
               , setTheme: this.setTheme.bind(this)
               , theme: this.state.theme
@@ -127,8 +128,9 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signin, {
               history: this.props.history
+            , putStamp: this.putStamp.bind(this)
+            , setStamp: this.setStamp.bind(this)
             , setTheme: this.setTheme.bind(this)
-            , setToken: this.setToken.bind(this)
             , theme: this.state.theme
             });
           }
@@ -148,7 +150,16 @@ export class App extends Component<AppProps, AppState> {
     );
   }
 
+  private getStamp (): string {
+    const token = readToken(tokenKey);
+    // TODO: consider this (for now, just return limit as stamp)
+    if (token !== undefined) {
+      return token.limit.toString();
+    }
+    return undefined;
+  }
+
   private signedIn (): boolean {
-    return (this.state.token !== null && this.state.token !== undefined);
+    return (this.state.stamp !== null && this.state.stamp !== undefined);
   }
 }

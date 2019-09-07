@@ -5,9 +5,9 @@ import { h } from 'inferno-hyperscript';
 import { version } from '../package.json';
 
 interface TopProps {
+  delStamp: () => void;
   history: H.History;
   signedIn: boolean;
-  removeToken: () => void;
 }
 
 export const Top = (props: TopProps): VNode => {
@@ -19,7 +19,7 @@ export const Top = (props: TopProps): VNode => {
   , h('ul', props.signedIn ? [
       h('li', {}, h('a', { href: '/signout', onClick: (e: Event) => {
         e.preventDefault();
-        props.removeToken();
+        props.delStamp();
       }}, 'Sign out'))
     ] : [
       h('li', {}, h('a', { href: '/signin' }, 'Sign in'))
