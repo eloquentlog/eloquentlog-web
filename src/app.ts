@@ -4,6 +4,7 @@ import { h } from 'inferno-hyperscript';
 import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router';
 
 import { applyTheme, matchTheme, Theme } from './util/theme';
+import { getToken, putToken } from './util/token';
 
 // components
 import { PasswordReset } from './password_reset';
@@ -64,18 +65,15 @@ export class App extends Component<AppProps, AppState> {
   }
 
   public getToken (): string {
-    const token = window.localStorage.getItem('authorization_token');
-    return token;
+    return getToken('authorization');
   }
 
   public removeToken (): void {
-    window.localStorage.removeItem('authorization_token');
-    this.setState({ token: undefined });
+    this.setState({ token: putToken('authorization', undefined) });
   }
 
   public setToken (token: string): void {
-    window.localStorage.setItem('authorization_token', token);
-    this.setState({ token });
+    this.setState({ token: putToken('authorization', token) });
   }
 
   public render (): VNode {
