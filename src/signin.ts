@@ -21,8 +21,9 @@ import './styl/signin.styl';
 interface SigninProps {
   errors: ValidationError[];
   history: H.History;
+  putStamp: (token: string) => string;
+  setStamp: (stamp: string) => void;
   setTheme: (theme: Theme, update?: boolean) => void;
-  setToken: (token: string) => void;
   theme: Theme;
 }
 
@@ -142,8 +143,8 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
       return;
     }
 
-    const token = res.data.token;
-    props.setToken(token);
+    const stamp = props.putStamp(res.data.token);
+    props.setStamp(stamp);
     props.history.push('/');
   })
   .catch((err: any): void => {
