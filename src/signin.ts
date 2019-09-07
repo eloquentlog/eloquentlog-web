@@ -142,7 +142,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
       return;
     }
 
-    const token = res.data.voucher;
+    const token = res.data.token;
     props.setToken(token);
     props.history.push('/');
   })
