@@ -12,16 +12,25 @@ export interface Response {
   errors: ValidationError[];
 }
 
+export interface Header {
+  [key: string]: string;
+}
+
+const headers: Header = {
+    'Accept': 'application/json'
+  , 'Content-Type': 'application/json; charset=utf-8'
+};
+
+const baseURL = `${BACKEND_API_PROTOCOL}://
+${BACKEND_API_HOST}:${BACKEND_API_PORT}/_api`;
+
 export const getClient = (validateStatus: (status: number) => boolean) => {
   const client = axios.create({
-    baseURL: `${BACKEND_API_PROTOCOL}://
-${BACKEND_API_HOST}:${BACKEND_API_PORT}/_api`
+    baseURL
   , timeout: 0
-  , headers: {
-      'Accept': 'application/json'
-    , 'Content-Type': 'application/json; charset=utf-8'
-    }
+  , headers
   , validateStatus
+  , withCredentials: true
   });
   return client;
 };

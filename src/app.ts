@@ -66,17 +66,12 @@ export class App extends Component<AppProps, AppState> {
     }
   }
 
-  public delStamp (): void {
-    this.setState({ stamp: this.putStamp(undefined) });
-  }
-
-  public putStamp (value: string): string {
-    saveToken(tokenKey, value);
-    return this.getStamp();
-  }
-
-  public setStamp (stamp: string): void {
-    this.setState({ stamp });
+  public getToken(): string {
+    const token = readToken(tokenKey);
+    if (token !== undefined) {
+      return token.value;
+    }
+    return undefined;
   }
 
   public render (): VNode {
@@ -91,9 +86,8 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             return this.signedIn() ? h(Top, {
                 delStamp: this.delStamp.bind(this)
-              , signedIn: true
-              , setTheme: this.setTheme.bind(this)
-              , theme: this.state.theme
+              , getToken: this.getToken.bind(this)
+              , history: this.props.history
               }) :
               h(Redirect, { to: {
                 pathname: '/signin'
@@ -119,6 +113,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/signout'
         , render: () => {
+            this.delStamp();
             return h(Redirect, { to: '/signin' });
           }
         })
@@ -150,6 +145,10 @@ export class App extends Component<AppProps, AppState> {
     );
   }
 
+  private delStamp (): void {
+    this.setState({ stamp: this.putStamp(undefined) });
+  }
+
   private getStamp (): string {
     const token = readToken(tokenKey);
     // TODO: consider this (for now, just return limit as stamp)
@@ -157,6 +156,15 @@ export class App extends Component<AppProps, AppState> {
       return token.limit.toString();
     }
     return undefined;
+  }
+
+  private putStamp (value: string): string {
+    saveToken(tokenKey, value);
+    return this.getStamp();
+  }
+
+  private setStamp (stamp: string): void {
+    this.setState({ stamp });
   }
 
   private signedIn (): boolean {

@@ -17,7 +17,13 @@ import './styl/theme/_light.styl';
 // components
 import { App } from './app';
 
-setTimeout((): void => render(
-  h(App, { history: H.createBrowserHistory() }),
-  document.querySelector('#container')
-));
+setTimeout((): void => {
+  const history = H.createBrowserHistory({
+    // https://github.com/ReactTraining/history/pull/614
+    // forceRefresh: true
+  });
+  return render(
+    h(App, { history }),
+    document.querySelector('#container')
+  );
+});

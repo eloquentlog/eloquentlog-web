@@ -30,11 +30,18 @@ export const saveToken = (name: string, value: string): string => {
         value: parts.slice(0, 2).join('.')
       , limit: new Date((new Date()).getTime() + inThirtyMinutes * 864e+5)
       };
-      Cookie.set(name, token, {
+
+      let attributes: Cookie.CookieAttributes = {
         domain
       , expires: inThirtyMinutes
       , secure
+      };
+      // See: https://github.com/js-cookie/js-cookie/issues/276
+      attributes = Object.assign(attributes, {
+        sameSite: 'Strict'
       });
+
+      Cookie.set(name, token, attributes as any);
     }
   }
   return value;
