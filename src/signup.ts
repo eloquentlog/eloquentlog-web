@@ -165,7 +165,9 @@ const handleSubmit = (props: SignupProps, event: Event): void => {
       return;
     }
 
-    props.history.push('/');
+    props.history.push('/signin', {
+      flash: msg.flash.signup.success
+    });
   })
   .catch((err: any) => {
     unlock(f);

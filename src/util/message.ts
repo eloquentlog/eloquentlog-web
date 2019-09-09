@@ -9,6 +9,8 @@ export const message = {
     }
   , signup: {
       failure: 'Your sign up has been failed'
+    , success: `It's almost done. We've sent an activation link via email.
+Please check it.`
     }
   }
 , description: {
