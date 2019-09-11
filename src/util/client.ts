@@ -19,6 +19,7 @@ export interface Header {
 const headers: Header = {
     'Accept': 'application/json'
   , 'Content-Type': 'application/json; charset=utf-8'
+  , 'X-Requested-With': 'XMLHttpRequest' // this needs CORS
 };
 
 const baseURL = `${BACKEND_API_PROTOCOL}://
