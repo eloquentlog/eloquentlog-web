@@ -1,5 +1,11 @@
 export const message = {
-  flash: {
+  error: {
+    user_activation: {
+      expired: 'Your activation link has been expired'
+    , welcome: 'Well done! As next, please signin!'
+    }
+  }
+, flash: {
     password_reset: {
       failure: 'Rassword reset request has been failed'
     , success: 'Password reset has beeen successfuly requested'
@@ -11,6 +17,10 @@ export const message = {
       failure: 'Your sign up has been failed'
     , success: `It's almost done. We've sent an activation link via email.
 Please check it.`
+    }
+  , user_activation: {
+      failure: 'Activation failed'
+    , success: 'Your account has beeen successfuly activated'
     }
   }
 , description: {

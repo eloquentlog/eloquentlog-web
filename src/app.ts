@@ -11,6 +11,7 @@ import { PasswordReset } from './password_reset';
 import { Signin } from './signin';
 import { Signup } from './signup';
 import { Top } from './top';
+import { UserActivation } from './user/activation';
 
 interface AppProps {
   history: H.History;
@@ -139,6 +140,17 @@ export class App extends Component<AppProps, AppState> {
             , setTheme: this.setTheme.bind(this)
             , theme: this.state.theme
             });
+          }
+        })
+      , h(Route, {
+          exact: true
+        , path: '/user/activate'
+        , render: () => {
+            const props = {
+              history: this.props.history
+            , activated: false
+            };
+            return h(UserActivation, props);
           }
         })
       ])

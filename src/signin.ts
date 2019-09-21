@@ -125,7 +125,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     return;
   }
 
-  client.post('/signin', {
+  client.post('/login', {
     username
   , password
   })
