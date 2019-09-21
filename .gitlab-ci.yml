@@ -20,7 +20,7 @@ lint-typescript:
   variables:
     NODE_ENV: development
   script:
-    - make lint:ts
+    - make verify:lint:ts
 
 lint-stylus:
   stage: vet
@@ -28,4 +28,4 @@ lint-stylus:
   variables:
     NODE_ENV: development
   script:
-    - make lint:styl
+    - make verify:lint:styl
