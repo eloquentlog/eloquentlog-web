@@ -158,7 +158,7 @@ export class App extends Component<AppProps, AppState> {
   }
 
   private delStamp (): void {
-    this.setState({ stamp: this.putStamp(undefined) });
+    this.state.stamp = this.putStamp(undefined);
   }
 
   private getStamp (): string {
