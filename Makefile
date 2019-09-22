@@ -1,3 +1,9 @@
+# -- setup {{{
+setup:  ## Install node dev modules
+	@npm i
+.PHONY: setup
+#  }}}
+
 # -- build {{{
 build\:development:  ## Build in development mode [alias: build]
 	npm run build:development
@@ -57,7 +63,8 @@ serve: | watch\:serve
 .PHONY: serve
 
 clean:  ## Tidy up
-	@rm --force --recursive node_modules/
+	@rm dst/index*.js*
+	@rm dst/index*.css*
 .PHONY: clean
 
 help:  ## Display this message
