@@ -6,6 +6,7 @@ import css from 'rollup-plugin-css-only';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
+import strip from 'rollup-plugin-strip';
 import stylus from 'rollup-plugin-stylus-compiler';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
@@ -13,6 +14,7 @@ import typescript from 'rollup-plugin-typescript2';
 const root = __dirname
     , src = path.join(root, 'src')
     , dst = path.join(root, 'dst')
+    , mod = path.join(root, 'node_modules')
     ;
 
 const development = {
@@ -23,7 +25,12 @@ const development = {
   , sourcemap: true
   }
 , plugins: [
-    replace({
+    typescript({
+      abortOnError: false
+    , cacheRoot: '.cache'
+    })
+  , commonjs()
+  , replace({
       'process.env.NODE_ENV': JSON.stringify('development')
     })
   , json()
@@ -35,12 +42,16 @@ const development = {
     })
   , stylus()
   , css()
-  , commonjs()
-  , typescript({
-      abortOnError: false
-    , cacheRoot: '.cache'
-    })
   , buble()
+  , strip({
+      debugger: false
+    , functions: []
+    , include: [
+        path.join(src, '**/*.ts')
+      , path.join(mod, '**/*.(ts|js)')
+      ]
+    , sourceMap: true
+    })
   ]
 };
 
@@ -52,7 +63,12 @@ const production = {
   , sourcemap: false
   }]
 , plugins: [
-    replace({
+    typescript({
+      abortOnError: true
+    , cacheRoot: '.cache'
+    })
+  , commonjs()
+  , replace({
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   , json()
@@ -64,12 +80,16 @@ const production = {
     })
   , stylus()
   , css()
-  , commonjs()
-  , typescript({
-      abortOnError: true
-    , cacheRoot: '.cache'
-    })
   , buble()
+  , strip({
+      debugger: true
+    , functions: ['console.*', 'assert.*']
+    , include: [
+        path.join(src, '**/*.ts')
+      , path.join(mod, '**/*.(js|ts)')
+      ]
+    , sourceMap: false
+    })
   , terser()
   ]
 };

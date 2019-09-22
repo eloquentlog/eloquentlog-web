@@ -85,6 +85,7 @@ export class App extends Component<AppProps, AppState> {
         , exact: true
         , path: '/'
         , render: () => {
+            console.debug('/');
             return this.signedIn() ? h(Top, {
                 delStamp: this.delStamp.bind(this)
               , getToken: this.getToken.bind(this)
@@ -102,6 +103,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/password/reset'
         , render: () => {
+            console.debug('/password/reset');
             const props = {
               history: this.props.history
             , setTheme: this.setTheme.bind(this)
@@ -114,6 +116,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/signout'
         , render: () => {
+            console.debug('/signout');
             this.delStamp();
             return h(Redirect, { to: '/signin' });
           }
@@ -122,6 +125,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/signin'
         , render: () => {
+            console.debug('/signin');
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signin, {
               history: this.props.history
             , putStamp: this.putStamp.bind(this)
@@ -135,6 +139,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/signup'
         , render: () => {
+            console.debug('/signup');
             return this.signedIn() ? h(Redirect, { to: '/' }) : h(Signup, {
               history: this.props.history
             , setTheme: this.setTheme.bind(this)
@@ -146,6 +151,7 @@ export class App extends Component<AppProps, AppState> {
           exact: true
         , path: '/user/activate'
         , render: () => {
+            console.debug('/user/activate');
             const props = {
               history: this.props.history
             , activated: false
