@@ -37,7 +37,7 @@
     "rollup-plugin-terser": "5.1.2",
     "rollup-plugin-typescript2": "0.24.2",
     "stylint": "2.0.0",
-    "stylus": "0.54.5",
+    "stylus": "0.54.7",
     "styr": "0.0.32",
     "tslint": "5.18.0",
     "tslint-config-prettier": "1.18.0",
