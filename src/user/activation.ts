@@ -63,7 +63,7 @@ const activate = (props: UserActivationProps): boolean => {
         , s = params.get('s')
         ;
 
-    client.patch(`/user/activate?s=${s}`, {}, {
+    client.patch(`/user/activate/${s}`, { withCredentials: true }, {
       transformRequest: [function (_, headers) {
         headers.Authorization = `Bearer ${t}`;
       }]
@@ -108,7 +108,6 @@ export const UserActivation = (
     props.activated = activate(props);
   }
 
-  console.log(props.activated);
   const flashMessage = getFlashMessage(props.history);
   return h('#user_activation.content', {},
     h('.user-activation.grid', {},
