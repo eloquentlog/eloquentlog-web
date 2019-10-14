@@ -16,15 +16,14 @@ import { Theme } from './util/theme';
 
 import { message as msg } from './util/message';
 
-import './styl/password_reset.styl';
+import './styl/password_reset_request.styl';
 
-interface PasswordResetProps {
+interface PasswordResetRequestProps {
   errors: ValidationError[];
   history: H.History;
-  reset: boolean;
+  requested: boolean;
   setTheme: (theme: Theme, update?: boolean) => void;
   theme: Theme;
-  params: URLSearchParams;
 }
 
 const client = getClient((status: number): boolean => {
@@ -38,7 +37,7 @@ const validate = (_: string, v: string): boolean => {
 };
 
 const handleRequired = (
-  props: PasswordResetProps
+  props: PasswordResetRequestProps
 , target: HTMLInputElement
 ): void  => {
   if (!validate(target.id, target.value)) {
@@ -57,7 +56,7 @@ const handleRequired = (
   }
 };
 
-const handleChange = (props: PasswordResetProps, event: Event): void => {
+const handleChange = (props: PasswordResetRequestProps, event: Event): void => {
   event.preventDefault();
   const target = event.target as HTMLInputElement;
 
@@ -71,7 +70,7 @@ const handleChange = (props: PasswordResetProps, event: Event): void => {
 };
 
 const fieldIds = [
-  'new_password'
+  'email'
 ];
 
 const lockFields = inputFieldsLocker(fieldIds.concat('submit'));
@@ -83,7 +82,7 @@ const lock = (f: Element): void => {
     , unlock = lock
     ;
 
-const handleSubmit = async (props: PasswordResetProps, event: Event) => {
+const handleSubmit = (props: PasswordResetRequestProps, event: Event): void => {
   event.preventDefault();
 
   const f = event.target as Element;
@@ -98,7 +97,7 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
   lock(f);
 
   const [
-    newPassword
+    email
   ] = fieldIds.map(
     (id: string): string =>
       (f.querySelector('#' + id) as HTMLInputElement).value
@@ -106,7 +105,7 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
 
   // required
   const requiredValues: { [idx: string]: string; } = {
-    'new_password': newPassword
+    email
   };
   Object.keys(requiredValues).forEach((k: string): void => {
     handleRequired(props, f.querySelector('#' + k));
@@ -115,7 +114,7 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
   if (props.errors.some((e: ValidationError): boolean => {
     return fieldIds.indexOf(e.field) > -1;
   })) {
-    displayMessage(msg.flash.password_reset.failure);
+    displayMessage(msg.flash.password_reset_request.failure);
 
     highlightFields(f, props.errors.map((e) => e.field));
     handleErrors(f, props.errors);
@@ -123,31 +122,16 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
     return;
   }
 
-  if (!props.params.has('s') || !props.params.has('t')) {
-    return;
-  }
-  const s = props.params.get('s')
-      , t = props.params.get('t')
-      ;
-
-  await client.patch(`/password/reset/${s}`, {}, {
-    withCredentials: true
-  , transformRequest: [function (data, headers) {
-      headers.Authorization = `Bearer ${t}`;
-
-      data = {
-        'new_password': newPassword
-      , ...data
-      };
-      return JSON.stringify(data);
-    }]
+  client.put('/password/reset', {
+    email
   })
   .then((res: any): void => {
-    if (res.status !== 200) {
+    // handle other errors as success
+    if (res.status !== 200 && res.data !== null) {
       const data = res.data;
 
       if (data.message === undefined) {
-        data.message = msg.flash.password_reset.failure;
+        data.message = msg.flash.password_reset_request.failure;
       }
       displayMessage(data.message);
 
@@ -157,18 +141,19 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
     }
 
     props.history.push('/password/reset', {
-      flash: msg.flash.password_reset.success
+      flash: msg.flash.password_reset_request.success
     });
   })
   .catch((err: any): void => {
     unlock(f);
+
     // TODO
     console.log(err);
   });
 };
 
 const handleThemeLinkClick = (
-  props: PasswordResetProps
+  props: PasswordResetRequestProps
 , event: Event
 ): void => {
   event.preventDefault();
@@ -176,7 +161,7 @@ const handleThemeLinkClick = (
   props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
 };
 
-const hasReset = (history: H.History): boolean => {
+const hasRequested = (history: H.History): boolean => {
   const message = getFlashMessage(history);
   return message !== undefined || (
     history.action === 'PUSH' &&
@@ -204,104 +189,70 @@ const renderTitle = (): VNode => {
       })));
 };
 
-const renderMessage = (message: string, asFailure: boolean): VNode => {
+const renderMessage = (message: string): VNode => {
   return (message === undefined) ?
     h('#message.message.hidden', { role: 'alert' }) :
-    h(`#message.message.${asFailure ? 'failure' : 'success'}`,
-      { role: 'alert' },
-      h('p', {}, message)
-    );
+    h('#message.message.success', { role: 'alert' },
+      h('p', {}, message));
 };
 
-const verify = (props: PasswordResetProps): void => {
-  const params = new URLSearchParams(props.history.location.search);
-
-  if (!params.has('s') || !params.has('t')) {
-    return;
-  }
-
-  const s = params.get('s')
-      , t = params.get('t')
-      ;
-
-  client.get(`/password/reset/${s}`, {
-    withCredentials: true
-  , transformRequest: [function (_, headers) {
-      headers.Authorization = `Bearer ${t}`;
-    }]
-  })
-  .then((res: any): void => {
-    if (res.status === 422) {
-      props.history.push('/signin', {
-        flash: msg.flash.password_reset.expired
-      });
-    } else if (res.status !== 200) {
-      props.history.push('/signin', {
-        flash: msg.flash.password_reset.failure
-      });
-    }
-  })
-  .catch((err: any): void => {
-    props.history.push('/signin', {
-      flash: msg.flash.password_reset.failure
-    });
-    // TODO
-    console.log(err);
-  });
-};
-
-export const PasswordReset = (
-  props: PasswordResetProps
+export const PasswordResetRequest = (
+  props: PasswordResetRequestProps
 , route: any
 ): VNode => {
   props.history = route.router.history as H.History;
-
-  if (!props.reset) {
-    // FIXME: Promise
-    verify(props);
-  }
-  props.reset = hasReset(props.history) && props.errors.length === 0;
+  props.requested = hasRequested(props.history);
 
   const flashMessage = getFlashMessage(props.history);
-  return h('#password_reset.content', {},
-    h('.password-reset.grid', {},
+  return h('#password_reset_request.content', {},
+    h('.password-reset-request.grid', {},
       h('.row', {},
         h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', props.reset ? [
+          h('.transparent.box', props.requested ? [
             renderTitle()
           , h('.container', [
               h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage, props.errors.length !== 0)
+            , renderMessage(flashMessage)
+            , h('h6', {}, 'NOTE')
+            , h('p.note', {},
+                `If you don't receive any email, and it's not in your spam
+folder, this could mean you have signed up with a different address.`)
             ])
           , h('p.options', [
               'Back to'
             , h('a.signin', { href: '/signin' }, 'Sign in')
             ])
-          ] : [
+          ] : [ // request form
             renderTitle()
           , h('form.form', {
               noValidate: true
             , onSubmit: linkEvent(props, handleSubmit)
             }, [
               h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage, props.errors.length !== 0)
+            , renderMessage(flashMessage)
             , h('.required.field', [
-                h('label.label', { for: 'new_password' }, 'New password')
+                h('label.label', { for: 'email' }, 'E-mail address')
               , h('p.description', {},
-                  msg.description.shared.password)
-              , h('input#new_password', {
+                  msg.description.password_reset_request.email)
+              , h('input#email', {
                   type: 'text'
-                , name: 'new-password'
-                , autocomplete: 'password'
+                , name: 'email'
+                , autocomplete: 'email'
+                , placeHolder: 'ahoj@eloquentlog.com'
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
             , h('button#submit.secondary.flat.button', { type: 'submit' },
-                'Change')
+                'Request')
             , h('span.loading.hidden')
+            ])
+          , h('p.options', [
+              'Do you back to the'
+            , h('a.signin', { href: '/signin' }, 'Sign in')
+            , '?'
             ])
           , h('p.links', [
               'Set theme as'
@@ -317,12 +268,12 @@ export const PasswordReset = (
   );
 };
 
-PasswordReset.defaultProps = {
+PasswordResetRequest.defaultProps = {
   errors: []
-, reset: false
+, requested: false
 };
 
-PasswordReset.defaultHooks = {
+PasswordResetRequest.defaultHooks = {
   onComponentDidMount (_: any): void {
     document.title = 'Reset password - ' + document.title;
   }

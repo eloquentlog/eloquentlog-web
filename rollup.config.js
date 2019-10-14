@@ -42,7 +42,12 @@ const development = {
     })
   , stylus()
   , css()
-  , buble()
+  , buble({
+      objectAssign: 'Object.assign'
+    , transforms: {
+        asyncAwait: false
+      }
+    })
   , strip({
       debugger: false
     , functions: []
@@ -80,7 +85,12 @@ const production = {
     })
   , stylus()
   , css()
-  , buble()
+  , buble({
+      objectAssign: 'Object.assign'
+    , transforms: {
+        asyncAwait: false
+      }
+    })
   , strip({
       debugger: true
     , functions: ['console.*', 'assert.*']

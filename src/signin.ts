@@ -70,12 +70,12 @@ const handleChange = (props: SigninProps, event: Event): void => {
   handleRequired(props, target);
 };
 
-const fieldNames = [
+const fieldIds = [
   'username'
 , 'password'
 ];
 
-const lockFields = inputFieldsLocker(fieldNames.concat('submit'));
+const lockFields = inputFieldsLocker(fieldIds.concat('submit'));
 const lock = (f: Element): void => {
         const loader = f.querySelector('.loading');
         loader.classList.toggle('hidden');
@@ -90,19 +90,20 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   const f = event.target as Element;
 
   props.errors = [];
-  fieldNames.forEach((n: string) => {
-    const field = f.querySelector('#' + n);
+  fieldIds.forEach((id: string) => {
+    const field = f.querySelector('#' + id);
     field.classList.remove('has-errors');
   });
-  clearErrors(f, fieldNames);
+  clearErrors(f, fieldIds);
   removeMessage();
   lock(f);
 
   const [
     username
   , password
-  ] = fieldNames.map(
-    (n: string): string => (f.querySelector('#' + n) as HTMLInputElement).value
+  ] = fieldIds.map(
+    (id: string): string =>
+      (f.querySelector('#' + id) as HTMLInputElement).value
   );
 
   // required
@@ -115,7 +116,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
   });
 
   if (props.errors.some((e: ValidationError): boolean => {
-    return fieldNames.indexOf(e.field) > -1;
+    return fieldIds.indexOf(e.field) > -1;
   })) {
     displayMessage(msg.flash.signin.failure);
 
@@ -138,7 +139,7 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
       }
       displayMessage(data.message);
 
-      handleErrors(f, data);
+      handleErrors(f, data.errors);
       unlock(f);
       return;
     }

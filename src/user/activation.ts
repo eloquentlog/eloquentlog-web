@@ -27,6 +27,13 @@ const displayNote = (message: string): void => {
   container.classList.add('error');
 };
 
+const hasActivated = (history: H.History): boolean => {
+  const message = getFlashMessage(history);
+  return message === msg.flash.user_activation.success &&
+    history.action === 'REPLACE' &&
+    history.location.pathname === '/user/activate';
+};
+
 const getFlashMessage = (history: H.History): string => {
   const { location } = history;
   if ((typeof location.state) === 'object' &&
@@ -53,49 +60,48 @@ const renderMessage = (message: string, context?: string): VNode => {
     h(`#message.message.${context}`, { role: 'alert' }, h('p', {}, message));
 };
 
-const activate = (props: UserActivationProps): boolean => {
+const activate = (props: UserActivationProps): void => {
   const params = new URLSearchParams(props.history.location.search);
 
-  if (!params.has('t') || !params.has('s')) {
-    return true;
-  } else {
-    const t = params.get('t')
-        , s = params.get('s')
-        ;
+  if (!params.has('s') || !params.has('t')) {
+    return;
+  }
 
-    client.patch(`/user/activate/${s}`, { withCredentials: true }, {
-      transformRequest: [function (_, headers) {
-        headers.Authorization = `Bearer ${t}`;
-      }]
-    })
-    .then((res: any): boolean => {
-      if (res.status === 200) {
-        displayNote(msg.error.user_activation.welcome);
+  const s = params.get('s')
+      , t = params.get('t')
+      ;
+
+  client.patch(`/user/activate/${s}`, { withCredentials: true }, {
+    transformRequest: [function (_, headers) {
+      headers.Authorization = `Bearer ${t}`;
+    }]
+  })
+    .then((res: any): void => {
+    if (res.status === 200) {
+      displayNote(msg.description.user_activation.welcome);
+    } else {
+      if (res.status === 422) {
+        props.history.replace('/user/activate', {
+          flash: msg.flash.user_activation.expired
+        });
       } else {
-        if (res.status === 422) {
-          displayNote(msg.error.user_activation.expired);
-        }
-
         props.history.replace('/user/activate', {
           flash: msg.flash.user_activation.failure
         });
-        return false;
       }
+    }
 
-      props.history.replace('/user/activate', {
-        flash: msg.flash.user_activation.success
-      });
-      return true;
-    })
-    .catch((err: any): boolean => {
-      props.history.replace('/user/activate', {
-        flash: msg.flash.user_activation.failure
-      });
-      // TODO
-      console.log(err);
-      return false;
+    props.history.replace('/user/activate', {
+      flash: msg.flash.user_activation.success
     });
-  }
+  })
+  .catch((err: any): void => {
+    props.history.replace('/user/activate', {
+      flash: msg.flash.user_activation.failure
+    });
+    // TODO
+    console.log(err);
+  });
 };
 
 export const UserActivation = (
@@ -105,8 +111,10 @@ export const UserActivation = (
   props.history = route.router.history as H.History;
 
   if (!props.activated) {
-    props.activated = activate(props);
+    // FIXME: Promise
+    activate(props);
   }
+  props.activated = hasActivated(props.history);
 
   const flashMessage = getFlashMessage(props.history);
   return h('#user_activation.content', {},

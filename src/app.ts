@@ -8,6 +8,7 @@ import { readToken, saveToken } from './util/token';
 
 // components
 import { PasswordReset } from './password_reset';
+import { PasswordResetRequest } from './password_reset_request';
 import { Signin } from './signin';
 import { Signup } from './signup';
 import { Top } from './top';
@@ -109,7 +110,13 @@ export class App extends Component<AppProps, AppState> {
             , setTheme: this.setTheme.bind(this)
             , theme: this.state.theme
             };
-            return h(PasswordReset, props);
+            const params = new URLSearchParams(props.history.location.search);
+            if (params.has('s') && params.has('t')) {
+              const aProps = { params, ...props };
+              return h(PasswordReset, aProps);
+            } else {
+              return h(PasswordResetRequest, props);
+            }
           }
         })
       , h(Route, {
