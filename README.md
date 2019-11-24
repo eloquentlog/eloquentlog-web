@@ -10,7 +10,7 @@ Eloquentlog
 ╚╩╝└─┘└─┘  ╚═╝└─┘┘└┘└─┘└─┘┴─┘└─┘
 ```
 
-The web console frontend application of [Eloquentlog](https://eloquentlog.com).
+The console web application of [Eloquentlog](https://eloquentlog.com).
 
 
 ## Repository
