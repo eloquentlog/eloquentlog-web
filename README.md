@@ -55,15 +55,15 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 ## License
 
 ```text
- ┏━╸╻  ┏━┓┏━┓╻ ╻┏━╸┏┓╻╺┳╸╻  ┏━┓┏━╸
- ┣╸ ┃  ┃ ┃┃┓┃┃ ┃┣╸ ┃┗┫ ┃ ┃  ┃ ┃┃╺┓
- ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
+┏━╸╻  ┏━┓┏━┓╻ ╻┏━╸┏┓╻╺┳╸╻  ┏━┓┏━╸
+┣╸ ┃  ┃ ┃┃┓┃┃ ┃┣╸ ┃┗┫ ┃ ┃  ┃ ┃┃╺┓
+┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
 
- Web Console
- Copyright (c) 2019 Lupine Software LLC
+Web Console
+Copyright (c) 2019 Lupine Software LLC
 ```
 
-`AGPL-3.0`
+`AGPL-3.0-or-later`
 
 ```text
 This is free software: You can redistribute it and/or modify
@@ -79,8 +79,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 ```
-
-See LICENSE file.
 
 [pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/pipeline.svg
 [coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/coverage.svg
