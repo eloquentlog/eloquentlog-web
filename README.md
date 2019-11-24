@@ -20,7 +20,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-frontend
 
 ## Requirements
 
-* Node.js
+* Node.js `>= 12.13.0`
 
 
 ## Setup
