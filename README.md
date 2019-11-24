@@ -1,21 +1,21 @@
-# Eloquentlog Web Frontend
+# Eloquentlog Web Console
 
 [![pipeline status][pipeline]][ci] [![coverage report][coverage]][ci]
 
 ```text
 Eloquentlog
 
-╦ ╦┌─┐┌┐   ╔═╗┬─┐┌─┐┌┐┌┌┬┐┌─┐┌┐┌┌┬┐
-║║║├┤ ├┴┐  ╠╣ ├┬┘│ ││││ │ ├┤ │││ ││
-╚╩╝└─┘└─┘  ╚  ┴└─└─┘┘└┘ ┴ └─┘┘└┘─┴┘
+╦ ╦┌─┐┌┐   ╔═╗┌─┐┌┐┌┌─┐┌─┐┬  ┌─┐
+║║║├┤ ├┴┐  ║  │ ││││└─┐│ ││  ├┤
+╚╩╝└─┘└─┘  ╚═╝└─┘┘└┘└─┘└─┘┴─┘└─┘
 ```
 
-The frontend web application of [Eloquentlog](https://eloquentlog.com).
+The web console frontend application of [Eloquentlog](https://eloquentlog.com).
 
 
 ## Repository
 
-https://gitlab.com/eloquentlog/eloquentlog-web-frontend
+https://gitlab.com/eloquentlog/eloquentlog-web-console
 
 
 ## Requirements
@@ -59,7 +59,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-frontend
  ┣╸ ┃  ┃ ┃┃┓┃┃ ┃┣╸ ┃┗┫ ┃ ┃  ┃ ┃┃╺┓
  ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
 
- Web Frontend
+ Web Console
  Copyright (c) 2019 Lupine Software LLC
 ```
 
@@ -82,6 +82,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See LICENSE file.
 
-[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-frontend/badges/master/pipeline.svg
-[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-frontend/badges/master/coverage.svg
-[ci]: https://gitlab.com/eloquentlog/eloquentlog-web-frontend/pipelines
+[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/pipeline.svg
+[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/coverage.svg
+[ci]: https://gitlab.com/eloquentlog/eloquentlog-web-console/pipelines
