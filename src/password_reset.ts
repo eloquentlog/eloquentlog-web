@@ -293,9 +293,10 @@ export const PasswordReset = (
               , h('p.description', {},
                   msg.description.shared.password)
               , h('input#new_password', {
-                  type: 'text'
+                  type: 'password'
                 , name: 'new-password'
-                , autocomplete: 'password'
+                , autocomplete: 'off'
+                , placeHolder: 'Don\'t foget ;)'
                 , onInput: linkEvent(props, handleChange)
                 })
               ])
