@@ -107,7 +107,7 @@ const production = {
 export default (args) => {
   if (args.configBuildDevelopment === true) {
     return development;
-  } else if (args.configServe === true) {
+  } else if (args.configRunServer === true) {
     // NOTE:
     // The import of rollup-plugin-serve makes
     // rollup never stopping :'(

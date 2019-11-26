@@ -52,15 +52,15 @@ watch\:lint\:styl:  ## Start a process for stylus lint
 	@npm run watch:lint:styl
 .PHONY: watch\:lint\:styl
 
-watch\:serve:  ## Start a process for development server [alias: serve]
-	@npm run watch:serve
-.PHONY: watch\:serve
+watch\:server:  ## Start a process for development server [alias: server]
+	@npm run watch:server
+.PHONY: watch\:server
 
 watch: | watch\:build
 .PHONY: watch
 
-serve: | watch\:serve
-.PHONY: serve
+server: | watch\:server
+.PHONY: server
 
 clean:  ## Tidy up
 	@rm dst/index*.js*

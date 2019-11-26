@@ -48,7 +48,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 ### Run
 
 ```zsh
-% make serve
+% make watch:server
 ```
 
 

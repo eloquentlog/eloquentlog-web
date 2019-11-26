@@ -13,7 +13,7 @@
     "lint:styl": "stylint -c .stylintrc src",
     "lint:ts": "tslint -c tslint.json -p tsconfig.json",
     "watch:build": "rollup -w -c --configBuildDevelopment",
-    "watch:serve": "rollup -w -c --configServe"
+    "watch:server": "rollup -w -c --configRunServer"
   },
   "devDependencies": {
     "@types/history": "4.7.3",
