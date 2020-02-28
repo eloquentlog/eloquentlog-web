@@ -9,6 +9,7 @@ import { readToken, saveToken } from './util/token';
 // components
 import { PasswordReset } from './password_reset';
 import { PasswordResetRequest } from './password_reset_request';
+import { PersonalToken } from './personal_token';
 import { Signin } from './signin';
 import { Signup } from './signup';
 import { Top } from './top';
@@ -164,6 +165,18 @@ export class App extends Component<AppProps, AppState> {
             , activated: false
             };
             return h(UserActivation, props);
+          }
+        })
+      , h(Route, {
+          exact: true
+        , path: '/token'
+        , render: () => {
+            console.debug('/token');
+            const props = {
+              history: this.props.history
+            , activated: false
+            };
+            return h(PersonalToken, props);
           }
         })
       ])
