@@ -47,7 +47,8 @@ export const Top = (_: TopProps): VNode => {
     , h('span', version)
     ])
   , h('ul', [
-      h('li', {}, h(Link, { to: '/signout', replace: true }, 'Sign out'))
+      h('li', {}, h(Link, { to: '/token', replace: true }, 'Personal tokens'))
+    , h('li', {}, h(Link, { to: '/signout', replace: true }, 'Sign out'))
     ])
   , h('.content', 'Welcome!')
   ]);
