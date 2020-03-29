@@ -5,23 +5,15 @@ import { h } from 'inferno-hyperscript';
 import { getClient } from './util/client';
 
 interface PersonalTokenProps {
+  getToken: () => string;
   history: H.History;
-  activated: boolean;
 }
 
+// tslint:disable-next-line
 const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [401, 422].some((n: number): boolean => n === status);
 });
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
-};
 
 const renderTitle = (): VNode => {
   return h('.title', {},
@@ -34,29 +26,30 @@ const renderTitle = (): VNode => {
       })));
 };
 
-const renderMessage = (message: string, context?: string): VNode => {
-  return (context === undefined) ?
-    h('#message.message.hidden', { role: 'alert' }) :
-    h(`#message.message.${context}`, { role: 'alert' }, h('p', {}, message));
+const fetchPersonalTokens = (props: PersonalTokenProps): void => {
+  client.get('/access_token/lrange/person/0/1', {
+    withCredentials: true
+  , transformRequest: [(_, headers) => {
+      const t = props.getToken();
+      headers.Authorization = `Bearer ${t}`;
+    }]
+  })
+  .then((res: any): void => {
+    if (res.status !== 200) {
+      // TODO
+      const data = res.data;
+      console.log(data);
+    }
+
+    console.log('Hello, world!');
+  })
+  .catch((err: any): void => {
+    // TODO
+    console.log(err);
+  });
 };
 
-const activate = (props: PersonalTokenProps): void => {
-  // TODO
-  // tslint:disable-next-line
-  const _params = new URLSearchParams(props.history.location.search);
-
-  // tslint:disable-next-line
-  const _client = client;
-
-};
-
-export const PersonalToken = (
-  props: PersonalTokenProps
-, route: any
-): VNode => {
-  props.history = route.router.history as H.History;
-
-  const flashMessage = getFlashMessage(props.history);
+export const PersonalToken = (_: PersonalTokenProps): VNode => {
   return h('#personal_token.content', {},
     h('.personal-token.grid', {},
       h('.row', {},
@@ -69,8 +62,6 @@ export const PersonalToken = (
           , h('.container', [
               h('h4.header', {}, 'Personal Token')
             , h('p', 'TODO')
-            , renderMessage(
-              flashMessage, props.activated ? 'success' : 'warning')
             ])
           ])
         )
@@ -81,11 +72,13 @@ export const PersonalToken = (
 
 PersonalToken.defaultProps = {
   errors: []
-, activated: false
 };
 
 PersonalToken.defaultHooks = {
   onComponentDidMount (_: any): void {
     document.title = 'Personal Token - ' + document.title;
+  }
+, onComponentWillMount (props: PersonalTokenProps): void {
+    fetchPersonalTokens(props);
   }
 };
