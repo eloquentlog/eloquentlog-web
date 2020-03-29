@@ -173,8 +173,9 @@ export class App extends Component<AppProps, AppState> {
         , render: () => {
             console.debug('/token');
             const props = {
-              history: this.props.history
-            , activated: false
+              delStamp: this.delStamp.bind(this)
+            , getToken: this.getToken.bind(this)
+            , history: this.props.history
             };
             return h(PersonalToken, props);
           }

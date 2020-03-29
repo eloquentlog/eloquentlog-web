@@ -17,13 +17,13 @@ const client = getClient((status: number): boolean => {
          [422].some((n: number): boolean => n === status);
 });
 
-const fetchContents = (props: TopProps): void => {
-  const headers = {
-    'Authorization': 'Bearer ' + props.getToken()
-  };
+const fetchMessages = (props: TopProps): void => {
   client.get('/messages', {
-    headers
-  , withCredentials: true
+    withCredentials: true
+  , transformRequest: [(_, headers) => {
+      const t = props.getToken();
+      headers.Authorization = `Bearer ${t}`;
+    }]
   })
   .then((res: any): void => {
     if (res.status !== 200) {
@@ -59,6 +59,6 @@ Top.defaultHooks = {
     document.title = 'Top - ' + document.title;
   }
 , onComponentWillMount (props: TopProps): void {
-    fetchContents(props);
+    fetchMessages(props);
   }
 };
