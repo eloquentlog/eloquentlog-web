@@ -27,7 +27,7 @@ const renderTitle = (): VNode => {
 };
 
 const fetchPersonalTokens = (props: PersonalTokenProps): void => {
-  client.get('/access_token/lrange/person/0/1', {
+  client.get('/access_token/lrange/person/0/0', {
     withCredentials: true
   , transformRequest: [(_, headers) => {
       const t = props.getToken();
