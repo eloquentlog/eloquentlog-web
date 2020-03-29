@@ -28,7 +28,7 @@
     "rollup": "1.21.4",
     "rollup-plugin-buble": "0.19.8",
     "rollup-plugin-commonjs": "10.1.0",
-    "rollup-plugin-css-only": "1.0.0",
+    "rollup-plugin-css-only": "^2.0.0",
     "rollup-plugin-json": "4.0.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-replace": "2.2.0",
@@ -40,8 +40,9 @@
     "stylint": "2.0.0",
     "stylus": "0.54.7",
     "styr": "0.0.32",
-    "tslint": "5.20.0",
+    "tslint": "6.1.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3"
+    "typescript": "3.5.3",
+    "mkdirp": "^0.5.3"
   }
 }
