@@ -18,7 +18,7 @@ const client = getClient((status: number): boolean => {
 });
 
 const fetchMessages = (props: TopProps): void => {
-  client.get('/messages', {
+  client.get('/message/lrange/recent/0/19', {
     withCredentials: true
   , transformRequest: [(_, headers) => {
       const t = props.getToken();
