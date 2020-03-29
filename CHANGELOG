@@ -1,3 +1,6 @@
+Sun 29 Mar 2020 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Update tslint 5.x -> 6.x (due to vulnerable dependencies)
+
 Sun 24 Nov 2019 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Add .node-version (12.13.0)
 
