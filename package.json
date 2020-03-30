@@ -43,6 +43,6 @@
     "tslint": "6.1.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.3",
-    "mkdirp": "^0.5.3"
+    "mkdirp": "^1.0.3"
   }
 }
