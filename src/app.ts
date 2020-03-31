@@ -203,7 +203,7 @@ export class App extends Component<AppProps, AppState> {
   }
 
   private setStamp (stamp: string): void {
-    this.setState({ stamp });
+    this.state.stamp = stamp;
   }
 
   private signedIn (): boolean {
