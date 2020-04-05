@@ -1,3 +1,6 @@
+Sun 05 Apr 2020 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Update required Node.js version as >= 0.12.6
+
 Sun 29 Mar 2020 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Update tslint 5.x -> 6.x (due to vulnerable dependencies)
 

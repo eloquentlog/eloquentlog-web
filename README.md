@@ -20,7 +20,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 
 ## Requirements
 
-* Node.js `>= 12.13.0`
+* Node.js `>= 12.16.1`
 
 
 ## Setup
