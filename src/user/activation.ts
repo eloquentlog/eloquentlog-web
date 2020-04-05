@@ -4,6 +4,8 @@ import { h } from 'inferno-hyperscript';
 
 import { getClient } from '../util/client';
 import { message as msg } from '../util/message';
+import { renderTitle } from '../prtl/title';
+import { renderMessage } from '../prtl/message';
 
 import '../styl/user/activation.styl';
 
@@ -41,23 +43,6 @@ const getFlashMessage = (history: H.History): string => {
     return location.state.flash;
   }
   return undefined;
-};
-
-const renderTitle = (): VNode => {
-  return h('.title', {},
-    h('a', { href: '/' },
-      h('img.logo', {
-        alt: 'Eloquentlog'
-      , src: '/img/wolf-paw-72x72.png'
-      , width: 36
-      , height: 36
-      })));
-};
-
-const renderMessage = (message: string, context?: string): VNode => {
-  return (context === undefined) ?
-    h('#message.message.hidden', { role: 'alert' }) :
-    h(`#message.message.${context}`, { role: 'alert' }, h('p', {}, message));
 };
 
 const activate = (props: UserActivationProps): void => {
@@ -129,7 +114,7 @@ export const UserActivation = (
           , h('.container', [
               h('h4.header', {}, 'User Activation')
             , renderMessage(
-              flashMessage, props.activated ? 'success' : 'failure')
+                flashMessage, props.activated ? 'success' : 'failure')
             , h('h6', {}, 'NOTE')
             , h('p.note', {}, 'The activation link seems invalid :\'(')
             ])

@@ -3,6 +3,7 @@ import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { getClient } from './util/client';
+import { renderTitle } from './prtl/title';
 
 interface PersonalTokenProps {
   getToken: () => string;
@@ -14,17 +15,6 @@ const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [401, 422].some((n: number): boolean => n === status);
 });
-
-const renderTitle = (): VNode => {
-  return h('.title', {},
-    h('a', { href: '/' },
-      h('img.logo', {
-        alt: 'Eloquentlog'
-      , src: '/img/wolf-paw-72x72.png'
-      , width: 36
-      , height: 36
-      })));
-};
 
 const fetchPersonalTokens = (props: PersonalTokenProps): void => {
   client.get('/access_token/lrange/person/0/0', {
