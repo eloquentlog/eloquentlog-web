@@ -12,9 +12,10 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
-import { Theme } from './util/theme';
-
 import { message as msg } from './util/message';
+import { Theme } from './util/theme';
+import { renderTitle } from './prtl/title';
+import { renderMessage } from './prtl/message';
 
 import './styl/password_reset.styl';
 
@@ -193,26 +194,6 @@ const getFlashMessage = (history: H.History): string => {
   return undefined;
 };
 
-const renderTitle = (): VNode => {
-  return h('.title', {},
-    h('a', { href: '/' },
-      h('img.logo', {
-        alt: 'Eloquentlog'
-      , src: '/img/wolf-paw-72x72.png'
-      , width: 36
-      , height: 36
-      })));
-};
-
-const renderMessage = (message: string, asFailure: boolean): VNode => {
-  return (message === undefined) ?
-    h('#message.message.hidden', { role: 'alert' }) :
-    h(`#message.message.${asFailure ? 'failure' : 'success'}`,
-      { role: 'alert' },
-      h('p', {}, message)
-    );
-};
-
 const verify = (props: PasswordResetProps): void => {
   const params = new URLSearchParams(props.history.location.search);
 
@@ -274,7 +255,10 @@ export const PasswordReset = (
             renderTitle()
           , h('.container', [
               h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage, props.errors.length !== 0)
+            , renderMessage(
+                flashMessage
+              , props.errors.length !== 0 ? 'failure' : 'success'
+              )
             ])
           , h('p.options', [
               'Back to'
@@ -287,7 +271,10 @@ export const PasswordReset = (
             , onSubmit: linkEvent(props, handleSubmit)
             }, [
               h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage, props.errors.length !== 0)
+            , renderMessage(
+                flashMessage
+              , props.errors.length !== 0 ? 'failure' : 'success'
+              )
             , h('.required.field', [
                 h('label.label', { for: 'new_password' }, 'New password')
               , h('p.description', {},
