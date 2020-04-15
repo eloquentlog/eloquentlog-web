@@ -13,8 +13,9 @@ import {
 , ValidationError
 } from './util/form';
 import { Theme } from './util/theme';
-
 import { message as msg } from './util/message';
+import { renderTitle } from './prtl/title';
+import { renderMessage } from './prtl/message';
 
 import './styl/password_reset_request.styl';
 
@@ -176,24 +177,6 @@ const getFlashMessage = (history: H.History): string => {
     return location.state.flash;
   }
   return undefined;
-};
-
-const renderTitle = (): VNode => {
-  return h('.title', {},
-    h('a', { href: '/' },
-      h('img.logo', {
-        alt: 'Eloquentlog'
-      , src: '/img/wolf-paw-72x72.png'
-      , width: 36
-      , height: 36
-      })));
-};
-
-const renderMessage = (message: string): VNode => {
-  return (message === undefined) ?
-    h('#message.message.hidden', { role: 'alert' }) :
-    h('#message.message.success', { role: 'alert' },
-      h('p', {}, message));
 };
 
 export const PasswordResetRequest = (
