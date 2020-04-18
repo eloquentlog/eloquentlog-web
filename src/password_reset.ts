@@ -2,7 +2,7 @@ import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { getClient } from './util/client';
+import { getClient, Headers } from './util/client';
 import {
   clearErrors
 , displayMessage
@@ -133,9 +133,8 @@ const handleSubmit = async (props: PasswordResetProps, event: Event) => {
 
   await client.patch(`/password/reset/${s}`, {}, {
     withCredentials: true
-  , transformRequest: [function (data, headers) {
+  , transformRequest: [(data: object, headers: Headers) => {
       headers.Authorization = `Bearer ${t}`;
-
       data = {
         'new_password': newPassword
       , ...data
