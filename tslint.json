@@ -26,6 +26,7 @@
     "one-variable-per-declaration": [false]
   },
   "rules": {
+    "no-empty-interface": false,
     "max-line-length": [true, 80],
     "semicolon": [true, "always"],
     "no-console": [false],

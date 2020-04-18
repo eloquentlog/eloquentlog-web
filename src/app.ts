@@ -9,11 +9,12 @@ import { readToken, saveToken } from './util/token';
 // components
 import { PasswordReset } from './password_reset';
 import { PasswordResetRequest } from './password_reset_request';
-import { PersonalToken } from './personal_token';
 import { Signin } from './signin';
 import { Signup } from './signup';
 import { Top } from './top';
 import { UserActivation } from './user/activation';
+
+import { AccessToken } from './settings/access_token';
 
 interface AppProps {
   history: H.History;
@@ -169,15 +170,15 @@ export class App extends Component<AppProps, AppState> {
         })
       , h(Route, {
           exact: true
-        , path: '/token'
+        , path: '/settings/token'
         , render: () => {
-            console.debug('/token');
+            console.debug('/settings/token');
             const props = {
               delStamp: this.delStamp.bind(this)
             , getToken: this.getToken.bind(this)
             , history: this.props.history
             };
-            return h(PersonalToken, props);
+            return h(AccessToken, props);
           }
         })
       ])

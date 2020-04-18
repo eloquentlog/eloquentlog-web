@@ -12,11 +12,11 @@ export interface Response {
   errors: ValidationError[];
 }
 
-export interface Header {
+export interface Headers {
   [key: string]: string;
 }
 
-const headers: Header = {
+const headers: Headers = {
     'Accept': 'application/json'
   , 'Content-Type': 'application/json; charset=utf-8'
   , 'X-Requested-With': 'XMLHttpRequest' // this needs CORS
