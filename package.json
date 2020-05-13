@@ -42,7 +42,7 @@
     "styr": "0.0.32",
     "tslint": "6.1.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3",
+    "typescript": "3.9.2",
     "mkdirp": "^0.5.3"
   }
 }
