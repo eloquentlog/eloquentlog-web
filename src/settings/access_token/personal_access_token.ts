@@ -12,10 +12,27 @@ import {
 export interface PersonalAccessTokenProps extends BaseProps {
   index: number;
   attribute: AccessTokenObject;
+  concealToken: (props: PersonalAccessTokenProps) => void;
   toggleState: (props: PersonalAccessTokenProps) => void;
 }
 
-const handleClick = (
+const handleConceal = (
+  props: PersonalAccessTokenProps
+, event: Event
+): void => {
+  event.preventDefault();
+
+  const t = event.currentTarget as HTMLElement;
+  try {
+    t.setAttribute('disabled', '1');
+    props.concealToken(props);
+  } finally {
+    t.removeAttribute('disabled');
+    t.blur();
+  }
+};
+
+const handleToggle = (
   props: PersonalAccessTokenProps
 , event: Event
 ): void => {
@@ -35,14 +52,16 @@ export const PersonalAccessToken = (
   props: PersonalAccessTokenProps
 ): VNode => {
   const klass = ToString(props.attribute.state);
-  const btnText = (klass === 'enabled' ? 'Disable' : 'Enable');
 
   return h(`p.${klass}`, [
     h('span.name', props.attribute.name)
   , h('span.created', props.attribute.createdAt)
   , h('button.primary.flat.button', {
-      onClick: linkEvent(props, handleClick)
-    }, btnText)
+      onClick: linkEvent(props, handleConceal)
+    }, 'Conceal')
+  , h('button.secondary.flat.button', {
+      onClick: linkEvent(props, handleToggle)
+    }, klass === 'enabled' ? 'Disabled' : 'Enabled')
   ]);
 };
 

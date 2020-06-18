@@ -61,6 +61,32 @@ export class AccessToken extends
     });
   }
 
+  private concealToken(props: PersonalAccessTokenProps) {
+    const t = this.props.getToken();
+    const uuid = props.attribute.uuid;
+
+    client.patch(`/access_token/dump/${uuid}`, {}, {
+      withCredentials: true
+    , transformRequest: [(data: any, headers: Headers) => {
+        headers.Authorization = `Bearer ${t}`;
+        return JSON.stringify(data);
+      }]
+    })
+    .then((res: any): void => {
+      if (res.status === 200) {
+        const data = res.data;
+        // TODO
+        console.log(data);
+        return;
+      }
+      throw new Error(`unexpected response: ${res}`);
+    })
+    .catch((err: any): void => {
+      // TODO
+      console.log(err);
+    });
+  }
+
   private toggleState(props: PersonalAccessTokenProps) {
     const t = this.props.getToken();
     const uuid = props.attribute.uuid;
@@ -120,6 +146,7 @@ export class AccessToken extends
                       return h(PersonalAccessToken, {
                         index: i
                       , toggleState: this.toggleState.bind(this)
+                      , concealToken: this.concealToken.bind(this)
                       , ...t
                       , ...this.props
                       });
