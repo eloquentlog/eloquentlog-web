@@ -8,22 +8,21 @@ import './styl/_form.styl';
 import './styl/_header.styl';
 import './styl/_layout.styl';
 import './styl/_shared.styl';
+import './styl/_sidebar.styl';
 import './styl/_typography.styl';
 import './styl/_util.styl';
 
 import './styl/theme/_dark.styl';
 import './styl/theme/_light.styl';
 
-// components
-import { App } from './app';
+import { Container } from './container';
 
-setTimeout((): void => {
-  const history = H.createBrowserHistory({
-    // https://github.com/ReactTraining/history/pull/614
-    // forceRefresh: true
-  });
-  return render(
-    h(App, { history }),
-    document.querySelector('#container')
-  );
+const history = H.createBrowserHistory({
+  // https://github.com/ReactTraining/history/pull/614
+  // forceRefresh: true
 });
+
+render(
+  h(Container, { history })
+, document.querySelector('#container')
+);

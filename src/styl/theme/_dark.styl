@@ -42,7 +42,7 @@ body.dark > .wrapper
     color $dark-header-txt-colour
 
   button[type="submit"].button,
-  input[type="submit"].button
+  input[type="submit"].button,
     border 1px solid $dark-btn-border-colour
     color $dark-btn-txt-colour !important
     &.primary
@@ -57,6 +57,24 @@ body.dark > .wrapper
         background-color $dark-btn-secondary-bg-hover-colour !important
         border 1px solid $dark-btn-border-hover-colour !important
         color $dark-btn-txt-hover-colour
+
+  button
+    background-color $dark-btn-secondary-bg-colour
+    border 1px solid $dark-btn-border-colour
+    color $dark-btn-txt-colour !important
+    &:hover
+      background-color $dark-btn-secondary-bg-hover-colour !important
+      border 1px solid $dark-btn-border-hover-colour !important
+      color $dark-btn-txt-hover-colour
+
+  label
+    &:hover
+      background none !important
+      color $dark-btn-txt-hover-colour
+
+  .sidebar
+    background-color $dark-bg-colour
+    border-right 1px solid $sidebar-border-colour
 
   .content
     .transparent.box

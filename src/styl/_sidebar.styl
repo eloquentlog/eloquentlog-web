@@ -1,0 +1,144 @@
+@require './partial/_colour'
+
+#sidebar
+  border-right 1px solid $sidebar-border-colour
+  display none
+  max-width 18.97rem
+  min-height 100%
+  min-width 16.78rem
+  position fixed
+  transition transform 0.28s ease 0.08s
+  visibility hidden
+  z-index 2147483647
+
+  .section-title
+    color $sidebar-section-title-colour
+    font-size 0.71em
+    font-weight bold
+    margin-bottom 0.45rem
+    margin-left 1.189rem
+
+  > .item.active
+    border-left 4px solid $sidebar-item-border-colour
+    color $sidebar-item-txt-colour
+    font-weight bold
+    padding-left 1.06rem
+    padding-right 0
+    > .item:first-child
+      padding-top 0
+    > .item:last-child
+      padding-bottom 0
+
+  > a.item.active,
+  > .item.active.expanded .item-container a.item.active
+  .item-container a.item.active
+    background-color lighten($sidebar-item-border-colour, 87%)
+    color $sidebar-item-txt-colour
+
+  > a.item:hover,
+  > .item.active.expanded .item-container a.item:hover
+    background-color lighten($sidebar-item-border-colour, 82%)
+    color $sidebar-item-txt-colour
+
+  > .item.active.expanded
+    padding-left 0
+    padding-right 0
+    .item
+      padding-left 1.06rem
+      padding-right 0
+    .item-container
+      font-weight normal
+      .item
+        padding-left 1.78rem
+        &.disabled:hover
+          background-color inherit !important
+          cursor not-allowed
+
+  .divider
+    margin-bottom 1.8rem
+    margin-top 3rem
+
+  .item > span.description
+    display block
+    font-size 0.79em
+    margin-left 0.11rem
+    margin-top 0.18rem
+
+  .item.disabled
+    &:hover
+      background-color inherit !important
+      cursor not-allowed
+
+  .message
+    border 0
+
+#sidebar_checkbox
+  display none
+
+#sidebar_checkbox.pinned + #sidebar
+  display block
+  position relative
+  visibility visible
+
+#sidebar_checkbox,
+#sidebar_show_lbl,
+#sidebar_hold_btn,
+#sidebar_hide_btn
+  &:focus
+    outline 0
+  &::-moz-focus-inner
+    border 0
+
+#sidebar_checkbox:checked + #sidebar
+  display block
+  visibility visible
+
+#sidebar_show_lbl
+  border 0
+  color $sidebar-lbl-colour
+  cursor pointer
+  display inline-block
+  float left
+  font-family monospace
+  font-size 1.22em
+  font-weight bold
+  margin-left 0.522rem
+  margin-top 0.679rem
+  padding 0.16rem 0.36rem
+  transition transform 0.22s ease 0.08s
+  width 1.82rem
+  &:hover
+    background-color $sidebar-lbl-hover-bg-colour
+    color $sidebar-lbl-hover-txt-colour
+  &.hidden
+    visibility hidden
+
+#sidebar_hold_btn
+  color $sidebar-btn-colour
+
+#sidebar_hide_btn
+  color $sidebar-btn-colour
+  &:disabled
+    display none
+
+@media only screen and (max-width: 1280px)
+  #sidebar
+    max-width 25%
+    min-width 16.97rem
+@media only screen and (max-width: 980px)
+  #sidebar
+    max-width 30%
+    min-width 14.97rem
+@media only screen and (max-width: 768px)
+  #sidebar
+    max-width 40%
+    min-width 12.97rem
+@media only screen and (max-width: 640px)
+  #sidebar
+    max-width 30%
+    min-width 10.97rem
+  #sidebar .note.item
+    display none
+@media print
+  #sidebar
+    display none
