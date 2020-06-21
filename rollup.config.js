@@ -46,6 +46,7 @@ const development = {
       objectAssign: 'Object.assign'
     , transforms: {
         asyncAwait: false
+      , forOf: false
       }
     })
   , strip({
@@ -89,6 +90,7 @@ const production = {
       objectAssign: 'Object.assign'
     , transforms: {
         asyncAwait: false
+      , forOf: false
       }
     })
   , strip({
