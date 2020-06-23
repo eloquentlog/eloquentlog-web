@@ -1,7 +1,7 @@
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { RouteProps } from '../../_interface';
+import { RouteProps } from '../../routing';
 import {
   AccessTokenObject
 , AccessTokenState as State

@@ -13,21 +13,25 @@ import { Top } from './top';
 import { UserActivation } from './user/activation';
 import { AccessToken } from './settings/access_token';
 
-interface RoutingProps {
+export interface RouteProps {
   history: H.History;
-  theme: Theme;
-  handleTheme: () => void;
-  getTheme: () => Theme;
-  setTheme: (theme: Theme, update: boolean) => void;
+
   getToken: () => string;
+
   delStamp: () => void;
   getStamp: () => string;
   putStamp: (value: string) => string;
   setStamp: (stamp: string) => void;
+
   signedIn: () => boolean;
+
+  handleTheme: () => void;
+  getTheme: () => Theme;
+  setTheme: (theme: Theme, update: boolean) => void;
+  theme: Theme;
 }
 
-export const Routing = (props: RoutingProps): VNode => {
+export const Routing = (props: RouteProps): VNode => {
   props.handleTheme();
   return h(Switch, {}, [
     h(Route, {

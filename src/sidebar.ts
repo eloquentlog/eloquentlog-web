@@ -1,13 +1,14 @@
-import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
 import Cookie from 'js-cookie';
 
-interface SidebarProps {
-  history: H.History;
-  signedIn: () => boolean;
-}
+import { version } from '../package.json';
+import { RouteProps } from './routing';
+
+import { Theme } from './util/theme';
+
+interface SidebarProps extends RouteProps {}
 
 const inOneYear = 525600; // 60 * 24 * 365
 
@@ -92,6 +93,15 @@ const handleHoldClick = (_: SidebarProps, event: Event): void => {
   }
 };
 
+const handleThemeLinkClick = (
+  props: SidebarProps
+, event: Event
+): void => {
+  event.preventDefault();
+
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light, true);
+};
+
 const setupSidebar = () => {
   const lbl = document.getElementById('sidebar_show_lbl') as HTMLLabelElement;
   if (lbl === null || lbl === undefined) {
@@ -147,11 +157,24 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
 
   return [
     box
-  , h('#sidebar.sidebar', {}, [
-      h('.inner-header', 'Eloquentlog')
+  , h('#sidebar.sidebar', [
+      h('.inner-header', [
+        h('span.title', 'Eloquentlog')
+      , h('span.version', `v${version}`)
+      ])
     , h('.item.right', nav)
+    , h('h6.section-title', 'NAVIGATION')
     , h('.item', {}, h(Link, { to: '/' }, 'Namespaces'))
     , h('.item', {}, h(Link, { to: '/settings/token' }, 'Settings'))
+    , h('hr.divider')
+    , h('.item', [
+        'Set theme as'
+      , h('a.theme', {
+          onClick: linkEvent(props, handleThemeLinkClick)
+        }, props.theme === Theme.Light ? 'Dark' : 'Light')
+      , '.'
+      ])
+    , h('.item', {}, h(Link, { to: '/signout' , replace: true}, 'Sign out'))
     ])
   ];
 };

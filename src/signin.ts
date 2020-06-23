@@ -2,6 +2,8 @@ import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { RouteProps } from './routing';
+
 import { getClient } from './util/client';
 import {
   clearErrors
@@ -13,18 +15,12 @@ import {
 , ValidationError
 } from './util/form';
 import { Theme } from './util/theme';
-
 import { message as msg } from './util/message';
 
 import './styl/signin.styl';
 
-interface SigninProps {
+interface SigninProps extends RouteProps {
   errors: ValidationError[];
-  history: H.History;
-  putStamp: (token: string) => string;
-  setStamp: (stamp: string) => void;
-  setTheme: (theme: Theme, update?: boolean) => void;
-  theme: Theme;
 }
 
 const client = getClient((status: number): boolean => {
@@ -162,7 +158,7 @@ const handleThemeLinkClick = (
 ): void => {
   event.preventDefault();
 
-  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light, true);
 };
 
 const getFlashMessage = (history: H.History): string => {

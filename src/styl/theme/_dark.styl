@@ -1,4 +1,4 @@
-@require '../partial/_colour'
+@require '../prtl/_colour'
 
 $dark-bg-colour = #333333
 $dark-txt-colour = #ededed
@@ -75,6 +75,9 @@ body.dark > .wrapper
   .sidebar
     background-color $dark-bg-colour
     border-right 1px solid $sidebar-border-colour
+
+    hr.divider
+      border-bottom 1px solid darken($sidebar-border-colour, 9%)
 
   .content
     .transparent.box

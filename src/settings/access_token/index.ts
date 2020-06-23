@@ -1,7 +1,7 @@
 import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { RouteProps } from '../../_interface';
+import { RouteProps } from '../../routing';
 import { getClient, Headers } from '../../util/client';
 import { renderTitle } from '../../prtl/title';
 import { AccessTokenObject, AccessTokenState as State } from './data';
