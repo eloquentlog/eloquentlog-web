@@ -6,7 +6,7 @@ import { BrowserRouter } from 'inferno-router';
 import { applyTheme, matchTheme, Theme } from './util/theme';
 import { readToken, saveToken } from './util/token';
 
-import { App } from './app';
+import { Routing } from './routing';
 import { Sidebar } from './sidebar';
 
 interface ContainerProps {
@@ -51,7 +51,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
             }
           )
         ])
-      , h(App, {
+      , h(Routing, {
           history: this.props.history
         , theme: this.state.theme
         , handleTheme: this.handleTheme.bind(this)

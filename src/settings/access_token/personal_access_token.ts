@@ -1,7 +1,7 @@
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { BaseProps } from '../../_interface';
+import { RouteProps } from '../../_interface';
 import {
   AccessTokenObject
 , AccessTokenState as State
@@ -9,7 +9,7 @@ import {
 , AgentType
 } from './data';
 
-export interface PersonalAccessTokenProps extends BaseProps {
+export interface PersonalAccessTokenProps extends RouteProps {
   index: number;
   attribute: AccessTokenObject;
   concealToken: (props: PersonalAccessTokenProps) => void;
