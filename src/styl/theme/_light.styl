@@ -1,4 +1,4 @@
-@require '../partial/_colour'
+@require '../prtl/_colour'
 
 $light-bg-colour = #ffffff
 $light-txt-colour = #222222
@@ -12,3 +12,8 @@ body.light > .wrapper
   .sidebar
     background-color $light-bg-colour
     border-right 1px solid $light-line-colour
+
+    .inner-header
+      .title,
+      .version
+        color lighten($txt-colour, 52%)

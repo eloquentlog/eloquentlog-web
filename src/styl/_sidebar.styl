@@ -1,4 +1,4 @@
-@require './partial/_colour'
+@require './prtl/_colour'
 
 #sidebar
   border-right 1px solid $sidebar-border-colour
@@ -10,6 +10,11 @@
   transition transform 0.28s ease 0.08s
   visibility hidden
   z-index 2147483647
+
+  .inner-header
+    .version
+      display inline-block
+      margin-left 0.41rem
 
   .section-title
     color $sidebar-section-title-colour
@@ -63,6 +68,10 @@
     font-size 0.79em
     margin-left 0.11rem
     margin-top 0.18rem
+
+  .item > a.theme
+    cursor pointer
+    margin-left 0.41rem
 
   .item.disabled
     &:hover

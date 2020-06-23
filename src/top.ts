@@ -1,11 +1,9 @@
 import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
-import { Link } from 'inferno-router';
 
 import { getClient } from './util/client';
 
-import { RouteProps } from './_interface';
-import { version } from '../package.json';
+import { RouteProps } from './routing';
 
 interface TopProps extends RouteProps {}
 
@@ -28,8 +26,7 @@ const fetchMessages = (props: TopProps): void => {
       const data = res.data;
       console.log(data);
     }
-
-    console.log('Hello, world!');
+    console.log(res.data);
   })
   .catch((err: any): void => {
     // TODO
@@ -38,27 +35,7 @@ const fetchMessages = (props: TopProps): void => {
 };
 
 export const Top = (_: TopProps): VNode => {
-  return h('.content', [
-    h('h1', [
-      'Eloquentlog'
-    , h('span', version)
-    ])
-  , h('ul', [
-      h('li', {}, h(Link, {
-          to: '/settings/token'
-        , replace: true
-        }
-        , 'Personal tokens'
-      ))
-    , h('li', {}, h(Link, {
-          to: '/signout'
-        , replace: true
-        }
-      , 'Sign out'
-      ))
-    ])
-  , h('.content', 'Welcome!')
-  ]);
+  return h('.content');
 };
 
 Top.defaultHooks = {

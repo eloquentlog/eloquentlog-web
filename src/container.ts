@@ -28,6 +28,16 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
       stamp: undefined
     , theme: Theme.Light
     };
+
+    this.handleTheme = this.handleTheme.bind(this);
+    this.getTheme = this.getTheme.bind(this);
+    this.setTheme = this.setTheme.bind(this);
+    this.getToken = this.getToken.bind(this);
+    this.delStamp = this.delStamp.bind(this);
+    this.getStamp = this.getStamp.bind(this);
+    this.putStamp = this.putStamp.bind(this);
+    this.setStamp = this.setStamp.bind(this);
+    this.signedIn = this.signedIn.bind(this);
   }
 
   public componentWillMount (): void {
@@ -36,11 +46,22 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   }
 
   public render (): VNode {
+    const props = {
+      history: this.props.history
+    , theme: this.state.theme
+    , handleTheme: this.handleTheme
+    , getTheme: this.getTheme
+    , setTheme: this.setTheme
+    , getToken: this.getToken
+    , delStamp: this.delStamp
+    , getStamp: this.getStamp
+    , putStamp: this.putStamp
+    , setStamp: this.setStamp
+    , signedIn: this.signedIn
+    };
+
     return h(BrowserRouter, {}, [
-      h(Sidebar, {
-        history: this.props.history
-      , signedIn: this.signedIn.bind(this)
-      })
+      h(Sidebar, props)
     , h('#content', {}, [
         h('#header', {}, [
           h('.global-header')
@@ -51,19 +72,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
             }
           )
         ])
-      , h(Routing, {
-          history: this.props.history
-        , theme: this.state.theme
-        , handleTheme: this.handleTheme.bind(this)
-        , getTheme: this.getTheme.bind(this)
-        , setTheme: this.setTheme.bind(this)
-        , getToken: this.getToken.bind(this)
-        , delStamp: this.delStamp.bind(this)
-        , getStamp: this.getStamp.bind(this)
-        , putStamp: this.putStamp.bind(this)
-        , setStamp: this.setStamp.bind(this)
-        , signedIn: this.signedIn.bind(this)
-        })
+      , h(Routing, props)
       ])
     ]);
   }
