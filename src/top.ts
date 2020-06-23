@@ -1,16 +1,13 @@
-import * as H from 'history';
 import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
 
 import { getClient } from './util/client';
 
+import { RouteProps } from './_interface';
 import { version } from '../package.json';
 
-interface TopProps {
-  getToken: () => string;
-  history: H.History;
-}
+interface TopProps extends RouteProps {}
 
 const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||

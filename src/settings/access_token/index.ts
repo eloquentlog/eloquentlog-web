@@ -1,7 +1,7 @@
 import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { BaseProps } from '../../_interface';
+import { RouteProps } from '../../_interface';
 import { getClient, Headers } from '../../util/client';
 import { renderTitle } from '../../prtl/title';
 import { AccessTokenObject, AccessTokenState as State } from './data';
@@ -10,7 +10,7 @@ import {
 , PersonalAccessTokenProps
 } from './personal_access_token';
 
-interface AccessTokenProps extends BaseProps {}
+interface AccessTokenProps extends RouteProps {}
 
 interface AccessTokenState {
   personalAccessTokens: { attribute: AccessTokenObject }[];
