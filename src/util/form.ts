@@ -30,6 +30,9 @@ export const inputFieldsLocker = (ids: string[]): () => void => {
 
 export const displayMessage = (message: string): void => {
   const msgContainer = document.getElementById('message');
+  if (msgContainer === null) {
+    return;
+  }
   const msg = document.createElement('p');
   msg.innerHTML = message;
   msgContainer.innerHTML = '';
@@ -40,6 +43,9 @@ export const displayMessage = (message: string): void => {
 
 export const removeMessage = (): void => {
   const msgContainer = document.getElementById('message');
+  if (msgContainer === null) {
+    return;
+  }
   msgContainer.innerHTML = '';
   msgContainer.classList.remove('critical', 'error', 'warn');
   msgContainer.classList.add('hidden');
