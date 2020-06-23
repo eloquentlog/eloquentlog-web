@@ -5,7 +5,11 @@ export const renderMessage = (
   message: string
 , context: string='success'
 ): VNode => {
-  return (context === undefined) ?
+  let ctx = context;
+  if (message === null || message === undefined || message === '') {
+    ctx = undefined;
+  }
+  return (ctx === undefined) ?
     h('#message.message.hidden', { role: 'alert' }) :
-    h(`#message.message.${context}`, { role: 'alert' }, h('p', {}, message));
+    h(`#message.message.${ctx}`, { role: 'alert' }, h('p', {}, message));
 };
