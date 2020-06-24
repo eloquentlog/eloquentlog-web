@@ -25,6 +25,7 @@
     "inferno-router": "^7.3.1",
     "js-cookie": "2.2.1",
     "magic-string": "0.25.3",
+    "mkdirp": "^0.5.3",
     "rollup": "1.21.4",
     "rollup-plugin-buble": "0.19.8",
     "rollup-plugin-commonjs": "10.1.0",
@@ -42,7 +43,6 @@
     "styr": "0.0.32",
     "tslint": "6.1.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3",
-    "mkdirp": "^0.5.3"
+    "typescript": "3.5.3"
   }
 }

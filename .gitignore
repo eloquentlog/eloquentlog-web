@@ -1,3 +1,5 @@
+config.json
+
 /dst/*
 !/dst/
 !/dst/img

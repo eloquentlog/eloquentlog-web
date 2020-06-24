@@ -1,0 +1,17 @@
+{
+  "Server": {
+    "Protocol": "http",
+    "Host": "127.0.0.1",
+    "Port": 3000
+  },
+  "API": {
+    "Protocol": "http",
+    "Host": "127.0.0,1",
+    "Port": 8000
+  },
+  "Cookie": {
+    "Domain": "127.0.0.1",
+    "Secure": false,
+    "Expires": 0.125
+  }
+}
