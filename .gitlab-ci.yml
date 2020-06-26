@@ -1,14 +1,14 @@
 stages:
   - vet
+  - test
 
 .nodejs: &nodejs
-  image: node:11.9.0
+  image: node:12.16.1
   cache:
     paths:
       - node_modules
   before_script:
     - node --version
-    - npm install --global npm
     - npm --version
     - npm install
   except:
@@ -29,3 +29,11 @@ lint-stylus:
     NODE_ENV: development
   script:
     - make verify:lint:styl
+
+test:
+  stage: test
+  <<: *nodejs
+  variables:
+    NODE_ENV: development
+  script:
+    - make test

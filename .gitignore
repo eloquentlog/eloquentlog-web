@@ -5,6 +5,9 @@ config.json
 !/dst/img
 !/dst/index.html
 
+/test/dst/*
+!/test/dst/.gitignore
+
 /.cache
 
 /node_modules

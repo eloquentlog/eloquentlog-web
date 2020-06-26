@@ -61,6 +61,49 @@ const development = {
   ]
 };
 
+const test = {
+  input: path.join('test', 'index.test.ts')
+, output: {
+    file: path.join('test', 'dst', 'index.js')
+  , format: 'iife'
+  , sourcemap: true
+  }
+, plugins: [
+    typescript({
+      abortOnError: false
+    , cacheRoot: '.cache'
+    })
+  , commonjs()
+  , replace({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  , json()
+  , resolve({
+      browser: true
+    , preferBuiltins: true
+    , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
+    , extensions: ['.js', '.json', '.ts']
+    })
+  , stylus()
+  , buble({
+      objectAssign: 'Object.assign'
+    , transforms: {
+        asyncAwait: false
+      , forOf: false
+      }
+    })
+  , strip({
+      debugger: true
+    , functions: []
+    , include: [
+        path.join(src, '**/*.ts')
+      , path.join(mod, '**/*.(ts|js)')
+      ]
+    , sourceMap: false
+    })
+  ]
+};
+
 const production = {
   input: path.join(src, 'index.ts')
 , output: [{
@@ -107,9 +150,11 @@ const production = {
 };
 
 export default (args) => {
-  if (args.configBuildDevelopment === true) {
+  if (args.configBuildDevelopment) {
     return development;
-  } else if (args.configRunServer === true) {
+  } else if (args.configBuildTest) {
+    return test;
+  } else if (args.configRunServer) {
     // NOTE:
     // The import of rollup-plugin-serve makes
     // rollup never stopping :'(
