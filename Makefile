@@ -1,10 +1,10 @@
-# -- setup {{{
+# setup {{{
 setup:  ## Install node dev modules
 	@npm i
 .PHONY: setup
-#  }}}
+# }}}
 
-# -- build {{{
+# build {{{
 build\:development:  ## Build in development mode [alias: build]
 	npm run build:development
 .PHONY: build\:development
@@ -15,9 +15,9 @@ build\:production:  ## Build in production mode
 
 build: build\:development
 .PHONY: build
-#  }}}
+# }}}
 
-# -- verify {{{
+# verify {{{
 verify\:lint\:ts:  ## Verify coding style for TypScript [alias: verify:lint, lint]
 	@npm run lint:ts
 .PHONY: verify\:lint\:ts
@@ -39,7 +39,13 @@ verify: | verify\:all
 .PHONY: verify
 # }}}
 
-# -- other utilities {{{
+# test {{{
+test:
+	@npm run test
+.PHONY: test
+# }}}
+
+# other {{{
 watch\:build:  ## Start a process for build [alias: watch]
 	@npm run watch:build
 .PHONY: watch\:build

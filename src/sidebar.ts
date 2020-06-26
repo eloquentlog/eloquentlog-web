@@ -19,8 +19,8 @@ const secure = false;
 const cookieKey = 'console.sidebar';
 
 const readState = (k: string): string | null => {
-  const v = Cookie.getJSON(k).value;
-  return v;
+  const cookie = Cookie.getJSON(k);
+  return (cookie && cookie.value || null);
 };
 
 const saveState = (k: string, state: string) => {

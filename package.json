@@ -12,21 +12,25 @@
     "build:development": "rollup -c --configBuildDevelopment",
     "lint:styl": "stylint -c .stylintrc src",
     "lint:ts": "tslint -c tslint.json -p tsconfig.json",
+    "test": "rollup -c --configBuildTest && jest --no-cache",
     "watch:build": "rollup -w -c --configBuildDevelopment",
     "watch:server": "rollup -w -c --configRunServer"
   },
   "devDependencies": {
     "@types/history": "4.7.3",
+    "@types/jest": "^26.0.3",
     "@types/js-cookie": "2.2.2",
     "axios": "0.19.0",
     "history": "4.9.0",
     "inferno": "^7.3.1",
     "inferno-hyperscript": "^7.3.1",
     "inferno-router": "^7.3.1",
+    "inferno-test-utils": "^7.4.2",
+    "jest": "^26.1.0",
     "js-cookie": "2.2.1",
     "magic-string": "0.25.3",
     "mkdirp": "^0.5.3",
-    "rollup": "1.21.4",
+    "rollup": "1.32.1",
     "rollup-plugin-buble": "0.19.8",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-css-only": "^2.0.0",
@@ -43,6 +47,6 @@
     "styr": "0.0.32",
     "tslint": "6.1.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3"
+    "typescript": "3.9.5"
   }
 }
