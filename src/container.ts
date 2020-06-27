@@ -7,7 +7,7 @@ import { applyTheme, matchTheme, Theme } from './util/theme';
 import { readToken, saveToken } from './util/token';
 
 import { Routing } from './routing';
-import { Sidebar } from './sidebar';
+import { Sidebar } from './prtl/sidebar';
 
 interface ContainerProps {
   history: H.History;

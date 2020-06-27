@@ -3,10 +3,10 @@ import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
 import Cookie from 'js-cookie';
 
-import { version } from '../package.json';
-import { RouteProps } from './routing';
+import { version } from '../../package.json';
+import { RouteProps } from '../routing';
 
-import { Theme } from './util/theme';
+import { Theme } from '../util/theme';
 
 interface SidebarProps extends RouteProps {}
 
