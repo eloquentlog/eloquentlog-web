@@ -93,16 +93,19 @@ const Token = (
 ): VNode => {
   const klass = tokenStateToString(props.attribute.state);
 
-  return h(`p.${klass}`, [
-    h('span.name', props.attribute.name)
-  , h('span.created', props.attribute.createdAt)
-  , (props.attribute.token) ? '' :
-    h('button.primary.flat.button', {
-      onClick: linkEvent(props, handleActivate)
-    }, 'Activate')
-  , h('button.secondary.flat.button', {
-      onClick: linkEvent(props, handleToggle)
-    }, klass === 'enabled' ? 'Disable' : 'Enable')
+  return h(`tr.${klass}`, [
+    h('td.name', props.attribute.name)
+  , h('td.created', props.attribute.createdAt)
+  , h('td.state', props.attribute.state)
+  , h('td.action', [
+      (props.attribute.token) ? '' :
+      h('button.primary.flat.button', {
+        onClick: linkEvent(props, handleActivate)
+      }, 'Activate')
+    , h('button.secondary.flat.button', {
+        onClick: linkEvent(props, handleToggle)
+      }, klass === 'enabled' ? 'Disable' : 'Enable')
+    ])
   ]);
 };
 

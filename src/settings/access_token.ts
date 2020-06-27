@@ -6,6 +6,8 @@ import { getClient, Headers } from '../util/client';
 import { renderTitle } from '../prtl/title';
 import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
 
+import '../styl/settings/access_token.styl';
+
 interface AccessTokenProps extends RouteProps {}
 
 interface AccessTokenState {
@@ -129,8 +131,8 @@ export class AccessToken extends
     return h('#access_token.content', {},
       h('.access-token.grid', {},
         h('.row', {},
-          h(`.column-6.offset-5
-.column-v-8.offset-v-4
+          h(`.column-10.offset-3
+.column-v-12.offset-v-2
 .column-l-10.offset-l-3
 .column-m-16`, {},
             h('.transparent.box', [
@@ -138,8 +140,14 @@ export class AccessToken extends
             , h('.container', [
                 h('h4.header', {}, 'Token')
               , h('h6.type', 'Personal Access Token')
-              , h('ul.personal-access-token-list', [
-                  h('li', this.state.tokens.map(
+              , h('table.personal-access-token', [
+                  h('thead', {}, h('tr', [
+                    h('th', {}, 'Name')
+                  , h('th', {}, 'Created At')
+                  , h('th', {}, 'State')
+                  , h('th', {}, '')
+                  ]))
+                , h('tbody', this.state.tokens.map(
                     (t: any, i: number) => {
                       return h(Token, {
                         index: i
