@@ -4,6 +4,7 @@ import { h } from 'inferno-hyperscript';
 
 import { RouteProps } from './routing';
 
+import { renderError } from './util/error';
 import { getClient } from './util/client';
 import {
   clearErrors
@@ -25,7 +26,7 @@ interface SigninProps extends RouteProps {
 
 const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [401, 422].some((n: number): boolean => n === status);
+         [400, 401, 422].some((n: number): boolean => n === status);
 });
 
 // Checks if required field is not empty
@@ -80,6 +81,18 @@ const lock = (f: Element): void => {
     , unlock = lock
     ;
 
+const makeIgnite = (): void => {
+  client.head('/login')
+    .then((res: any): void => {
+      if (res.status !== 200) {
+        throw new Error('Something went wrong. Please try it later :\'(');
+      }
+    })
+    .catch((err: any): void => {
+      renderError(err);
+    });
+});
+
 const handleSubmit = (props: SigninProps, event: Event): void => {
   event.preventDefault();
 
@@ -122,13 +135,14 @@ const handleSubmit = (props: SigninProps, event: Event): void => {
     return;
   }
 
+  // with csrf_token via cookie
   client.post('/login', {
     username
   , password
   })
   .then((res: any): void => {
     if (res.status !== 200) {
-      const data = res.data;
+      const data = res.data ? res.data : {};
 
       if (data.message === undefined) {
         data.message = msg.flash.signin.failure;
@@ -256,5 +270,12 @@ Signin.defaultProps = {
 Signin.defaultHooks = {
   onComponentDidMount (_: any): void {
     document.title = 'Sign in - ' + document.title;
+    makeIgnite();
+  }
+, onComponentDidUpdate (
+    _lastProps: SigninProps
+    , nextProps: SigninProps
+  ): void {
+    makeIgnite();
   }
 };
