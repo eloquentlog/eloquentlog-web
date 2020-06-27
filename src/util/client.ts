@@ -31,6 +31,8 @@ export const getClient = (validateStatus: (status: number) => boolean) => {
   , headers
   , validateStatus
   , withCredentials: true
+  , xsrfCookieName: 'csrf_token'
+  , xsrfHeaderName: 'X-CSRF-TOKEN'
   });
 
   client.interceptors.response.use((res: any) => {
