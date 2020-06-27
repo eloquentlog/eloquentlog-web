@@ -3,9 +3,13 @@
 $dark-bg-colour = #333333
 $dark-txt-colour = #ededed
 $dark-txt-err-colour = #fb3939
+$dark-border-colour = #1a1913
 
-$dark-header-border-colour = #888888
+$dark-header-border-colour = #1a1913
 $dark-header-txt-colour = #ababab
+
+$dark-table-header-bg-colour = #222222
+$dark-table-header-txt-colour = #a3a3a3
 
 $dark-input-bg-colour = #222222
 $dark-input-border-colour = #000000
@@ -115,3 +119,11 @@ body.dark > .wrapper
         color $dark-placeholder-txt-colour
       &::-webkit-input-placeholder
         color $dark-placeholder-txt-colour
+
+    table
+      th
+        background-color $dark-table-header-bg-colour
+        color $dark-table-header-txt-colour
+
+      td
+        border-bottom 1px solid $dark-border-colour
