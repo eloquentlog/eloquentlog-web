@@ -89,7 +89,7 @@ export class AccessToken extends
     const uuid = props.attribute.uuid;
     // next
     const state = (
-      props.attribute.state === TokenState.Disabled ? 
+      props.attribute.state === TokenState.Disabled ?
         TokenState.Enabled : TokenState.Disabled
     );
 
