@@ -6,9 +6,9 @@ import {
 , scryRenderedDOMElementsWithTag
 } from 'inferno-test-utils';
 
-import { Theme } from '../src/util/theme';
-import { RouteProps } from '../src/routing';
-import { Sidebar } from '../src/sidebar';
+import { Theme } from '../../src/util/theme';
+import { RouteProps } from '../../src/routing';
+import { Sidebar } from '../../src/prtl/sidebar';
 
 describe('Sidebar', () => {
   const history = H.createBrowserHistory({

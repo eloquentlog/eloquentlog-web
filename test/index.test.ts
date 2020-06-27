@@ -1,1 +1,1 @@
-import './sidebar.test';
+import './prtl/sidebar.test';

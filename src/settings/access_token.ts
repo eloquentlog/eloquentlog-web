@@ -1,19 +1,15 @@
 import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { RouteProps } from '../../routing';
-import { getClient, Headers } from '../../util/client';
-import { renderTitle } from '../../prtl/title';
-import { AccessTokenObject, AccessTokenState as State } from './data';
-import {
-  PersonalAccessToken
-, PersonalAccessTokenProps
-} from './personal_access_token';
+import { RouteProps } from '../routing';
+import { getClient, Headers } from '../util/client';
+import { renderTitle } from '../prtl/title';
+import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
 
 interface AccessTokenProps extends RouteProps {}
 
 interface AccessTokenState {
-  personalAccessTokens: { attribute: AccessTokenObject }[];
+  tokens: { attribute: TokenObject }[];
 }
 
 // tslint:disable-next-line
@@ -28,16 +24,16 @@ export class AccessToken extends
     super(props);
 
     this.state = {
-      personalAccessTokens: []
+      tokens: []
     };
   }
 
   public componentDidMount() {
     document.title = 'Access Token - ' + document.title;
-    this.fetchPersonalAccessTokens();
+    this.fetchAccessTokens();
   }
 
-  private fetchPersonalAccessTokens() {
+  private fetchAccessTokens() {
     const t = this.props.getToken();
     client.get('/access_token/lrange/person/0/0', {
       withCredentials: true
@@ -47,10 +43,11 @@ export class AccessToken extends
     })
     .then((res: any): void => {
       if (res.status === 200 && Array.isArray(res.data)) {
-        const data = res.data.map((obj: object) => {
-          return { attribute: AccessTokenObject.deserialize(obj) };
+        const data = res.data.map((obj: any) => {
+          return obj.access_token ?
+            { attribute: TokenObject.deserialize(obj.access_token) } : null;
         });
-        this.setState({ personalAccessTokens: data });
+        this.setState({ tokens: data });
         return;
       }
       throw new Error(`unexpected response: ${res}`);
@@ -61,7 +58,7 @@ export class AccessToken extends
     });
   }
 
-  private concealToken(props: PersonalAccessTokenProps) {
+  private activate(props: TokenProps) {
     const t = this.props.getToken();
     const uuid = props.attribute.uuid;
 
@@ -87,12 +84,13 @@ export class AccessToken extends
     });
   }
 
-  private toggleState(props: PersonalAccessTokenProps) {
+  private toggleState(props: TokenProps) {
     const t = this.props.getToken();
     const uuid = props.attribute.uuid;
     // next
     const state = (
-      props.attribute.state === State.Disabled ? State.Enabled : State.Disabled
+      props.attribute.state === TokenState.Disabled ? 
+        TokenState.Enabled : TokenState.Disabled
     );
 
     client.patch(`/access_token/hset/${uuid}/state`, {}, {
@@ -113,9 +111,9 @@ export class AccessToken extends
         const data = res.data;
         if (data.access_token === 1) {
           props.attribute.state = state;
-          const tokens = this.state.personalAccessTokens;
+          const tokens = this.state.tokens;
           tokens[props.index] = { attribute: props.attribute };
-          this.setState({ personalAccessTokens: tokens });
+          this.setState({ tokens });
         }
         return;
       }
@@ -132,23 +130,22 @@ export class AccessToken extends
       h('.access-token.grid', {},
         h('.row', {},
           h(`.column-6.offset-5
-  .column-v-8.offset-v-4
-  .column-l-10.offset-l-3
-  .column-m-16`, {},
+.column-v-8.offset-v-4
+.column-l-10.offset-l-3
+.column-m-16`, {},
             h('.transparent.box', [
               renderTitle()
             , h('.container', [
                 h('h4.header', {}, 'Token')
               , h('h6.type', 'Personal Access Token')
               , h('ul.personal-access-token-list', [
-                  h('li', this.state.personalAccessTokens.map(
+                  h('li', this.state.tokens.map(
                     (t: any, i: number) => {
-                      return h(PersonalAccessToken, {
+                      return h(Token, {
                         index: i
                       , toggleState: this.toggleState.bind(this)
-                      , concealToken: this.concealToken.bind(this)
+                      , activate: this.activate.bind(this)
                       , ...t
-                      , ...this.props
                       });
                     }
                   ))
