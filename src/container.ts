@@ -115,7 +115,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
 
   private getStamp (): string {
     const token = readToken(tokenKey);
-    // TODO: consider this (for now, just return limit as stamp)
+    // TODO: consider this (for now, just return the limit as stamp)
     if (token !== undefined) {
       return token.limit.toString();
     }
