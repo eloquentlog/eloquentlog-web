@@ -1,4 +1,4 @@
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import * as cfg from '../../config.json';
 
@@ -8,17 +8,17 @@ export interface Token {
 }
 
 export const readToken = (name: string): Token => {
-  return Cookie.getJSON(name);
+  return Cookies.getJSON(name);
 };
 
 export const saveToken = (name: string, value: string): string => {
-  const domain = cfg.Cookie.Domain
+  const path = '/'
+      , domain = cfg.Cookie.Domain
       , secure = cfg.Cookie.Secure
       , expires = cfg.Cookie.Expires
       ;
-  if (value === undefined) {
-    Cookie.remove(name, { domain });
-  } else {
+  Cookies.remove(name, { path, domain });
+  if (value !== undefined) {
     // NOTE:
     // The value should contain only first 2 parts of
     // `heaher.payload.signature`.
@@ -32,8 +32,9 @@ export const saveToken = (name: string, value: string): string => {
       , limit: new Date((new Date()).getTime() + (expires * 864e+5))
       };
 
-      let attributes: Cookie.CookieAttributes = {
-        domain
+      let attributes: Cookies.CookieAttributes = {
+        path
+      , domain
       , expires: token.limit
       , secure
       };
@@ -42,7 +43,7 @@ export const saveToken = (name: string, value: string): string => {
         sameSite: 'Strict'
       });
 
-      Cookie.set(name, token, attributes as any);
+      Cookies.set(name, token, attributes);
     }
   }
   return value;
