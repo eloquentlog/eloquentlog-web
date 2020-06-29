@@ -2,6 +2,7 @@ import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { renderError } from './util/error';
 import { getClient } from './util/client';
 import {
   clearErrors
@@ -29,7 +30,7 @@ interface PasswordResetRequestProps {
 
 const client = getClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [401, 404, 422].some((n: number): boolean => n === status);
+         [400, 401, 404, 422].some((n: number): boolean => n === status);
 });
 
 // Checks if required field is not empty
@@ -82,6 +83,18 @@ const lock = (f: Element): void => {
       }
     , unlock = lock
     ;
+
+const headRequest = (): void => {
+  client.head('/password/reset')
+    .then((res: any): void => {
+      if (res.status !== 200) {
+        throw new Error('Something went wrong. Please try it later :\'(');
+      }
+    })
+    .catch((err: any): void => {
+      renderError(err);
+    });
+};
 
 const handleSubmit = (props: PasswordResetRequestProps, event: Event): void => {
   event.preventDefault();
@@ -259,5 +272,12 @@ PasswordResetRequest.defaultProps = {
 PasswordResetRequest.defaultHooks = {
   onComponentDidMount (_: any): void {
     document.title = 'Reset password - ' + document.title;
+    headRequest();
+  }
+, onComponentDidUpdate (
+    _lastProps: PasswordResetRequestProps
+  , _nextProps: PasswordResetRequestProps
+  ): void {
+    headRequest();
   }
 };

@@ -22,6 +22,7 @@ import './styl/signin.styl';
 
 interface SigninProps extends RouteProps {
   errors: ValidationError[];
+  head: boolean;
 }
 
 const client = getClient((status: number): boolean => {
@@ -81,20 +82,22 @@ const lock = (f: Element): void => {
     , unlock = lock
     ;
 
-const makeIgnite = (): void => {
+const headRequest = (props: SigninProps): void => {
   client.head('/login')
     .then((res: any): void => {
       if (res.status !== 200) {
         throw new Error('Something went wrong. Please try it later :\'(');
       }
+      props.head = true;
     })
     .catch((err: any): void => {
       renderError(err);
     });
-});
+};
 
 const handleSubmit = (props: SigninProps, event: Event): void => {
   event.preventDefault();
+  if (!props.head) { return; }
 
   const f = event.target as Element;
 
@@ -265,17 +268,18 @@ export const Signin = (
 
 Signin.defaultProps = {
   errors: []
+, head: false
 };
 
 Signin.defaultHooks = {
-  onComponentDidMount (_: any): void {
+  onComponentDidMount (_: any, props: SigninProps): void {
     document.title = 'Sign in - ' + document.title;
-    makeIgnite();
+    headRequest(props);
   }
 , onComponentDidUpdate (
     _lastProps: SigninProps
-    , nextProps: SigninProps
+  , nextProps: SigninProps
   ): void {
-    makeIgnite();
+    headRequest(nextProps);
   }
 };
