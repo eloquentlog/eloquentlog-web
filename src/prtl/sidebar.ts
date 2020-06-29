@@ -102,13 +102,12 @@ const handleThemeLinkClick = (
   props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light, true);
 };
 
-const setupSidebar = () => {
+const setupSidebar = (props: SidebarProps) => {
   const lbl = document.getElementById('sidebar_show_lbl') as HTMLLabelElement;
   if (lbl === null || lbl === undefined) {
     return;
   }
-
-  if (readState(cookieKey) === 'locked') {
+  if (!props.signedIn() || readState(cookieKey) === 'locked') {
     lbl.classList.add('hidden');
   } else {
     lbl.classList.remove('hidden');
@@ -182,10 +181,12 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
 Sidebar.defaultProps = {};
 
 Sidebar.defaultHooks = {
-  onComponentDidMount (_: any): void {
-    setupSidebar();
+  onComponentDidMount (_: any, props: SidebarProps): void {
+    setupSidebar(props);
   }
-, onComponentDidUpdate (_: any): void {
-    setupSidebar();
+, onComponentDidUpdate (
+  _lastProps: SidebarProps,
+  nextProps: SidebarProps): void {
+    setupSidebar(nextProps);
   }
 };
