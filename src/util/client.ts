@@ -22,7 +22,7 @@ const baseURL = `${cfg.API.Protocol}://
 ${cfg.API.Host}:${cfg.API.Port}/_api`;
 
 const siteURL = `${cfg.Server.Protocol}://
-${cfg.Server.Host}:${cfg.Server.Port}/`;
+${cfg.Server.Host}:${cfg.Server.Port}`;
 
 export const getClient = (validateStatus: (status: number) => boolean) => {
   const client = axios.create({
