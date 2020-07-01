@@ -2,6 +2,9 @@ import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { RouteProps } from './routing';
+
+import { renderError } from './util/error';
 import { getClient } from './util/client';
 import {
   clearErrors
@@ -18,11 +21,9 @@ import { message as msg } from './util/message';
 
 import './styl/signup.styl';
 
-interface SignupProps {
+interface SignupProps  extends RouteProps {
   errors: ValidationError[];
-  history: H.History;
-  setTheme: (theme: Theme, update?: boolean) => void;
-  theme: Theme;
+  head: boolean;
 }
 
 const client = getClient((status: number): boolean => {
@@ -97,8 +98,22 @@ const lock = (f: Element): void => {
     , unlock = lock
     ;
 
+const headRequest = (props: SignupProps): void => {
+  client.head('/register')
+    .then((res: any): void => {
+      if (res.status !== 200) {
+        throw new Error('Something went wrong. Please try it later :\'(');
+      }
+      props.head = true;
+    })
+    .catch((err: any): void => {
+      renderError(err);
+    });
+};
+
 const handleSubmit = (props: SignupProps, event: Event): void => {
   event.preventDefault();
+  if (!props.head) { return; }
 
   const f = event.target as Element;
 
@@ -184,7 +199,7 @@ const handleThemeLinkClick = (
 ): void => {
   event.preventDefault();
 
-  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light);
+  props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light, true);
 };
 
 export const Signup = (
@@ -286,10 +301,18 @@ export const Signup = (
 
 Signup.defaultProps = {
   errors: []
+, head: false
 };
 
 Signup.defaultHooks = {
-  onComponentDidMount (_: any): void {
+  onComponentDidMount (_: any, props: SignupProps): void {
     document.title = 'Sign up - ' + document.title;
+    headRequest(props);
+  }
+, onComponentDidUpdate (
+    _lastProps: SignupProps
+  , nextProps: SignupProps
+  ): void {
+    headRequest(nextProps);
   }
 };
