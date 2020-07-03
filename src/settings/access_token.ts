@@ -3,7 +3,6 @@ import { h } from 'inferno-hyperscript';
 
 import { RouteProps } from '../routing';
 import { getClient, Headers } from '../util/client';
-import { renderTitle } from '../prtl/title';
 import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
 
 import '../styl/settings/access_token.styl';
@@ -136,8 +135,7 @@ export class AccessToken extends
 .column-l-10.offset-l-3
 .column-m-16`, {},
             h('.transparent.box', [
-              renderTitle()
-            , h('.container', [
+              h('.container', [
                 h('h4.header', {}, 'Token')
               , h('h6.type', 'Personal Access Token')
               , h('table.personal-access-token', [
