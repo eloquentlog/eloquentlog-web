@@ -1,7 +1,8 @@
 @require './prtl/_colour'
 
 #sidebar
-  border-right 1px solid $sidebar-border-colour
+  background-color $sidebar-bg-colour
+  border-right 0
   display none
   max-width 18.97rem
   min-height 100%
@@ -12,14 +13,16 @@
   z-index 2147483647
 
   .inner-header
+    background-color $sidebar-inner-header-bg-colour
     .version
       display inline-block
       margin-left 0.41rem
 
   .section-title
-    color $sidebar-section-title-colour
-    font-size 0.71em
+    color darken($sidebar-section-title-colour, 18%)
+    font-size 0.81em
     font-weight bold
+    letter-spacing 0.086rem
     margin-bottom 0.45rem
     margin-left 1.189rem
 
@@ -62,6 +65,16 @@
   .divider
     margin-bottom 1.8rem
     margin-top 3rem
+
+  input[type="text"].search
+    background-color $sidebar-search-bg-colour
+    border 0
+    border-radius 0.14rem
+    color $sidebar-search-txt-colour
+    height 2.11rem
+    margin 0.26rem 0 1.64rem 0.02rem
+    padding 0 0.48rem 0 1.12rem
+    width 14.08rem
 
   .item > span.description
     display block

@@ -162,8 +162,16 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
       , h('span.version', `v${version}`)
       ])
     , h('.item.right', nav)
+    , h('.item', {}, h(
+        'input.search'
+      , { type: 'text', placeholder: 'Search' }
+      ))
     , h('h6.section-title', 'NAVIGATION')
-    , h('.item', {}, h(Link, { to: '/' }, 'Namespaces'))
+    , h('.item', {}, h(Link, { to: '/' }, 'Streams'))
+    , h('.item', {}, h(Link, { to: '/' }, 'Your Namespaces'))
+    , h('hr.divider')
+    , h('h6.section-title', 'CONFIGURATION')
+    , h('.item', {}, h(Link, { to: '/' }, 'Preferences'))
     , h('.item', {}, h(Link, { to: '/settings/token' }, 'Settings'))
     , h('hr.divider')
     , h('.item', [
