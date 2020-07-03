@@ -15,7 +15,7 @@ describe('Sidebar', () => {
     forceRefresh: true
   });
 
-  const routeProps = {
+  const routeProps: RouteProps = {
     history
   , signedIn: () => { return true; }
   , theme: null
@@ -27,7 +27,7 @@ describe('Sidebar', () => {
   , handleTheme: () => { return 1; }
   , getTheme: () => { return Theme.Dark; }
   , setTheme: (_theme: Theme, _update: boolean) => { return 1; }
-  } as RouteProps;
+  };
 
   test('has valid classNames', async () => {
     const [checkbox, sidebar] = Sidebar(routeProps);
@@ -35,11 +35,11 @@ describe('Sidebar', () => {
     expect(sidebar.className).toBe('sidebar');
   });
 
-  test('renders', async () => {
+  test('renders items', async () => {
     const renderedTree = renderIntoContainer(
       h(BrowserRouter, {}, h(Sidebar, routeProps))
     );
     const result = scryRenderedDOMElementsWithTag(renderedTree, 'span');
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
   });
 });

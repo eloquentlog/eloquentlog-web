@@ -158,7 +158,13 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
     box
   , h('#sidebar.sidebar', [
       h('.inner-header', [
-        h('span.title', 'Eloquentlog')
+        h('span.logo', {}, h('img', {
+          src: '/img/wolf-paw-72x72.png'
+        , alt: 'Eloquentlog'
+        , width: 18
+        , height: 18
+        }))
+      , h('span.title', 'Eloquentlog')
       , h('span.version', `v${version}`)
       ])
     , h('.item.right', nav)
