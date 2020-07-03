@@ -7,6 +7,7 @@ import 'styr';
 import './styl/_form.styl';
 import './styl/_header.styl';
 import './styl/_layout.styl';
+import './styl/_icon.styl';
 import './styl/_shared.styl';
 import './styl/_sidebar.styl';
 import './styl/_typography.styl';

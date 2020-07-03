@@ -40,6 +40,6 @@ describe('Sidebar', () => {
       h(BrowserRouter, {}, h(Sidebar, routeProps))
     );
     const result = scryRenderedDOMElementsWithTag(renderedTree, 'span');
-    expect(result).toHaveLength(3);
+    expect(result).toHaveLength(7);
   });
 });

@@ -5,6 +5,7 @@ import Cookie from 'js-cookie';
 
 import { version } from '../../package.json';
 import { RouteProps } from '../routing';
+import { Icon, IconProps } from './icon';
 
 import { Theme } from '../util/theme';
 
@@ -173,12 +174,24 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
       , { type: 'text', placeholder: 'Search' }
       ))
     , h('h6.section-title', 'NAVIGATION')
-    , h('.item', {}, h(Link, { to: '/' }, 'Streams'))
-    , h('.item', {}, h(Link, { to: '/' }, 'Your Namespaces'))
+    , h('.item', [
+        h(Icon, { name: 'milestone' } as IconProps)
+      , h(Link, { to: '/' }, 'Streams')
+      ])
+    , h('.item', [
+        h(Icon, { name: 'tag' } as IconProps)
+      , h(Link, { to: '/' }, 'Your Namespaces')
+      ])
     , h('hr.divider')
     , h('h6.section-title', 'CONFIGURATION')
-    , h('.item', {}, h(Link, { to: '/' }, 'Preferences'))
-    , h('.item', {}, h(Link, { to: '/settings/token' }, 'Settings'))
+    , h('.item', [
+        h(Icon, { name: 'star' })
+      , h(Link, { to: '/' }, 'Preferences')
+      ])
+    , h('.item', [
+        h(Icon, { name: 'gear' })
+      , h(Link, { to: '/settings/token' }, 'Settings')
+      ])
     , h('hr.divider')
     , h('.item', [
         'Set theme as'
