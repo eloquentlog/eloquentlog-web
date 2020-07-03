@@ -17,6 +17,7 @@
     "watch:server": "rollup -w -c --configRunServer"
   },
   "devDependencies": {
+    "@primer/octicons": "^10.0.0",
     "@types/history": "4.7.3",
     "@types/jest": "^26.0.3",
     "@types/js-cookie": "2.2.6",
