@@ -200,68 +200,71 @@ export const PasswordResetRequest = (
   props.requested = hasRequested(props.history);
 
   const flashMessage = getFlashMessage(props.history);
-  return h('#password_reset_request.content', {},
-    h('.password-reset-request.grid', {},
-      h('.row', {},
-        h(`.column-6.offset-5
+  return h('#content', [
+    h('#header', {}, h('.global-header'))
+  , h('#password_reset_request.content', {},
+      h('.password-reset-request.grid', {},
+        h('.row', {},
+          h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', props.requested ? [
-            renderTitle()
-          , h('.container', [
-              h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage)
-            , h('h6', {}, 'NOTE')
-            , h('p.note', {},
-                `If you don't receive any email, and it's not in your spam
+            h('.transparent.box', props.requested ? [
+              renderTitle()
+            , h('.container', [
+                h('h4.header', {}, 'Reset password')
+              , renderMessage(flashMessage)
+              , h('h6', {}, 'NOTE')
+              , h('p.note', {},
+                  `If you don't receive any email, and it's not in your spam
 folder, this could mean you have signed up with a different address.`)
-            ])
-          , h('p.options', [
-              'Back to'
-            , h('a.signin', { href: '/signin' }, 'Sign in')
-            ])
-          ] : [ // request form
-            renderTitle()
-          , h('form.form', {
-              noValidate: true
-            , onSubmit: linkEvent(props, handleSubmit)
-            }, [
-              h('h4.header', {}, 'Reset password')
-            , renderMessage(flashMessage)
-            , h('.required.field', [
-                h('label.label', { for: 'email' }, 'E-mail address')
-              , h('p.description', {},
-                  msg.description.password_reset_request.email)
-              , h('input#email', {
-                  type: 'text'
-                , name: 'email'
-                , autocomplete: 'email'
-                , placeHolder: 'ahoj@eloquentlog.com'
-                , onInput: linkEvent(props, handleChange)
-                })
               ])
-            , h('button#submit.secondary.flat.button', { type: 'submit' },
-                'Request')
-            , h('span.loading.hidden')
+            , h('p.options', [
+                'Back to'
+              , h('a.signin', { href: '/signin' }, 'Sign in')
+              ])
+            ] : [ // request form
+              renderTitle()
+            , h('form.form', {
+                noValidate: true
+              , onSubmit: linkEvent(props, handleSubmit)
+              }, [
+                h('h4.header', {}, 'Reset password')
+              , renderMessage(flashMessage)
+              , h('.required.field', [
+                  h('label.label', { for: 'email' }, 'E-mail address')
+                , h('p.description', {},
+                    msg.description.password_reset_request.email)
+                , h('input#email', {
+                    type: 'text'
+                  , name: 'email'
+                  , autocomplete: 'email'
+                  , placeHolder: 'ahoj@eloquentlog.com'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('button#submit.secondary.flat.button', { type: 'submit' },
+                  'Request')
+              , h('span.loading.hidden')
+              ])
+            , h('p.options', [
+                'Do you back to the'
+              , h('a.signin', { href: '/signin' }, 'Sign in')
+              , '?'
+              ])
+            , h('p.links', [
+                'Set theme as'
+              , h('a.theme', {
+                  onClick: linkEvent(props, handleThemeLinkClick)
+                }, props.theme === Theme.Light ? 'Dark' : 'Light')
+              , '.'
+              ])
             ])
-          , h('p.options', [
-              'Do you back to the'
-            , h('a.signin', { href: '/signin' }, 'Sign in')
-            , '?'
-            ])
-          , h('p.links', [
-              'Set theme as'
-            , h('a.theme', {
-                onClick: linkEvent(props, handleThemeLinkClick)
-              }, props.theme === Theme.Light ? 'Dark' : 'Light')
-            , '.'
-            ])
-          ])
+          )
         )
       )
     )
-  );
+  ]);
 };
 
 PasswordResetRequest.defaultProps = {

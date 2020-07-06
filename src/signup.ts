@@ -208,95 +208,98 @@ export const Signup = (
 ): VNode => {
   props.history = route.router.history as H.History;
 
-  return h('#signup.content', {},
-    h('.signup.grid', {},
-      h('.row', {},
-        h(`.column-6.offset-5
+  return h('#content', [
+    h('#header', {}, h('.global-header'))
+  , h('#signup.content', {},
+      h('.signup.grid', {},
+        h('.row', {},
+          h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', [
-            h('.header', {},
-              h('a', { href: '/' },
-                h('img.logo', {
-                  alt: 'Eloquentlog'
-                , src: '/img/wolf-paw-72x72.png'
-                , width: 36
-                , height: 36
-                }))
-            )
-          , h('form.form', {
-              noValidate: true
-            , autocomplete: 'off'
-            , onSubmit: linkEvent(props, handleSubmit)
-            }, [
-              h('h4.header', {}, 'Sign up to Eloquentlog')
-            , h('#message.message.hidden')
-            , h('.required.field', [
-                h('label.label', { for: 'email' }, 'E-mail Address')
-              , h('p.description', {}, msg.description.signup.email)
-              , h('input#email', {
-                  type: 'text'
-                , name: 'email'
-                , placeHolder: 'ahoj@eloquentlog.com'
-                , autocomplete: 'off'
-                , onInput: linkEvent(props, handleChange)
-                })
+            h('.transparent.box', [
+              h('.header', {},
+                h('a', { href: '/' },
+                  h('img.logo', {
+                    alt: 'Eloquentlog'
+                  , src: '/img/wolf-paw-72x72.png'
+                  , width: 36
+                  , height: 36
+                  }))
+              )
+            , h('form.form', {
+                noValidate: true
+              , autocomplete: 'off'
+              , onSubmit: linkEvent(props, handleSubmit)
+              }, [
+                h('h4.header', {}, 'Sign up to Eloquentlog')
+              , h('#message.message.hidden')
+              , h('.required.field', [
+                  h('label.label', { for: 'email' }, 'E-mail Address')
+                , h('p.description', {}, msg.description.signup.email)
+                , h('input#email', {
+                    type: 'text'
+                  , name: 'email'
+                  , placeHolder: 'ahoj@eloquentlog.com'
+                  , autocomplete: 'off'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('.field', [
+                  h('label.label', { for: 'name' }, 'Name')
+                , h('p.description', {}, msg.description.signup.name)
+                , h('input#name', {
+                    type: 'text'
+                  , name: 'name'
+                  , placeHolder: 'Albrecht Dürer'
+                  , autocomplete: 'off'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('.required.field', [
+                  h('label.label', { for: 'username' }, 'Username')
+                , h('p.description', {}, msg.description.signup.username)
+                , h('input#username', {
+                    type: 'text'
+                  , name: 'username'
+                  , placeHolder: 'albrecht'
+                  , autocomplete: 'off'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('.required.field', [
+                  h('label.label', { for: 'password' }, 'Password')
+                , h('p.description', {}, msg.description.shared.password)
+                , h('input#password', {
+                    type: 'password'
+                  , name: 'password'
+                  , placeHolder: 'Make it strong ;)'
+                  , autocomplete: 'new-password'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('button#submit.primary.flat.button', { type: 'submit' },
+                  'Sign up')
+              , h('span.loading.hidden')
               ])
-            , h('.field', [
-                h('label.label', { for: 'name' }, 'Name')
-              , h('p.description', {}, msg.description.signup.name)
-              , h('input#name', {
-                  type: 'text'
-                , name: 'name'
-                , placeHolder: 'Albrecht Dürer'
-                , autocomplete: 'off'
-                , onInput: linkEvent(props, handleChange)
-                })
+            , h('p.options', [
+                'Already have an account?'
+              , h('a.signin', { href: '/signin' }, 'Sign in')
+              , '.'
               ])
-            , h('.required.field', [
-                h('label.label', { for: 'username' }, 'Username')
-              , h('p.description', {}, msg.description.signup.username)
-              , h('input#username', {
-                  type: 'text'
-                , name: 'username'
-                , placeHolder: 'albrecht'
-                , autocomplete: 'off'
-                , onInput: linkEvent(props, handleChange)
-                })
+            , h('p.links', [
+                'Set theme as'
+              , h('a.theme', {
+                  onClick: linkEvent(props, handleThemeLinkClick)
+                }, props.theme === Theme.Light ? 'Dark' : 'Light')
+              , '.'
               ])
-            , h('.required.field', [
-                h('label.label', { for: 'password' }, 'Password')
-              , h('p.description', {}, msg.description.shared.password)
-              , h('input#password', {
-                  type: 'password'
-                , name: 'password'
-                , placeHolder: 'Make it strong ;)'
-                , autocomplete: 'new-password'
-                , onInput: linkEvent(props, handleChange)
-                })
-              ])
-            , h('button#submit.primary.flat.button', { type: 'submit' },
-                'Sign up')
-            , h('span.loading.hidden')
             ])
-          , h('p.options', [
-              'Already have an account?'
-            , h('a.signin', { href: '/signin' }, 'Sign in')
-            , '.'
-            ])
-          , h('p.links', [
-              'Set theme as'
-            , h('a.theme', {
-                onClick: linkEvent(props, handleThemeLinkClick)
-              }, props.theme === Theme.Light ? 'Dark' : 'Light')
-            , '.'
-            ])
-          ])
+          )
         )
       )
     )
-  );
+  ]);
 };
 
 Signup.defaultProps = {
