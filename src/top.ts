@@ -1,6 +1,7 @@
 import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { Layout } from './prtl/layout';
 import { getClient } from './util/client';
 
 import { RouteProps } from './routing';
@@ -34,8 +35,11 @@ const fetchMessages = (props: TopProps): void => {
   });
 };
 
-export const Top = (_: TopProps): VNode => {
-  return h('.content');
+export const Top = (props: TopProps): VNode => {
+  return h(Layout, {
+    children: h('.content')
+  , ...props
+  });
 };
 
 Top.defaultHooks = {

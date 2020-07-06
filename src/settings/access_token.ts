@@ -2,8 +2,9 @@ import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { RouteProps } from '../routing';
-import { getClient, Headers } from '../util/client';
+import { Layout } from '../prtl/layout';
 import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
+import { getClient, Headers } from '../util/client';
 
 import '../styl/settings/access_token.styl';
 
@@ -126,41 +127,44 @@ export class AccessToken extends
     });
   }
 
-  public render(): VNode {
-    return h('#access_token.content', {},
-      h('.access-token.grid', {},
-        h('.row', {},
-          h(`.column-10.offset-3
+  public render(props: AccessTokenProps): VNode {
+    return h(Layout, {
+      children: h('#access_token.content', {}, 
+        h('.access-token.grid', {},
+          h('.row', {},
+            h(`.column-10.offset-3
 .column-v-12.offset-v-2
 .column-l-10.offset-l-3
 .column-m-16`, {},
-            h('.transparent.box', [
-              h('.container', [
-                h('h4.header', {}, 'Token')
-              , h('h6.type', 'Personal Access Token')
-              , h('table.personal-access-token', [
-                  h('thead', {}, h('tr', [
-                    h('th', {}, 'Name')
-                  , h('th', {}, 'Created At')
-                  , h('th', {}, 'State')
-                  , h('th', {}, '')
-                  ]))
-                , h('tbody', this.state.tokens.map(
-                    (t: any, i: number) => {
-                      return h(Token, {
-                        index: i
-                      , toggleState: this.toggleState.bind(this)
-                      , activate: this.activate.bind(this)
-                      , ...t
-                      });
-                    }
-                  ))
+              h('.transparent.box', [
+                h('.container', [
+                  h('h4.header', {}, 'Token')
+                , h('h6.type', 'Personal Access Token')
+                , h('table.personal-access-token', [
+                    h('thead', {}, h('tr', [
+                      h('th', {}, 'Name')
+                    , h('th', {}, 'Created At')
+                    , h('th', {}, 'State')
+                    , h('th', {}, '')
+                    ]))
+                  , h('tbody', this.state.tokens.map(
+                      (t: any, i: number) => {
+                        return h(Token, {
+                          index: i
+                        , toggleState: this.toggleState.bind(this)
+                        , activate: this.activate.bind(this)
+                        , ...t
+                        });
+                      }
+                    ))
+                  ])
                 ])
               ])
-            ])
+            )
           )
         )
       )
-    );
+    , ...props
+    });
   }
 }

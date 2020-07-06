@@ -7,7 +7,6 @@ import { applyTheme, matchTheme, Theme } from './util/theme';
 import { readToken, saveToken } from './util/token';
 
 import { Routing } from './routing';
-import { Sidebar } from './prtl/sidebar';
 
 interface ContainerProps {
   history: H.History;
@@ -46,7 +45,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   }
 
   public render (): VNode {
-    const props = {
+    return h(BrowserRouter, {}, h(Routing, {
       history: this.props.history
     , theme: this.state.theme
     , handleTheme: this.handleTheme
@@ -58,23 +57,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
     , putStamp: this.putStamp
     , setStamp: this.setStamp
     , signedIn: this.signedIn
-    };
-
-    return h(BrowserRouter, {}, [
-      h(Sidebar, props)
-    , h('#content', {}, [
-        h('#header', {}, [
-          h('.global-header')
-        , h('label#sidebar_show_lbl.hidden', {
-              for: 'sidebar_checkbox'
-            , title: 'Show Sidebar'
-            , dangerouslySetInnerHTML: { __html: '&#9776;' }
-            }
-          )
-        ])
-      , h(Routing, props)
-      ])
-    ]);
+    }));
   }
 
   private handleTheme (): void {
