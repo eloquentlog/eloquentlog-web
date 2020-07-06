@@ -115,6 +115,14 @@ const setupSidebar = (props: SidebarProps) => {
   }
 };
 
+export const SidebarToggleButton = (): VNode => {
+  return h('label#sidebar_show_lbl.hidden', {
+    for: 'sidebar_checkbox'
+  , title: 'Show Sidebar'
+  , dangerouslySetInnerHTML: { __html: '&#9776;' }
+  });
+};
+
 export const Sidebar = (props: SidebarProps): VNode[] => {
   if (!props.signedIn()) {
     return [];
