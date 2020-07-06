@@ -27,6 +27,9 @@
       text-align right
       vertical-align bottom
 
+    & ~ .item.right
+      margin 0.99rem 0.02rem 0.82rem 0
+
   .section-title
     color darken($sidebar-section-title-colour, 18%)
     font-size 0.81em
@@ -46,16 +49,19 @@
     > .item:last-child
       padding-bottom 0
 
-  > a.item.active,
-  > .item.active.expanded .item-container a.item.active
+  > .item.active,
+  > .item.active.expanded .item-container a.item.active,
   .item-container a.item.active
     background-color lighten($sidebar-item-border-colour, 87%)
     color $sidebar-item-txt-colour
 
-  > a.item:hover,
+  a.item:hover,
   > .item.active.expanded .item-container a.item:hover
-    background-color lighten($sidebar-item-border-colour, 82%)
+    background-color lighten($sidebar-item-border-colour, 72%)
     color $sidebar-item-txt-colour
+
+  .item-container
+    margin-top 0
 
   > .item.active.expanded
     padding-left 0
@@ -63,13 +69,21 @@
     .item
       padding-left 1.06rem
       padding-right 0
+
     .item-container
       font-weight normal
       .item
-        padding-left 1.78rem
+        padding-left 1.03rem
         &.disabled:hover
           background-color inherit !important
           cursor not-allowed
+
+    ul.item-container
+      .item
+        padding-left 2.65rem
+
+  ul.item-container
+    padding-left 0
 
   .divider
     margin-bottom 1.8rem
@@ -91,12 +105,19 @@
     margin-left 0.11rem
     margin-top 0.18rem
 
-  .item > span.icon
-    float left
-    margin-right 0.46rem
-    svg
-      fill $sidebar-icon-fill-colour
-      stroke-width 1
+  a.item.active
+    font-weight bold
+
+  .item
+    margin-top 0
+    margin-bottom 0
+
+    span.icon
+      float left
+      margin-right 0.46rem
+      svg
+        fill $sidebar-icon-fill-colour
+        stroke-width 1
 
   .item > a.theme
     cursor pointer

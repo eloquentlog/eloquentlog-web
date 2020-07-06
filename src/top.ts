@@ -1,6 +1,7 @@
 import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { sidebarItems } from './_sidebar';
 import { Layout } from './prtl/layout';
 import { getClient } from './util/client';
 
@@ -37,7 +38,8 @@ const fetchMessages = (props: TopProps): void => {
 
 export const Top = (props: TopProps): VNode => {
   return h(Layout, {
-    children: h('.content')
+    sidebarItems
+  , children: h('.content')
   , ...props
   });
 };

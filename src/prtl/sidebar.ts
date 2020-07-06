@@ -5,11 +5,12 @@ import Cookie from 'js-cookie';
 
 import { version } from '../../package.json';
 import { RouteProps } from '../routing';
-import { Icon, IconProps } from './icon';
 
 import { Theme } from '../util/theme';
 
-interface SidebarProps extends RouteProps {}
+export interface SidebarProps extends RouteProps {
+  items: VNode[];
+}
 
 const inOneYear = 525600; // 60 * 24 * 365
 
@@ -163,44 +164,26 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
     ];
   }
 
-  return [
-    box
-  , h('#sidebar.sidebar', [
-      h('.inner-header', [
-        h('span.logo', {}, h('img', {
-          src: '/img/wolf-paw-72x72.png'
-        , alt: 'Eloquentlog'
-        , width: 18
-        , height: 18
-        }))
-      , h('span.title', 'Eloquentlog')
-      , h('span.version', `v${version}`)
-      ])
-    , h('.item.right', nav)
-    , h('.item', {}, h(
-        'input.search'
-      , { type: 'text', placeholder: 'Search' }
-      ))
-    , h('h6.section-title', 'NAVIGATION')
-    , h('.item', [
-        h(Icon, { name: 'milestone' } as IconProps)
-      , h(Link, { to: '/' }, 'Streams')
-      ])
-    , h('.item', [
-        h(Icon, { name: 'tag' } as IconProps)
-      , h(Link, { to: '/' }, 'Your Namespaces')
-      ])
-    , h('hr.divider')
-    , h('h6.section-title', 'CONFIGURATION')
-    , h('.item', [
-        h(Icon, { name: 'star' })
-      , h(Link, { to: '/' }, 'Preferences')
-      ])
-    , h('.item', [
-        h(Icon, { name: 'gear' })
-      , h(Link, { to: '/settings/token' }, 'Settings')
-      ])
-    , h('hr.divider')
+  const preItems = [
+    h('.inner-header', [
+      h('span.logo', {}, h('img', {
+        src: '/img/wolf-paw-72x72.png'
+      , alt: 'Eloquentlog'
+      , width: 18
+      , height: 18
+      }))
+    , h('span.title', 'Eloquentlog')
+    , h('span.version', `v${version}`)
+    ])
+  , h('.item.right', nav)
+  , h('.item', {}, h(
+      'input.search'
+    , { type: 'text', placeholder: 'Search' }
+    ))
+  ];
+
+  const postItems = [
+      h('hr.divider')
     , h('.item', [
         'Set theme as'
       , h('a.theme', {
@@ -209,7 +192,11 @@ export const Sidebar = (props: SidebarProps): VNode[] => {
       , '.'
       ])
     , h('.item', {}, h(Link, { to: '/signout' , replace: true}, 'Sign out'))
-    ])
+  ];
+
+  return [
+    box
+  , h('#sidebar.sidebar', preItems.concat(props.items).concat(postItems))
   ];
 };
 

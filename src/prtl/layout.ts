@@ -5,12 +5,16 @@ import { RouteProps } from '../routing';
 import { Sidebar, SidebarToggleButton } from './sidebar';
 
 interface LayoutProps extends RouteProps {
+  sidebarItems: VNode[];
   children: VNode | VNode[];
 }
 
 export const Layout = (props: LayoutProps): VNode[] => {
   return [
-    h(Sidebar, { ...props })
+    h(Sidebar, {
+      items: props.sidebarItems
+    , ...props
+    })
   , h('#content', {}, [
       h('#header', {}, [
         h('.global-header')
