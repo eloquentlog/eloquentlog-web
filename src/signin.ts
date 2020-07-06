@@ -194,76 +194,79 @@ export const Signin = (
   props.history = route.router.history as H.History;
 
   const flashMessage = getFlashMessage(props.history);
-  return h('#signin.content', {},
-    h('.signin.grid', {},
-      h('.row', {},
-        h(`.column-6.offset-5
+  return h('#content', [
+    h('#header', {}, h('.global-header'))
+  , h('#signin.content', {},
+      h('.signin.grid', {},
+        h('.row', {},
+          h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', [
-            h('.title', {},
-              h('a', { href: '/' },
-                h('img.logo', {
-                  alt: 'Eloquentlog'
-                , src: '/img/wolf-paw-72x72.png'
-                , width: 36
-                , height: 36
-                }))
-            )
-          , h('form.form', {
-              noValidate: true
-            , onSubmit: linkEvent(props, handleSubmit)
-            }, [
-              h('h4.header', {}, 'Sign in to Eloquentlog')
-            , (flashMessage === undefined) ?
-                h('#message.message.hidden', { role: 'alert' }) :
-                h('#message.message.warn', { role: 'alert' },
-                  h('p', {}, flashMessage))
-            , h('.required.field', [ // email === username (for now)
-                h('label.label', { for: 'username' }, 'E-mail address')
-              , h('input#username', {
-                  type: 'text'
-                , name: 'username'
-                , autocomplete: 'email'
-                , placeHolder: 'ahoj@eloquentlog.com'
-                , onInput: linkEvent(props, handleChange)
-                })
+            h('.transparent.box', [
+              h('.title', {},
+                h('a', { href: '/' },
+                  h('img.logo', {
+                    alt: 'Eloquentlog'
+                  , src: '/img/wolf-paw-72x72.png'
+                  , width: 36
+                  , height: 36
+                  }))
+              )
+            , h('form.form', {
+                noValidate: true
+              , onSubmit: linkEvent(props, handleSubmit)
+              }, [
+                h('h4.header', {}, 'Sign in to Eloquentlog')
+              , (flashMessage === undefined) ?
+                  h('#message.message.hidden', { role: 'alert' }) :
+                  h('#message.message.warn', { role: 'alert' },
+                    h('p', {}, flashMessage))
+              , h('.required.field', [ // email === username (for now)
+                  h('label.label', { for: 'username' }, 'E-mail address')
+                , h('input#username', {
+                    type: 'text'
+                  , name: 'username'
+                  , autocomplete: 'email'
+                  , placeHolder: 'ahoj@eloquentlog.com'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('.required.field', [
+                  h('label.label', { for: 'password' }, 'Password')
+                , h('input#password', {
+                    type: 'password'
+                  , name: 'password'
+                  , autocomplete: 'off'
+                  , placeHolder: 'Keep it secret ;)'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('button#submit.primary.flat.button', { type: 'submit' },
+                  'Sign in')
+              , h('span.loading.hidden')
               ])
-            , h('.required.field', [
-                h('label.label', { for: 'password' }, 'Password')
-              , h('input#password', {
-                  type: 'password'
-                , name: 'password'
-                , autocomplete: 'off'
-                , placeHolder: 'Keep it secret ;)'
-                , onInput: linkEvent(props, handleChange)
-                })
+            , h('p.options', [
+                h('a.reset-password', {
+                  href: '/password/reset'
+                }, 'Fogot your password')
+              , '? Or are you new to Eloquentlog? then,'
+              , h('a.signup', { href: '/signup' }, 'Sign up')
+              , ';-)'
               ])
-            , h('button#submit.primary.flat.button', { type: 'submit' },
-                'Sign in')
-            , h('span.loading.hidden')
+            , h('p.links', [
+                'Set theme as'
+              , h('a.theme', {
+                  onClick: linkEvent(props, handleThemeLinkClick)
+                }, props.theme === Theme.Light ? 'Dark' : 'Light')
+              , '.'
+              ])
             ])
-          , h('p.options', [
-              h('a.reset-password', {
-                href: '/password/reset'
-              }, 'Fogot your password')
-            , '? Or are you new to Eloquentlog? then,'
-            , h('a.signup', { href: '/signup' }, 'Sign up')
-            , ';-)'
-            ])
-          , h('p.links', [
-              'Set theme as'
-            , h('a.theme', {
-                onClick: linkEvent(props, handleThemeLinkClick)
-              }, props.theme === Theme.Light ? 'Dark' : 'Light')
-            , '.'
-            ])
-          ])
+          )
         )
       )
     )
-  );
+  ]);
 };
 
 Signin.defaultProps = {

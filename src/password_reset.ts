@@ -256,65 +256,68 @@ export const PasswordReset = (
   props.reset = hasReset(props.history) && props.errors.length === 0;
 
   const flashMessage = getFlashMessage(props.history);
-  return h('#password_reset.content', {},
-    h('.password-reset.grid', {},
-      h('.row', {},
-        h(`.column-6.offset-5
+  return h('#content', [
+    h('#header', {}, h('.global-header'))
+  , h('#password_reset.content', {},
+      h('.password-reset.grid', {},
+        h('.row', {},
+          h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', props.reset ? [
-            renderTitle()
-          , h('.container', [
-              h('h4.header', {}, 'Reset password')
-            , renderMessage(
-                flashMessage
-              , props.errors.length !== 0 ? 'failure' : 'success'
-              )
-            ])
-          , h('p.options', [
-              'Back to'
-            , h('a.signin', { href: '/signin' }, 'Sign in')
-            ])
-          ] : [
-            renderTitle()
-          , h('form.form', {
-              noValidate: true
-            , onSubmit: linkEvent(props, handleSubmit)
-            }, [
-              h('h4.header', {}, 'Reset password')
-            , renderMessage(
-                flashMessage
-              , props.errors.length !== 0 ? 'failure' : 'success'
-              )
-            , h('.required.field', [
-                h('label.label', { for: 'new_password' }, 'New password')
-              , h('p.description', {},
-                  msg.description.shared.password)
-              , h('input#new_password', {
-                  type: 'password'
-                , name: 'new-password'
-                , autocomplete: 'off'
-                , placeHolder: 'Don\'t foget ;)'
-                , onInput: linkEvent(props, handleChange)
-                })
+            h('.transparent.box', props.reset ? [
+              renderTitle()
+            , h('.container', [
+                h('h4.header', {}, 'Reset password')
+              , renderMessage(
+                  flashMessage
+                , props.errors.length !== 0 ? 'failure' : 'success'
+                )
               ])
-            , h('button#submit.secondary.flat.button', { type: 'submit' },
-                'Change')
-            , h('span.loading.hidden')
+            , h('p.options', [
+                'Back to'
+              , h('a.signin', { href: '/signin' }, 'Sign in')
+              ])
+            ] : [
+              renderTitle()
+            , h('form.form', {
+                noValidate: true
+              , onSubmit: linkEvent(props, handleSubmit)
+              }, [
+                h('h4.header', {}, 'Reset password')
+              , renderMessage(
+                  flashMessage
+                , props.errors.length !== 0 ? 'failure' : 'success'
+                )
+              , h('.required.field', [
+                  h('label.label', { for: 'new_password' }, 'New password')
+                , h('p.description', {},
+                    msg.description.shared.password)
+                , h('input#new_password', {
+                    type: 'password'
+                  , name: 'new-password'
+                  , autocomplete: 'off'
+                  , placeHolder: 'Don\'t foget ;)'
+                  , onInput: linkEvent(props, handleChange)
+                  })
+                ])
+              , h('button#submit.secondary.flat.button', { type: 'submit' },
+                  'Change')
+              , h('span.loading.hidden')
+              ])
+            , h('p.links', [
+                'Set theme as'
+              , h('a.theme', {
+                  onClick: linkEvent(props, handleThemeLinkClick)
+                }, props.theme === Theme.Light ? 'Dark' : 'Light')
+              , '.'
+              ])
             ])
-          , h('p.links', [
-              'Set theme as'
-            , h('a.theme', {
-                onClick: linkEvent(props, handleThemeLinkClick)
-              }, props.theme === Theme.Light ? 'Dark' : 'Light')
-            , '.'
-            ])
-          ])
+          )
         )
       )
     )
-  );
+  ]);
 };
 
 PasswordReset.defaultProps = {

@@ -15,8 +15,8 @@ export const Layout = (props: LayoutProps): VNode[] => {
       items: props.sidebarItems
     , ...props
     })
-  , h('#content', {}, [
-      h('#header', {}, [
+  , h('#content', [
+      h('#header', [
         h('.global-header')
       , h(SidebarToggleButton)
       ])
