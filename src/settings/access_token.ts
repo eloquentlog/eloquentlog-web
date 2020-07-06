@@ -1,6 +1,7 @@
 import { Component, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
+import { sidebarItems } from './_sidebar';
 import { RouteProps } from '../routing';
 import { Layout } from '../prtl/layout';
 import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
@@ -129,7 +130,8 @@ export class AccessToken extends
 
   public render(props: AccessTokenProps): VNode {
     return h(Layout, {
-      children: h('#access_token.content', {}, 
+      sidebarItems
+    , children: h('#access_token.content', {},
         h('.access-token.grid', {},
           h('.row', {},
             h(`.column-10.offset-3

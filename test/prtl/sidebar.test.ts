@@ -8,7 +8,7 @@ import {
 
 import { Theme } from '../../src/util/theme';
 import { RouteProps } from '../../src/routing';
-import { Sidebar } from '../../src/prtl/sidebar';
+import { Sidebar, SidebarProps } from '../../src/prtl/sidebar';
 
 describe('Sidebar', () => {
   const history = H.createBrowserHistory({
@@ -30,16 +30,18 @@ describe('Sidebar', () => {
   };
 
   test('has valid classNames', async () => {
-    const [checkbox, sidebar] = Sidebar(routeProps);
+    const props = { ...routeProps } as SidebarProps;
+    const [checkbox, sidebar] = Sidebar(props);
     expect(checkbox.className).toBe('sidebar-checkbox');
     expect(sidebar.className).toBe('sidebar');
   });
 
   test('renders items', async () => {
+    const props = { ...routeProps } as SidebarProps;
     const renderedTree = renderIntoContainer(
-      h(BrowserRouter, {}, h(Sidebar, routeProps))
+      h(BrowserRouter, {}, h(Sidebar, props))
     );
     const result = scryRenderedDOMElementsWithTag(renderedTree, 'span');
-    expect(result).toHaveLength(7);
+    expect(result).toHaveLength(3);
   });
 });
