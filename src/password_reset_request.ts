@@ -3,7 +3,7 @@ import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { renderError } from './util/error';
-import { getClient } from './util/client';
+import { webClient } from './util/client';
 import {
   clearErrors
 , displayMessage
@@ -28,7 +28,7 @@ interface PasswordResetRequestProps {
   theme: Theme;
 }
 
-const client = getClient((status: number): boolean => {
+const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [400, 401, 404, 422].some((n: number): boolean => n === status);
 });

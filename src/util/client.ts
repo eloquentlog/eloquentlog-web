@@ -18,15 +18,21 @@ const headers: Headers = {
   , 'X-Requested-With': 'XMLHttpRequest' // this needs CORS
 };
 
+const authURL = `${cfg.API.Protocol}://
+${cfg.API.Host}:${cfg.API.Port}/_`;
+
 const baseURL = `${cfg.API.Protocol}://
-${cfg.API.Host}:${cfg.API.Port}/_api`;
+${cfg.API.Host}:${cfg.API.Port}/v1`;
 
 const siteURL = `${cfg.Server.Protocol}://
 ${cfg.Server.Host}:${cfg.Server.Port}`;
 
-export const getClient = (validateStatus: (status: number) => boolean) => {
+const getClient = (
+  validateStatus: (status: number) => boolean
+, aURL: string
+) => {
   const client = axios.create({
-    baseURL
+    baseURL: aURL
   , timeout: 0
   , headers
   , validateStatus
@@ -50,4 +56,12 @@ export const getClient = (validateStatus: (status: number) => boolean) => {
     });
   });
   return client;
+};
+
+export const webClient = (fn: (status: number) => boolean) => {
+  return getClient(fn, authURL);
+};
+
+export const appClient = (fn: (status: number) => boolean) => {
+  return getClient(fn, baseURL);
 };

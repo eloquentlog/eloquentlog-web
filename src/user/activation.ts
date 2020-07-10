@@ -2,7 +2,7 @@ import * as H from 'history';
 import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
-import { getClient } from '../util/client';
+import { webClient } from '../util/client';
 import { message as msg } from '../util/message';
 import { renderTitle } from '../prtl/title';
 import { renderMessage } from '../prtl/message';
@@ -14,7 +14,7 @@ interface UserActivationProps {
   activated: boolean;
 }
 
-const client = getClient((status: number): boolean => {
+const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [401, 422].some((n: number): boolean => n === status);
 });
@@ -56,7 +56,7 @@ const activate = (props: UserActivationProps): void => {
       , t = params.get('t')
       ;
 
-  client.patch(`/user/activate/${s}`, { withCredentials: true }, {
+  client.patch(`/activate/${s}`, { withCredentials: true }, {
     transformRequest: [function (_, headers) {
       headers.Authorization = `Bearer ${t}`;
     }]
