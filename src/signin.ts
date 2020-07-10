@@ -5,7 +5,7 @@ import { h } from 'inferno-hyperscript';
 import { RouteProps } from './routing';
 
 import { renderError } from './util/error';
-import { getClient } from './util/client';
+import { webClient } from './util/client';
 import {
   clearErrors
 , displayMessage
@@ -25,7 +25,7 @@ interface SigninProps extends RouteProps {
   head: boolean;
 }
 
-const client = getClient((status: number): boolean => {
+const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [400, 401, 422].some((n: number): boolean => n === status);
 });

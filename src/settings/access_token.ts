@@ -5,7 +5,7 @@ import { sidebarItems } from './_sidebar';
 import { RouteProps } from '../routing';
 import { Layout } from '../prtl/layout';
 import { Token, TokenObject, TokenProps, TokenState } from '../prtl/token';
-import { getClient, Headers } from '../util/client';
+import { appClient, Headers } from '../util/client';
 
 import '../styl/settings/access_token.styl';
 
@@ -16,7 +16,7 @@ interface AccessTokenState {
 }
 
 // tslint:disable-next-line
-const client = getClient((status: number): boolean => {
+const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [401, 422].some((n: number): boolean => n === status);
 });
