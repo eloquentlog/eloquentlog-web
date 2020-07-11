@@ -49,7 +49,7 @@ export const Top = (props: TopProps): VNode => {
 
 Top.defaultHooks = {
   onComponentDidMount (_: any): void {
-    document.title = 'Top - ' + document.title;
+    document.title = 'Eloquentlog';
   }
 , onComponentWillMount (props: TopProps): void {
     fetchMessages(props);
