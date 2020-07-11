@@ -102,37 +102,41 @@ export const UserActivation = (
   props.activated = hasActivated(props.history);
 
   const flashMessage = getFlashMessage(props.history);
-  return h('#user_activation.content', {},
-    h('.user-activation.grid', {},
-      h('.row', {},
-        h(`.column-6.offset-5
+
+  return h('#content', [
+    h('#header', {}, h('.global-header'))
+  , h('#user_activation.content', {},
+      h('.user-activation.grid', {},
+        h('.row', {},
+          h(`.column-6.offset-5
 .column-v-8.offset-v-4
 .column-l-10.offset-l-3
 .column-m-16`, {},
-          h('.transparent.box', [
-            renderTitle()
-          , h('.container', [
-              h('h4.header', {}, 'User Activation')
-            , renderMessage(
-                flashMessage, props.activated ? 'success' : 'failure')
-            , h('h6', {}, 'NOTE')
-            , h('p.note', {}, 'The activation link seems invalid :\'(')
-            ])
-          , h('p.options', {}, props.activated ? [
-              h('p.options', [
-                'Visit'
-              , h('a.signin', { href: '/signin' }, 'Sign in')
+            h('.transparent.box', [
+              renderTitle()
+            , h('.container', [
+                h('h4.header', {}, 'User Activation')
+              , renderMessage(
+                  flashMessage, props.activated ? 'success' : 'failure')
+              , h('h6', {}, 'NOTE')
+              , h('p.note', {}, 'The activation link seems invalid :\'(')
               ])
-            ] : [
-              h('a.signup', { href: '/signup' }, 'Sign up')
-            , 'again or'
-            , h('a.contact', { href: 'mailto:' }, 'Contact administrator')
+            , h('p.options', {}, props.activated ? [
+                h('p.options', [
+                  'Visit'
+                , h('a.signin', { href: '/signin' }, 'Sign in')
+                ])
+              ] : [
+                h('a.signup', { href: '/signup' }, 'Sign up')
+              , 'again or'
+              , h('a.contact', { href: 'mailto:' }, 'Contact administrator')
+              ])
             ])
-          ])
+          )
         )
       )
     )
-  );
+  ]);
 };
 
 UserActivation.defaultProps = {
