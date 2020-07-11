@@ -276,7 +276,7 @@ Signin.defaultProps = {
 
 Signin.defaultHooks = {
   onComponentDidMount (_: any, props: SigninProps): void {
-    document.title = 'Sign in - ' + document.title;
+    document.title = 'Sign in - Eloquentlog';
     headRequest(props);
   }
 , onComponentDidUpdate (

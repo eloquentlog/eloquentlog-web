@@ -142,6 +142,6 @@ UserActivation.defaultProps = {
 
 UserActivation.defaultHooks = {
   onComponentDidMount (_: any): void {
-    document.title = 'User Activation - ' + document.title;
+    document.title = 'Activation - Eloquentlog';
   }
 };

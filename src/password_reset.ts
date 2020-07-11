@@ -327,7 +327,7 @@ PasswordReset.defaultProps = {
 
 PasswordReset.defaultHooks = {
   onComponentDidMount (_: any): void {
-    document.title = 'Reset password - ' + document.title;
+    document.title = 'Reset password - Eloquentlog';
     headRequest();
   }
 , onComponentDidUpdate (

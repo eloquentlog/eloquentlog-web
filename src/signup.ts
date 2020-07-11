@@ -309,7 +309,7 @@ Signup.defaultProps = {
 
 Signup.defaultHooks = {
   onComponentDidMount (_: any, props: SignupProps): void {
-    document.title = 'Sign up - ' + document.title;
+    document.title = 'Sign up - Eloquentlog';
     headRequest(props);
   }
 , onComponentDidUpdate (

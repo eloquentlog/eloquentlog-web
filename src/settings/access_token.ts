@@ -32,7 +32,7 @@ export class AccessToken extends
   }
 
   public componentDidMount() {
-    document.title = 'Access Token - ' + document.title;
+    document.title = 'Access Token - Eloquentlog';
     this.fetchAccessTokens();
   }
 
