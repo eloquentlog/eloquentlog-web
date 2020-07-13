@@ -9,8 +9,10 @@ import { PasswordReset } from './password_reset';
 import { PasswordResetRequest } from './password_reset_request';
 import { Signin } from './signin';
 import { Signup } from './signup';
-import { Top } from './top';
 import { UserActivation } from './user/activation';
+
+import { Top } from './top';
+import { NamespaceIndex } from './namespace/index';
 import { AccessToken } from './settings/access_token';
 
 export interface RouteProps {
@@ -41,6 +43,20 @@ export const Routing = (props: RouteProps): VNode => {
     , render: () => {
         return props.signedIn() ?
           h(Top, props) :
+          h(Redirect, { to: {
+            pathname: '/signin'
+          , state: {
+              flash: 'Please sign in'
+            }
+          }});
+      }
+    })
+  , h(Route, {
+      exact: true
+    , path: '/namespace'
+    , render: () => {
+        return props.signedIn() ?
+          h(NamespaceIndex, props) :
           h(Redirect, { to: {
             pathname: '/signin'
           , state: {
