@@ -10,23 +10,30 @@ import { Icon, IconProps } from '../prtl/icon';
  * @type {Array<VNode>}
  */
 export const sidebarItems: VNode[] = [
-  h('h6.section-title', 'NAVIGATION')
+  h('h6.section-title', 'YOURS')
+, h('.item-container', {},
+    h(Link, { to: '/namespace', className: 'item' }, [
+      h(Icon, { name: 'tag' } as IconProps)
+    , 'Namespaces'
+    ])
+  )
 , h('.item-container', {},
     h(Link, { to: '/', className: 'item' }, [
       h(Icon, { name: 'milestone' } as IconProps)
     , 'Streams'
     ])
   )
+, h('h6.section-title', 'GLOBAL')
 , h('.item-container', {},
-    h(Link, { to: '/', className: 'item' }, [
-      h(Icon, { name: 'tag' } as IconProps)
-    , 'Your Namespaces'
+    h(Link, { to: '#', className: 'item' }, [
+      h(Icon, { name: 'pulse' } as IconProps)
+    , 'Registry'
     ])
   )
 , h('hr.divider')
 , h('h6.section-title', 'CONFIGURATION')
 , h('.item-container', {},
-    h(Link, { to: '/', className: 'item' }, [
+    h(Link, { to: '#', className: 'item' }, [
       h(Icon, { name: 'star' } as IconProps)
     , 'Preferences'
     ])
@@ -39,7 +46,6 @@ export const sidebarItems: VNode[] = [
       ])
     , h('ul.item-container', [
         h(Link, { to: '/settings/token', className: 'item active' }, 'Access Tokens')
-      , h(Link, { to: '/settings/token', className: 'item' }, 'Profile')
       ])
     ])
   )
