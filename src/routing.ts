@@ -13,6 +13,7 @@ import { UserActivation } from './user/activation';
 
 import { Top } from './top';
 import { NamespaceIndex } from './namespace/index';
+import { NamespaceNew } from './namespace/new';
 import { AccessToken } from './settings/access_token';
 
 export interface RouteProps {
@@ -33,6 +34,15 @@ export interface RouteProps {
   theme: Theme;
 }
 
+const redirectToSignin = (): VNode => {
+  return h(Redirect, { to: {
+    pathname: '/signin'
+  , state: {
+      flash: 'Please sign in'
+    }
+  }});
+};
+
 export const Routing = (props: RouteProps): VNode => {
   props.handleTheme();
   return h(Switch, {}, [
@@ -43,12 +53,7 @@ export const Routing = (props: RouteProps): VNode => {
     , render: () => {
         return props.signedIn() ?
           h(Top, props) :
-          h(Redirect, { to: {
-            pathname: '/signin'
-          , state: {
-              flash: 'Please sign in'
-            }
-          }});
+          redirectToSignin();
       }
     })
   , h(Route, {
@@ -57,12 +62,16 @@ export const Routing = (props: RouteProps): VNode => {
     , render: () => {
         return props.signedIn() ?
           h(NamespaceIndex, props) :
-          h(Redirect, { to: {
-            pathname: '/signin'
-          , state: {
-              flash: 'Please sign in'
-            }
-          }});
+          redirectToSignin();
+      }
+    })
+  , h(Route, {
+      exact: true
+    , path: '/namespace/new'
+    , render: () => {
+        return props.signedIn() ?
+          h(NamespaceNew, props) :
+          redirectToSignin();
       }
     })
   , h(Route, {
@@ -86,12 +95,7 @@ export const Routing = (props: RouteProps): VNode => {
     , render: () => {
         return props.signedIn() ?
           h(AccessToken, props) :
-          h(Redirect, { to: {
-            pathname: '/signin'
-          , state: {
-              flash: 'Please sign in'
-            }
-          }});
+          redirectToSignin();
       }
     })
   , h(Route, {

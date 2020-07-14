@@ -1,13 +1,19 @@
 export const message = {
   flash: {
-    password_reset: {
+    namespace: {
+      create: {
+        failure: 'Namespace has not created'
+      , success: 'Namespace has successfuly created'
+      }
+    }
+  , password_reset: {
       expired: 'Your password reset link has been expired'
     , failure: 'Rassword reset has failed'
-    , success: 'Your password has beeen successfuly updated'
+    , success: 'Your password has been successfuly updated'
     }
   , password_reset_request: {
       failure: 'Rassword reset request has failed'
-    , success: 'Password reset has beeen successfuly requested'
+    , success: 'Password reset has been successfuly requested'
     }
   , signin: {
       failure: 'The credentials you\'ve entered are incorrect'
@@ -20,7 +26,7 @@ Please check it.`
   , user_activation: {
       expired: 'Your activation link has been expired'
     , failure: 'Activation failed'
-    , success: 'Your account has beeen successfuly activated'
+    , success: 'Your account has been successfuly activated'
     }
   }
 , description: {
