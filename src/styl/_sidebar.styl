@@ -30,6 +30,9 @@
     & ~ .item.right
       margin 0.99rem 0.02rem 0.82rem 0
 
+  .item
+    color $sidebar-item-txt-colour
+
   .section-title
     color darken($sidebar-section-title-colour, 18%)
     font-size 0.81em
@@ -91,7 +94,7 @@
 
   input[type="text"].search
     background-color $sidebar-search-bg-colour
-    border 0
+    border 1px solid $sidebar-search-border-colour
     border-radius 0.14rem
     color $sidebar-search-txt-colour
     height 2.11rem

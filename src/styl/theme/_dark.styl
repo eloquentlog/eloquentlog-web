@@ -36,8 +36,8 @@ $dark-placeholder-txt-colour = #666666
 
 $dark-sidebar-border-colour = #161616
 $dark-sidebar-bg-colour = #282828
-$dark-sidebar-search-bg-colour = #333333
-$dark-sidebar-search-txt-colour = #cdcdcd
+$dark-sidebar-search-bg-colour = #222222
+$dark-sidebar-search-txt-colour = #848484
 $dark-sidebar-inner-header-bg-colour = #454545
 $dark-sidebar-item-border-colour = #080808
 $dark-sidebar-item-bg-colour = #202020
@@ -64,6 +64,12 @@ body.dark > .wrapper
     background-color $dark-global-header-colour
     border-top 3px solid $dark-global-header-border-colour
 
+  .breadcrumb
+    a.item.active
+      color darken($dark-txt-colour, 23%)
+
+  a.button,
+  button,
   button[type="submit"].button,
   input[type="submit"].button,
     border 1px solid $dark-btn-border-colour
@@ -81,6 +87,7 @@ body.dark > .wrapper
         border 1px solid $dark-btn-border-hover-colour !important
         color $dark-btn-txt-hover-colour
 
+  a.button,
   button
     background-color $dark-btn-secondary-bg-colour
     border 1px solid $dark-btn-border-colour
@@ -103,6 +110,7 @@ body.dark > .wrapper
 
     input[type="text"].search
       background-color $dark-sidebar-search-bg-colour
+      border 1px solid $dark-sidebar-item-border-colour
       color $dark-sidebar-search-txt-colour
 
     > .item.active
@@ -140,7 +148,8 @@ body.dark > .wrapper
         color $dark-label-txt-colour
       input[type="email"],
       input[type="password"],
-      input[type="text"]
+      input[type="text"],
+      textarea
         background-color $dark-input-bg-colour
         border 1px solid $dark-input-border-colour
         color $dark-input-txt-colour

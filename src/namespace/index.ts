@@ -77,12 +77,15 @@ export class NamespaceIndex extends
 .column-m-16`, {},
               h('.transparent.box', [
                 h('.container', [
-                  h('h4.header', {}, 'Your Namespaces')
+                  h('.breadcrumb', [
+                      h('span.divider', {}, '/')
+                    , h('a.item.active', { href: '#' }, 'Namespaces')
+                  ])
+                , h('h4.header', {}, 'Your Namespaces')
                 , h(Link, {
-                    to: '/'
-                  , className: 'primary link add'
-                  , dangerouslySetInnerHTML: { __html: '&plus;' }
-                  })
+                    to: '/namespace/new'
+                  , className: 'primary flat button new'
+                  }, 'New')
                 , h('table.namespace', [
                     h('thead', {}, h('tr', [
                       h('th', {}, 'Name')

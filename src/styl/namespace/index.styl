@@ -1,20 +1,26 @@
-.primary.link.add
-  display inline-block
-  float right
-  font-weight bold
-  font-size 1.89em
-  margin 0 0.32rem 0.42rem 0
-  &:hover
-    text-decoration none
+@require '../prtl/_colour'
 
-table.namespace
-  td.name
-    max-width 4.6rem
-  td.created-at,
-  td.action
-    max-width 3rem
-  td.action
-    text-align right
-    a
-      display inline-block
-      margin-right 0.23rem
+#namespace
+  .button.new
+    margin 0.29rem 0 0.92rem 0
+    &:hover
+      text-decoration none
+
+  table.namespace
+    td.name
+      max-width 4.6rem
+    td.created-at,
+    td.action
+      max-width 3rem
+    td.action
+      text-align right
+      a
+        display inline-block
+        margin-right 0.23rem
+
+  form.form
+    textarea
+      height 4.9em
+
+    button#submit
+      margin-top 1.26rem

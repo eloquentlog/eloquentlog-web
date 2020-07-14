@@ -4,6 +4,7 @@ import { h } from 'inferno-hyperscript';
 
 // shared styles
 import 'styr';
+import './styl/_breadcrumb.styl';
 import './styl/_form.styl';
 import './styl/_header.styl';
 import './styl/_layout.styl';
