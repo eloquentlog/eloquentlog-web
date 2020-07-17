@@ -7,26 +7,39 @@ export interface Token {
   value: string;
 }
 
-export const readToken = (name: string): Token => {
-  return Cookies.getJSON(name);
+const tokenKey = 'header.payload';
+
+export const extendToken = (): boolean => {
+  const token = readToken();
+  if (token && token.value) {
+    return saveToken(token.value) !== null;
+  }
+  return false;
 };
 
-export const saveToken = (name: string, value: string): string => {
+export const readToken = (): Token => {
+  return Cookies.getJSON(tokenKey);
+};
+
+export const saveToken = (value: string): string => {
   const path = '/'
       , domain = cfg.Cookie.Domain
       , secure = cfg.Cookie.Secure
       , expires = cfg.Cookie.Expires
       ;
-  Cookies.remove(name, { path, domain });
+  Cookies.remove(tokenKey, { path, domain });
   if (value !== undefined) {
     // NOTE:
     // The value should contain only first 2 parts of
     // `heaher.payload.signature`.
     const parts: string[] = value.split('.', 2);
     if (parts.length !== 2) {
-      console.error('invalid token');
+      console.error('invalid token value');
+      return null;
     } else {
-      // e.g. expires: 1 / 8 (0.125) * 864e+5 / 1000 / 60 = 180.0 (3h)
+      // e.g.
+      // - expires: 1 / 8 (0.125) * 864e+5 / 1000 / 60 = 180.0 (3 hours)
+      // - expires: 3 * 864e+5 / 1000 / 60 = 4320.0 (3 days)
       const token: Token = {
         value: parts.slice(0, 2).join('.')
       , limit: new Date((new Date()).getTime() + (expires * 864e+5))
@@ -43,7 +56,7 @@ export const saveToken = (name: string, value: string): string => {
         sameSite: 'Strict'
       });
 
-      Cookies.set(name, token, attributes);
+      Cookies.set(tokenKey, token, attributes);
     }
   }
   return value;

@@ -12,6 +12,6 @@
   "Cookie": {
     "Domain": "127.0.0.1",
     "Secure": false,
-    "Expires": 0.125
+    "Expires": 3
   }
 }

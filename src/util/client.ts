@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import * as cfg from '../../config.json';
 import { ValidationError } from './form';
+import { extendToken } from './token';
 
 export interface Response {
   message: string;
@@ -42,6 +43,9 @@ const getClient = (
   });
 
   client.interceptors.response.use((res: any) => {
+    if (res && res.status === 200) {
+      extendToken();
+    }
     return res;
   }, (err: any) => {
     return new Promise((_, reject) => {
