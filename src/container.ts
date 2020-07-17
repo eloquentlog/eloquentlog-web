@@ -17,8 +17,6 @@ interface ContainerState {
   theme?: Theme;
 }
 
-const tokenKey = 'header.payload';
-
 export class Container extends BaseComponent<ContainerProps, ContainerState> {
   constructor (props: ContainerProps) {
     super(props);
@@ -89,7 +87,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   }
 
   private getToken(): string {
-    const token = readToken(tokenKey);
+    const token = readToken();
     if (token !== undefined) {
       return token.value;
     }
@@ -97,7 +95,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   }
 
   private getStamp (): string {
-    const token = readToken(tokenKey);
+    const token = readToken();
     // TODO: consider this (for now, just return the limit as stamp)
     if (token !== undefined) {
       return token.limit.toString();
@@ -106,7 +104,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   }
 
   private putStamp (value: string): string {
-    saveToken(tokenKey, value);
+    saveToken(value);
     return this.getStamp();
   }
 
