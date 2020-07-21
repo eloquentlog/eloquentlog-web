@@ -135,8 +135,7 @@ build-production:
     expire_in: 3 days
   only:
     - release@eloquentlog/eloquentlog-web-console
-    - master@eloquentlog/eloquentlog-web-console
-    - tags
+    - tags@eloquentlog/eloquentlog-web-console
 
 release:
   stage: deploy
