@@ -17,8 +17,50 @@ stages:
     - npm --version
     - npm install
 
+.sqlite:
+  - &sqlite
+    if [ ! -d ".sqlite" ]; then
+      mkdir -p .sqlite/{include,lib/pkgconfig};
+      USE="readline secure-delete"
+        emerge --quiet-build=y --nospinner --oneshot dev-db/sqlite:3;
+      cp -R /usr/include/sqlite3ext.h .sqlite/include/;
+      cp -R /usr/include/sqlite3.h .sqlite/include/;
+      cp -R /usr/lib64/libsqlite* .sqlite/lib/;
+      cp -R /usr/lib64/pkgconfig/sqlite3.pc .sqlite/lib/pkgconfig/;
+      cp /usr/bin/sqlite3 .sqlite/sqlite3;
+    else
+      cp -R .sqlite/sqlite3 /usr/bin/sqlite3;
+      cp -R .sqlite/lib/pkgconfig/* /usr/lib64/pkgconfig/;
+      cp -R .sqlite/lib/libsqlite* /usr/lib64/;
+      cp -R .sqlite/include/* /usr/include/;
+      rm -fr /etc/ld.so.cache;
+      ldconfig;
+    fi
+
+.python:
+  - &python
+    if [ ! -d ".python" ]; then
+      mkdir -p .python/{include,lib/pkgconfig,lib64};
+      USE="readline sqlite ssl xml"
+        emerge --quiet-build=y --nospinner --oneshot dev-lang/python:2.7;
+      cp -R /usr/include/python2.7/ .python/include;
+      cp -R /usr/lib64/python2.7/ .python/lib64;
+      cp -R /usr/lib64/pkgconfig/python-2.7.pc .python/lib/pkgconfig/;
+      cp -R /usr/lib/python-exec/ .python/lib/python-exec;
+      cp /usr/bin/python2.7 .python/python2.7;
+    else
+      cp -R .python/python2.7 /usr/bin/python2.7;
+      cp -R .python/lib/pkgconfig/* /usr/lib64/pkgconfig/;
+      cp -R .python/lib64/ /usr/lib64/python2.7;
+      cp -R .python/lib/python-exec/ /user/lib/python-exec;
+      cp -R .python/include/ /user/include/python2.7;
+      rm -fr /etc/ld.so.cache;
+      ldconfig;
+    fi
+
 .cloud-sdk:
   - &cloud-sdk
+    export CLOUDSDK_PYTHON=python27
     mkdir -p .tool;
     cd .tool;
     if [ ! -d "../.cloud-sdk" ]; then
@@ -108,6 +150,8 @@ release:
     # GCP_CLOUD_STORAGE_BUCKET_NAME: bucket_name
     # GCP_PROJECT_ID: eloquentlog
   before_script:
+    - *sqlite
+    - *python
     - *cloud-sdk
   script:
     - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc; make deploy
