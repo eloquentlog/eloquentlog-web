@@ -84,7 +84,7 @@ build-production:
   variables:
     NODE_ENV: production
   script:
-    - cp $CONFIG_JOSN_FILE config.json
+    - cp $CONFIG_JSON_FILE config.json
     - make build:production
   artifacts:
     paths:
