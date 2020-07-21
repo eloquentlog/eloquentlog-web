@@ -91,6 +91,7 @@ build-production:
       - dst
     expire_in: 3 days
   only:
+    - release@eloquentlog/eloquentlog-web-console
     - master@eloquentlog/eloquentlog-web-console
     - tags
 
@@ -111,4 +112,5 @@ release:
   script:
     - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc; make deploy
   only:
+    - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
