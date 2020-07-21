@@ -1,3 +1,7 @@
+GCP_PROJECT_ID ?=
+GCP_CREDENTIAL_JSON ?=
+GCP_CLOUD_STORAGE_BUCKET_NAME ?=
+
 # setup {{{
 setup:  ## Install node dev modules
 	@npm i
@@ -45,6 +49,18 @@ test:
 .PHONY: test
 # }}}
 
+# deploy {{{
+deploy:
+	@export CLOUDSDK_PYTHON=python2.7
+	@export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"
+	@gcloud auth activate-service-account \
+		--key-file=$(GCP_CREDENTIAL_JSON) >/dev/null 2>&1
+	@gsutil rsync -R dst gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
+	@gsutil iam ch allUsers:objectViewer gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
+	@gsutil web set -m index.html gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
+.PHONY: deploy
+# }}}
+
 # other {{{
 watch\:build:  ## Start a process for build [alias: watch]
 	@npm run watch:build
@@ -69,8 +85,8 @@ server: | watch\:server
 .PHONY: server
 
 clean:  ## Tidy up
-	@rm dst/index*.js*
-	@rm dst/index*.css*
+	@rm dst/js/index*.js*
+	@rm dst/css/index*.css*
 .PHONY: clean
 
 help:  ## Display this message

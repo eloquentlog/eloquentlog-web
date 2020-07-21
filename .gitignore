@@ -1,5 +1,8 @@
 config.json
 
+.env*
+!.env*.sample
+
 /dst/*
 !/dst/
 !/dst/img
@@ -9,5 +12,9 @@ config.json
 !/test/dst/.gitignore
 
 /.cache
+
+/.tool/google-cloud-sdk*
+/.tool/gitlab-runner
+!/.tool/{setup,load}*
 
 /node_modules

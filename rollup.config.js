@@ -20,7 +20,7 @@ const root = __dirname
 const development = {
   input: path.join(src, 'index.ts')
 , output: {
-    file: path.join(dst, 'index.js')
+    file: path.join(dst, 'js', 'index.js')
   , format: 'iife'
   , sourcemap: true
   }
@@ -41,7 +41,9 @@ const development = {
     , extensions: ['.js', '.json', '.ts']
     })
   , stylus()
-  , css()
+  , css({
+      output: path.join(dst, 'css', 'index.css')
+    })
   , buble({
       objectAssign: 'Object.assign'
     , transforms: {
@@ -64,7 +66,7 @@ const development = {
 const test = {
   input: path.join('test', 'index.test.ts')
 , output: {
-    file: path.join('test', 'dst', 'index.js')
+    file: path.join('test', 'dst', 'js', 'index.js')
   , format: 'iife'
   , sourcemap: true
   }
@@ -107,7 +109,7 @@ const test = {
 const production = {
   input: path.join(src, 'index.ts')
 , output: [{
-    file: path.join(dst, 'index.min.js')
+    file: path.join(dst, 'js', 'index.min.js')
   , format: 'iife'
   , sourcemap: false
   }]
@@ -128,7 +130,9 @@ const production = {
     , extensions: ['.js', '.json', '.ts']
     })
   , stylus()
-  , css()
+  , css({
+      output: path.join(dst, 'css', 'index.min.css')
+    })
   , buble({
       objectAssign: 'Object.assign'
     , transforms: {
