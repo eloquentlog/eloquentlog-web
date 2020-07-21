@@ -167,20 +167,20 @@ release:
     - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
     - source .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
     - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
-      >release.log 2>&1
+      >>release.log 2>>&1
     - cp $GCP_APP_YAML app.yaml
     - cp $GCP_DOTIGNORE .gcloudignore
     - gcloud app deploy --stop-previous-version --quiet
-      >release.log 2>&1
+      >>release.log 2>>&1
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
   # DEBUG
-  # arfitacts:
-  #   paths:
-  #     - release.log
-  #     - $CLOUD_SDK_ARTIFACT
-  #   expire_in: 1 day
+  arfitacts:
+    paths:
+      - release.log
+      # - $CLOUD_SDK_ARTIFACT
+    expire_in: 1 day
   cache:
     key: release
     paths:
