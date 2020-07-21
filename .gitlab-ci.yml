@@ -154,14 +154,22 @@ release:
     CLOUD_SDK_FILENAME: ${CLOUD_SDK_ARTIFACT}-301.0.0-linux-x86_64.tar.gz
     # set as secret variables
     # GCP_CREDENTIAL_JSON: /path/to/credential.json
-    # GCP_CLOUD_STORAGE_BUCKET_NAME: bucket_name
     # GCP_PROJECT_ID: eloquentlog
+    # GCP_APP_YAML: /path/to/app.yaml
+    # GCP_DOTIGNORE: /path/to/.gcloudignore
   before_script:
     - *sqlite
     - *python
     - *cloud-sdk
   script:
-    - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc; make deploy
+    - export CLOUDSDK_PYTHON=python2.7
+    - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
+    - gcloud auth activate-service-account \
+      --key-file=$GCP_CREDENTIAL_JSON >/dev/null 2>&1
+    - cp $GCP_APP_YAML app.yaml
+    - cp $GCP_DOTIGNORE .gcloudignore
+    - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
+    - gcloud app deploy
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
