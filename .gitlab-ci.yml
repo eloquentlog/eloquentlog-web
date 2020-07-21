@@ -133,7 +133,7 @@ build-release:
   script:
     - cp $CONFIG_JSON_FILE config.json
     - make build:production
-    - sed -i 's/index/index.min/' dst/index.html
+    - sed -i "s/index.\(.*\)/index.min.\1?v=$(date +%s)/" dst/index.html
   artifacts:
     paths:
       - dst
@@ -162,20 +162,23 @@ release:
     - *python
     - *cloud-sdk
   script:
+    - touch release.log
     - export CLOUDSDK_PYTHON=python2.7
     - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
     - source .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
     - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
-      >/dev/null 2>&1
+      >release.log 2>&1
     - cp $GCP_APP_YAML app.yaml
     - cp $GCP_DOTIGNORE .gcloudignore
-    - gcloud app deploy
+    - gcloud app deploy --stop-previous-version --quiet
+      >release.log 2>&1
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
   # DEBUG
   # arfitacts:
   #   paths:
+  #     - release.log
   #     - $CLOUD_SDK_ARTIFACT
   #   expire_in: 1 day
   cache:
