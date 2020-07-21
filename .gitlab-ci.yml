@@ -176,7 +176,7 @@ release:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
   # DEBUG
-  arfitacts:
+  artifacts:
     paths:
       - release.log
       # - $CLOUD_SDK_ARTIFACT
