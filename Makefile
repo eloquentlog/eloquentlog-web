@@ -54,10 +54,10 @@ deploy:
 	@export CLOUDSDK_PYTHON=python2.7
 	@export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"
 	@gcloud auth activate-service-account \
-		--key-file=$(GCP_CREDENTIAL_JSON)
-	@gsutil rsync -R dst gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
-	@gsutil iam ch allUsers:objectViewer gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
-	@gsutil web set -m index.html gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
+		--key-file=$(GCP_CREDENTIAL_JSON) >/dev/null 2>&1
+	@gsutil rsync -R dst gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
+	@gsutil iam ch allUsers:objectViewer gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
+	@gsutil web set -m index.html gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)
 .PHONY: deploy
 # }}}
 
