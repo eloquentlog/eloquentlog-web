@@ -1,3 +1,7 @@
+GCP_PROJECT_ID ?=
+GCP_CREDENTIAL_JSON ?=
+GCP_CLOUD_STORAGE_BUCKET_NAME ?=
+
 # setup {{{
 setup:  ## Install node dev modules
 	@npm i
@@ -47,13 +51,13 @@ test:
 
 # deploy {{{
 deploy:
-	export CLOUDSDK_PYTHON=python2.7
-	export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"
-	gcloud auth activate-service-account \
+	@export CLOUDSDK_PYTHON=python2.7
+	@export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"
+	@gcloud auth activate-service-account \
 		--key-file=$(GCP_CREDENTIAL_JSON)
-	gsutil rsync -R dst gs://$GCP_CLOUD_STORAGE_BUCKET_NAME/dst
-	gsutil iam ch allUsers:objectViewer gs://$GCP_CLOUD_STORAGE_BUCKET_NAME/dst
-	gsutil web set -m index.html gs://$GCP_CLOUD_STORAGE_BUCKET_NAME/dst
+	@gsutil rsync -R dst gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
+	@gsutil iam ch allUsers:objectViewer gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
+	@gsutil web set -m index.html gs://$(GCP_CLOUD_STORAGE_BUCKET_NAME)/dst
 .PHONY: deploy
 # }}}
 
