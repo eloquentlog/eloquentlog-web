@@ -47,6 +47,7 @@ test:
 
 # deploy {{{
 deploy:
+	export CLOUDSDK_PYTHON=python2.7
 	export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"
 	gcloud auth activate-service-account \
 		--key-file=$(GCP_CREDENTIAL_JSON)
