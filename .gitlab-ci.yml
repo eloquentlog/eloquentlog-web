@@ -128,6 +128,7 @@ build-production:
   script:
     - cp $CONFIG_JSON_FILE config.json
     - make build:production
+    - sed -i 's/index/index.min/' dst/index.html
   artifacts:
     paths:
       - dst
