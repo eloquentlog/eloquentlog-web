@@ -10,4 +10,7 @@ config.json
 
 /.cache
 
+/.tool/google-cloud-sdk*
+!/.tool/{setup,load}*
+
 /node_modules

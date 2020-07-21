@@ -45,6 +45,15 @@ test:
 .PHONY: test
 # }}}
 
+# deploy {{{
+deploy:
+	export CLOUDSDK_CORE_PROJECT="$(GCP_PROJECT_ID)"; \
+	gcloud auth activate-service-account \
+		--key-file=$(GCP_CREDENTIAL_JSON); \
+  gsutil rsync -R dst gs://$GCP_CLOUD_STORAGE_BUCKET_NAME/dst
+.PHONY: deploy
+# }}}
+
 # other {{{
 watch\:build:  ## Start a process for build [alias: watch]
 	@npm run watch:build
