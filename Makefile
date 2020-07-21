@@ -85,8 +85,8 @@ server: | watch\:server
 .PHONY: server
 
 clean:  ## Tidy up
-	@rm dst/index*.js*
-	@rm dst/index*.css*
+	@rm dst/js/index*.js*
+	@rm dst/css/index*.css*
 .PHONY: clean
 
 help:  ## Display this message
