@@ -81,7 +81,8 @@ stages:
       --quiet >$CLOUD_SDK_ARTIFACT/install.log 2>&1;
     cd ../
 
-verify-typescript:
+# verify {{{
+tslint:
   stage: verify
   <<: *nodejs
   variables:
@@ -91,7 +92,7 @@ verify-typescript:
   except:
     - tags
 
-verify-stylus:
+stylint:
   stage: verify
   <<: *nodejs
   variables:
@@ -100,7 +101,9 @@ verify-stylus:
     - make verify:lint:styl
   except:
     - tags
+# }}}
 
+# test {{{
 test:
   stage: test
   <<: *nodejs
@@ -110,8 +113,10 @@ test:
     - make test
   except:
     - tags
+# }}}
 
-build-development:
+# build {{{
+build-debug:
   stage: build
   <<: *nodejs
   variables:
@@ -120,7 +125,7 @@ build-development:
     - cp config.json.sample config.json
     - make build:development
 
-build-production:
+build-release:
   stage: build
   <<: *nodejs
   variables:
@@ -136,7 +141,9 @@ build-production:
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
+# }}}
 
+# deploy {{{
 release:
   stage: deploy
   <<: *gentoo
@@ -158,3 +165,4 @@ release:
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
+# }}}
