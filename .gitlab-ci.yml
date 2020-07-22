@@ -169,8 +169,11 @@ release:
       >/dev/null 2>&1
     - cp $GCP_APP_YAML app.yaml
     - cp $GCP_DOTIGNORE .gcloudignore
+    - echo '.sqlite' >> .gcloudignore
+    - echo '.python' >> .gcloudignore
+    - echo '.cloud-sdk' >> .gcloudignore
     - gcloud app deploy --project=$GCP_PROJECT_ID --stop-previous-version
-      --quiet
+      --quiet >/dev/null 2>&1
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
