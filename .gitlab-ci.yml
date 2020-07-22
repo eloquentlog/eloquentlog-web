@@ -162,25 +162,18 @@ release:
     - *python
     - *cloud-sdk
   script:
-    - touch release.log
     - export CLOUDSDK_PYTHON=python2.7
     - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
     - source .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
     - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
-      >>release.log 2>&1
+      >/dev/null 2>&1
     - cp $GCP_APP_YAML app.yaml
     - cp $GCP_DOTIGNORE .gcloudignore
     - gcloud app deploy --project=$GCP_PROJECT_ID --stop-previous-version
-      --quiet >>release.log 2>&1
+      --quiet
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
-  # DEBUG
-  artifacts:
-    paths:
-      - release.log
-      # - $CLOUD_SDK_ARTIFACT
-    expire_in: 1 day
   cache:
     key: release
     paths:
