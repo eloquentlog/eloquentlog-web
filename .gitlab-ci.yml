@@ -52,8 +52,8 @@ stages:
       cp -R .python/python2.7 /usr/bin/python2.7;
       cp -R .python/lib/pkgconfig/* /usr/lib64/pkgconfig/;
       cp -R .python/lib64/ /usr/lib64/python2.7;
-      cp -R .python/lib/python-exec/ /user/lib/python-exec;
-      cp -R .python/include/ /user/include/python2.7;
+      cp -R .python/lib/python-exec/ /usr/lib/python-exec;
+      cp -R .python/include/ /usr/include/python2.7;
       rm -fr /etc/ld.so.cache;
       ldconfig;
     fi
@@ -81,7 +81,8 @@ stages:
       --quiet >$CLOUD_SDK_ARTIFACT/install.log 2>&1;
     cd ../
 
-verify-typescript:
+# verify {{{
+tslint:
   stage: verify
   <<: *nodejs
   variables:
@@ -91,7 +92,7 @@ verify-typescript:
   except:
     - tags
 
-verify-stylus:
+stylint:
   stage: verify
   <<: *nodejs
   variables:
@@ -100,7 +101,9 @@ verify-stylus:
     - make verify:lint:styl
   except:
     - tags
+# }}}
 
+# test {{{
 test:
   stage: test
   <<: *nodejs
@@ -110,8 +113,10 @@ test:
     - make test
   except:
     - tags
+# }}}
 
-build-development:
+# build {{{
+build-debug:
   stage: build
   <<: *nodejs
   variables:
@@ -120,7 +125,7 @@ build-development:
     - cp config.json.sample config.json
     - make build:development
 
-build-production:
+build-release:
   stage: build
   <<: *nodejs
   variables:
@@ -128,7 +133,8 @@ build-production:
   script:
     - cp $CONFIG_JSON_FILE config.json
     - make build:production
-    - sed -i 's/index/index.min/' dst/index.html
+    - sed -i "s/index.\(\(css\|js\)\)/index.min.\1?v=$(date +%s)/"
+      dst/index.html
   artifacts:
     paths:
       - dst
@@ -136,7 +142,9 @@ build-production:
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
+# }}}
 
+# deploy {{{
 release:
   stage: deploy
   <<: *gentoo
@@ -147,14 +155,34 @@ release:
     CLOUD_SDK_FILENAME: ${CLOUD_SDK_ARTIFACT}-301.0.0-linux-x86_64.tar.gz
     # set as secret variables
     # GCP_CREDENTIAL_JSON: /path/to/credential.json
-    # GCP_CLOUD_STORAGE_BUCKET_NAME: bucket_name
     # GCP_PROJECT_ID: eloquentlog
+    # GCP_APP_YAML: /path/to/app.yaml
+    # GCP_DOTIGNORE: /path/to/.gcloudignore
   before_script:
     - *sqlite
     - *python
     - *cloud-sdk
   script:
-    - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc; make deploy
+    - export CLOUDSDK_PYTHON=python2.7
+    - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
+    - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
+    - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
+      >/dev/null 2>&1
+    - cp $GCP_APP_YAML app.yaml
+    - cp $GCP_DOTIGNORE .gcloudignore
+    - echo '.sqlite' >> .gcloudignore
+    - echo '.python' >> .gcloudignore
+    - echo '.cloud-sdk' >> .gcloudignore
+    - gcloud app deploy --project=$GCP_PROJECT_ID --stop-previous-version
+      --appyaml=app.yaml --ignore-file=.gcloudignore
+      --quiet >/dev/null 2>&1
   only:
     - release@eloquentlog/eloquentlog-web-console
     - tags@eloquentlog/eloquentlog-web-console
+  cache:
+    key: release
+    paths:
+      - .cloud-sdk
+      - .python
+      - .sqlite
+# }}}
