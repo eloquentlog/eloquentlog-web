@@ -17,4 +17,7 @@ config.json
 /.tool/gitlab-runner
 !/.tool/{setup,load}*
 
+.gcloudignore
+app.yaml
+
 /node_modules
