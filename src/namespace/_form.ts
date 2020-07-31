@@ -47,7 +47,7 @@ const lock = (f: Element): void => {
 
 const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [400, 401, 422].some((n: number): boolean => n === status);
+         [400, 404, 422].some((n: number): boolean => n === status);
 });
 
 const handleRequired = (

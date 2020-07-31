@@ -30,7 +30,7 @@ interface PasswordResetRequestProps {
 
 const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [400, 401, 404, 422].some((n: number): boolean => n === status);
+         [400, 401, 403, 404, 422].some((n: number): boolean => n === status);
 });
 
 // Checks if required field is not empty
