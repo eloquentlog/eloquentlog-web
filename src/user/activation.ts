@@ -16,7 +16,7 @@ interface UserActivationProps {
 
 const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [401, 422].some((n: number): boolean => n === status);
+         [400, 401, 403, 404, 422].some((n: number): boolean => n === status);
 });
 
 const displayNote = (message: string): void => {

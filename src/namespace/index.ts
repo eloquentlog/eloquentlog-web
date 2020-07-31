@@ -22,7 +22,7 @@ interface NamespaceIndexState {
 // tslint:disable-next-line
 const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [401, 422].some((n: number): boolean => n === status);
+         [400, 404, 422].some((n: number): boolean => n === status);
 });
 
 export class NamespaceIndex extends
