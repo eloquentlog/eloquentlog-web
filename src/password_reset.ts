@@ -13,6 +13,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { getFlashMessage } from './util/flash';
 import { message as msg } from './util/message';
 import { Theme } from './util/theme';
 import { renderTitle } from './prtl/title';
@@ -195,15 +196,6 @@ const hasReset = (history: H.History): boolean => {
     history.action === 'PUSH' &&
     history.location.pathname === '/password/reset'
   );
-};
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
 };
 
 const verify = (props: PasswordResetProps): void => {
