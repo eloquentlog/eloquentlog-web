@@ -15,6 +15,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { getFlashMessage } from './util/flash';
 import { Theme } from './util/theme';
 import { message as msg } from './util/message';
 
@@ -176,15 +177,6 @@ const handleThemeLinkClick = (
   event.preventDefault();
 
   props.setTheme(props.theme === Theme.Light ? Theme.Dark : Theme.Light, true);
-};
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
 };
 
 export const Signin = (

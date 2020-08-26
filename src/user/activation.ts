@@ -3,6 +3,7 @@ import { VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
 import { webClient } from '../util/client';
+import { getFlashMessage } from '../util/flash';
 import { message as msg } from '../util/message';
 import { renderTitle } from '../prtl/title';
 import { renderMessage } from '../prtl/message';
@@ -34,15 +35,6 @@ const hasActivated = (history: H.History): boolean => {
   return message === msg.flash.user_activation.success &&
     history.action === 'REPLACE' &&
     history.location.pathname === '/user/activate';
-};
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
 };
 
 const activate = (props: UserActivationProps): void => {
