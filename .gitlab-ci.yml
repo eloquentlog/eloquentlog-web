@@ -8,7 +8,7 @@ stages:
   image: registry.gitlab.com/grauwoelfchen/portolan/gentoo-amd64-nomultilib:latest
 
 .nodejs: &nodejs
-  image: node:12.16.1
+  image: node:12.18.3
   cache:
     paths:
       - node_modules

@@ -13,6 +13,7 @@ import {
 , removeMessage
 , ValidationError
 } from './util/form';
+import { getFlashMessage } from './util/flash';
 import { message as msg } from './util/message';
 import { Theme } from './util/theme';
 import { renderTitle } from './prtl/title';
@@ -31,7 +32,7 @@ interface PasswordResetProps {
 
 const client = webClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [400, 401, 404, 422].some((n: number): boolean => n === status);
+         [400, 401, 403, 404, 422].some((n: number): boolean => n === status);
 });
 
 // Checks if required field is not empty
@@ -195,15 +196,6 @@ const hasReset = (history: H.History): boolean => {
     history.action === 'PUSH' &&
     history.location.pathname === '/password/reset'
   );
-};
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
 };
 
 const verify = (props: PasswordResetProps): void => {

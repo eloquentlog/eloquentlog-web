@@ -11,7 +11,7 @@ interface TopProps extends RouteProps {}
 
 const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [422].some((n: number): boolean => n === status);
+         [400, 404, 422].some((n: number): boolean => n === status);
 });
 
 const fetchMessages = (props: TopProps): void => {

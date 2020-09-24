@@ -1,4 +1,3 @@
-import * as H from 'history';
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 
@@ -13,6 +12,7 @@ import {
 , removeMessage
 , ValidationError
 } from '../util/form';
+import { getFlashMessage } from '../util/flash';
 import { message as msg } from '../util/message';
 
 export enum NamespaceFormContext {
@@ -47,7 +47,7 @@ const lock = (f: Element): void => {
 
 const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
-         [400, 401, 422].some((n: number): boolean => n === status);
+         [400, 404, 422].some((n: number): boolean => n === status);
 });
 
 const handleRequired = (
@@ -146,16 +146,6 @@ const handleSubmit = (props: NamespaceFormProps, event: Event): void => {
     console.log(err);
   });
 };
-
-const getFlashMessage = (history: H.History): string => {
-  const { location } = history;
-  if ((typeof location.state) === 'object' &&
-     location.state.flash !== undefined) {
-    return location.state.flash;
-  }
-  return undefined;
-};
-
 
 export const NamespaceForm = (props: NamespaceFormProps): VNode => {
   const flashMessage = getFlashMessage(props.parent.history);
