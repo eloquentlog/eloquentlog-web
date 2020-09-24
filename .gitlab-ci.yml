@@ -15,7 +15,7 @@ stages:
   before_script:
     - node --version
     - npm --version
-    - npm install
+    - make setup
 
 .sqlite:
   - &sqlite
@@ -123,7 +123,7 @@ build-debug:
     NODE_ENV: development
   script:
     - cp config.json.sample config.json
-    - make build:development
+    - make build:debug
 
 build-release:
   stage: build
@@ -132,7 +132,7 @@ build-release:
     NODE_ENV: production
   script:
     - cp $CONFIG_JSON_FILE config.json
-    - make build:production
+    - make build:release
     - sed -i "s/index.\(\(css\|js\)\)/index.min.\1?v=$(date +%s)/"
       dst/index.html
   artifacts:
