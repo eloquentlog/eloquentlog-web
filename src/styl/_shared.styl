@@ -52,27 +52,27 @@
     table
       width 100%
 
-      th,
-      td
+      td,
+      th
         padding 0.23rem 0.46rem
         text-align left
 
-      th:first-child,
-      td:first-child
+      td:first-child,
+      th:first-child
         padding-left 0.66rem
 
-      th:last-child,
-      td:last-child
+      td:last-child,
+      th:last-child
         padding-right 0.66rem
+
+      td
+        border-bottom 1px solid $border-colour
 
       th
         background-color $table-header-bg-colour
         color $table-header-txt-colour
         font-weight bold
         height 1.93em
-
-      td
-        border-bottom 1px solid $border-colour
 
     textarea
       resize none
@@ -81,16 +81,16 @@
   display table
   height 100%
   margin auto
-  width 100%
   text-align center
+  width 100%
 
   .modal
     display table-cell
-    vertical-align middle
     margin-top auto
+    vertical-align middle
 
   p.message
     a.close
-      font-size 1.41em
       display inline-block
+      font-size 1.41em
       margin 0 1.33rem 0 0.14rem
