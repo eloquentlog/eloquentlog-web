@@ -1,23 +1,21 @@
-# setup {{{
+# setup
 setup:  ## Install node dev modules
 	@npm i
 .PHONY: setup
-# }}}
 
-# build {{{
-build\:development:  ## Build in development mode [alias: build]
+# build
+build\:debug:  ## Build in development mode [alias: build]
 	npm run build:development
-.PHONY: build\:development
+.PHONY: build\:debug
 
-build\:production:  ## Build in production mode
+build\:release:  ## Build in production mode
 	npm run build:production
-.PHONY: build\:production
+.PHONY: build\:release
 
-build: build\:development
+build: build\:debug
 .PHONY: build
-# }}}
 
-# verify {{{
+# verify
 verify\:lint\:ts:  ## Verify coding style for TypScript [alias: verify:lint, lint]
 	@npm run lint:ts
 .PHONY: verify\:lint\:ts
@@ -37,15 +35,13 @@ verify\:all: | verify\:lint\:ts verify\:lint\:styl  ## Check code using all veri
 
 verify: | verify\:all
 .PHONY: verify
-# }}}
 
-# test {{{
+# test
 test:
 	@npm run test
 .PHONY: test
-# }}}
 
-# other {{{
+# other
 watch\:build:  ## Start a process for build [alias: watch]
 	@npm run watch:build
 .PHONY: watch\:build
@@ -82,4 +78,3 @@ help:  ## Display this message
 	      {printf "\033[38;05;026m%-19s\033[0m %s\n", $$1, $$2}' | \
 	  sort
 .PHONY: help
-# }}}
