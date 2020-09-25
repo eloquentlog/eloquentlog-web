@@ -3,21 +3,19 @@ import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
 import Cookie from 'js-cookie';
 
+import * as cfg from '../../config.json';
+
 import { version } from '../../package.json';
 import { RouteProps } from '../routing';
 
 import { Theme } from '../util/theme';
+
 
 export interface SidebarProps extends RouteProps {
   items: VNode[];
 }
 
 const inOneYear = 525600; // 60 * 24 * 365
-
-// TODO: read from config.js
-const domain = '127.0.0.1';
-const secure = false;
-
 const cookieKey = 'console.sidebar';
 
 const readState = (k: string): string | null => {
@@ -26,6 +24,12 @@ const readState = (k: string): string | null => {
 };
 
 const saveState = (k: string, state: string) => {
+  const path = '/'
+      , domain = cfg.Cookie.Domain
+      , secure = cfg.Cookie.Secure
+      , expires = inOneYear
+      ;
+
   let v = readState(k);
   if (typeof v === 'undefined' || v === null || v !== state) {
     v = state;
@@ -37,8 +41,8 @@ const saveState = (k: string, state: string) => {
 
   let attributes: Cookie.CookieAttributes = {
     domain
-  , expires: inOneYear
   , secure
+  , expires
   };
   // See: https://github.com/js-cookie/js-cookie/issues/276
   attributes = Object.assign(attributes, {
