@@ -38,9 +38,9 @@ const saveState = (k: string, state: string) => {
     value: v
   , limit: new Date((new Date()).getTime() + inOneYear * 864e+5)
   };
-
   let attributes: Cookie.CookieAttributes = {
-    domain
+    path
+  , domain
   , secure
   , expires
   };
