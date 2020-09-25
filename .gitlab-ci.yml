@@ -110,6 +110,7 @@ test:
   variables:
     NODE_ENV: development
   script:
+    - cp config.json.sample config.json
     - make test
   except:
     - tags
