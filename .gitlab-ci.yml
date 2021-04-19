@@ -42,18 +42,16 @@ stages:
     if [ ! -d ".python" ]; then
       mkdir -p .python/{include,lib/pkgconfig,lib64};
       USE="readline sqlite ssl xml"
-        emerge --quiet-build=y --nospinner --oneshot dev-lang/python:2.7;
-      cp -R /usr/include/python2.7/ .python/include;
-      cp -R /usr/lib64/python2.7/ .python/lib64;
-      cp -R /usr/lib64/pkgconfig/python-2.7.pc .python/lib/pkgconfig/;
+        emerge --quiet-build=y --nospinner --oneshot dev-lang/python:3.9;
+      cp -R /usr/include/python3.9/ .python/include;
+      cp -R /usr/lib64/python3.9/ .python/lib64;
       cp -R /usr/lib/python-exec/ .python/lib/python-exec;
-      cp /usr/bin/python2.7 .python/python2.7;
+      cp /usr/bin/python3.9 .python/python3.9;
     else
-      cp -R .python/python2.7 /usr/bin/python2.7;
-      cp -R .python/lib/pkgconfig/* /usr/lib64/pkgconfig/;
-      cp -R .python/lib64/ /usr/lib64/python2.7;
+      cp -R .python/python3.9 /usr/bin/python3.9;
+      cp -R .python/lib64/ /usr/lib64/python3.9;
       cp -R .python/lib/python-exec/ /usr/lib/python-exec;
-      cp -R .python/include/ /usr/include/python2.7;
+      cp -R .python/include/ /usr/include/python3.9;
       rm -fr /etc/ld.so.cache;
       ldconfig;
     fi
@@ -151,9 +149,9 @@ release:
   <<: *gentoo
   variables:
     CLOUD_SDK_BASE_URL: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads
-    CLOUD_SDK_CHECKSUM: 4773911e9f8fb7fe3b915e1f24ebe957436474253688820a9f2990d7399bd3b8
+    CLOUD_SDK_CHECKSUM: f929aa3b7959150cf6c7299f3277fc27a9bf729f4877a2906aca740639bad63e
     CLOUD_SDK_ARTIFACT: google-cloud-sdk
-    CLOUD_SDK_FILENAME: ${CLOUD_SDK_ARTIFACT}-301.0.0-linux-x86_64.tar.gz
+    CLOUD_SDK_FILENAME: ${CLOUD_SDK_ARTIFACT}-336.0.0-linux-x86_64.tar.gz
     # set as secret variables
     # GCP_CREDENTIAL_JSON: /path/to/credential.json
     # GCP_PROJECT_ID: eloquentlog
@@ -164,7 +162,7 @@ release:
     - *python
     - *cloud-sdk
   script:
-    - export CLOUDSDK_PYTHON=python2.7
+    - export CLOUDSDK_PYTHON=python3.9
     - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
     - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
     - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
