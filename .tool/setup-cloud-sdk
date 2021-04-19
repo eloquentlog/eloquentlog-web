@@ -8,8 +8,8 @@ name="google-cloud-sdk"
 arch="linux-x86_64"
 
 # https://cloud.google.com/sdk/docs/quickstart-linux
-version="301.0.0"
-checksum="4773911e9f8fb7fe3b915e1f24ebe957436474253688820a9f2990d7399bd3b8"
+version="336.0.0"
+checksum="f929aa3b7959150cf6c7299f3277fc27a9bf729f4877a2906aca740639bad63e"
 
 package_base_url="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads"
 package_file="${name}-${version}-${arch}.tar.gz"
