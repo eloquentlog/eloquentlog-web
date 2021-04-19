@@ -37,28 +37,8 @@ stages:
       ldconfig;
     fi
 
-.python:
-  - &python
-    if [ ! -d ".python" ]; then
-      mkdir -p .python/{include,lib/pkgconfig,lib64};
-      USE="readline sqlite ssl xml"
-        emerge --quiet-build=y --nospinner --oneshot dev-lang/python:3.9;
-      cp -R /usr/include/python3.9/ .python/include;
-      cp -R /usr/lib64/python3.9/ .python/lib64;
-      cp -R /usr/lib/python-exec/ .python/lib/python-exec;
-      cp /usr/bin/python3.9 .python/python3.9;
-    else
-      cp -R .python/python3.9 /usr/bin/python3.9;
-      cp -R .python/lib64/ /usr/lib64/python3.9;
-      cp -R .python/lib/python-exec/ /usr/lib/python-exec;
-      cp -R .python/include/ /usr/include/python3.9;
-      rm -fr /etc/ld.so.cache;
-      ldconfig;
-    fi
-
 .cloud-sdk:
   - &cloud-sdk
-    export CLOUDSDK_PYTHON=python2.7;
     mkdir -p .tool;
     cd .tool;
     if [ ! -d "../.cloud-sdk" ]; then
@@ -159,10 +139,8 @@ release:
     # GCP_DOTIGNORE: /path/to/.gcloudignore
   before_script:
     - *sqlite
-    - *python
     - *cloud-sdk
   script:
-    - export CLOUDSDK_PYTHON=python3.9
     - export CLOUDSDK_CORE_PROJECT=$GCP_PROJECT_ID
     - . .tool/$CLOUD_SDK_ARTIFACT/path.bash.inc
     - gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL_JSON
@@ -170,7 +148,6 @@ release:
     - cp $GCP_APP_YAML app.yaml
     - cp $GCP_DOTIGNORE .gcloudignore
     - echo '.sqlite' >> .gcloudignore
-    - echo '.python' >> .gcloudignore
     - echo '.cloud-sdk' >> .gcloudignore
     - gcloud app deploy --project=$GCP_PROJECT_ID --stop-previous-version
       --appyaml=app.yaml --ignore-file=.gcloudignore
@@ -182,6 +159,5 @@ release:
     key: release
     paths:
       - .cloud-sdk
-      - .python
       - .sqlite
 # }}}
