@@ -2,7 +2,8 @@ stages:
   - verify
   - test
   - build
-  - publish
+  - upload
+  - release
 
 variables:
   PACKAGE_VERSION: "0.0.4"
@@ -88,7 +89,7 @@ build-release:
 
 # publish {{{
 upload:
-  stage: publish
+  stage: upload
   image: curlimages/curl:latest
   script:
     - |
@@ -100,7 +101,7 @@ upload:
     - tags@eloquentlog/eloquentlog-web-console
 
 release:
-  stage: publish
+  stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - |
