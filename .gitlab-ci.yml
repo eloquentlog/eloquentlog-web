@@ -5,7 +5,7 @@ stages:
   - publish
 
 variables:
-  PACKAGE_VERSION: "0.0.3"
+  PACKAGE_VERSION: "0.0.4"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release/${PACKAGE_VERSION}"
   PACKAGE_NAME: "${CI_PROJECT_NAME}-v${PACKAGE_VERSION}"
 
