@@ -68,9 +68,11 @@ build-release:
     - make build:release
     - sed -i "s/index.\(\(css\|js\)\)/index.min.\1?v=$(date +%s)/"
       dst/index.html
+    - tar czvf dst.tar.gz dst
   artifacts:
     paths:
       - dst
+      - dst.tar.gz
     expire_in: 3 days
   only:
     - release@eloquentlog/eloquentlog-web-console
