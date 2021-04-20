@@ -1,7 +1,7 @@
 {
   "name": "eloquentlog-web-console",
   "descrpiton": "The console web application of Eloquentlog.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
