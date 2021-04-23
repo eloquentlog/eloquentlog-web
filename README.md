@@ -80,6 +80,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 ```
 
-[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/pipeline.svg
-[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/master/coverage.svg
+[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/pipeline.svg
+[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/coverage.svg
 [ci]: https://gitlab.com/eloquentlog/eloquentlog-web-console/pipelines
