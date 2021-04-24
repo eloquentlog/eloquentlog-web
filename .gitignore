@@ -13,10 +13,6 @@ config.json
 
 /.cache
 
-/.tool/google-cloud-sdk*
-/.tool/gitlab-runner
-!/.tool/{setup,load}*
-
 .gcloudignore
 app.yaml
 

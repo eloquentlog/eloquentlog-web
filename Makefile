@@ -79,7 +79,7 @@ runner-%:
 	gitlab-runner exec docker \
 	  --executor docker \
 	  --cache-dir /cache \
-	  --docker-volumes $$(pwd)/tmp/_cache:/cache \
+	  --docker-volumes $$(pwd)/.cache/gitlab-runner:/cache \
 	  --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
 	  $${opt} $${job}
 .PHONY: runner
