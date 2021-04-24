@@ -42,7 +42,7 @@
     "rollup-plugin-strip": "1.2.2",
     "rollup-plugin-stylus-compiler": "1.0.1",
     "rollup-plugin-terser": "^7.0.1",
-    "rollup-plugin-typescript2": "0.27.2",
+    "rollup-plugin-typescript2": "0.30.0",
     "stylint": "2.0.0",
     "stylus": "0.54.8",
     "styr": "0.0.32",
