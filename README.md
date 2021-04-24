@@ -51,6 +51,14 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 % make watch:server
 ```
 
+### Update version
+
+Update `version` in:
+
+* package.json
+* package-lock.json
+* .gitlab-ci.yml
+
 ### Run CI job on local
 
 #### Requirements
