@@ -51,6 +51,28 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 % make watch:server
 ```
 
+### Run CI job on local
+
+#### Requirements
+
+* Docker
+* gitlab-runner
+
+Build [GitLab.org/gitlab-runner](
+https://gitlab.com/gitlab-org/gitlab-runner) (`gitlab-runner-bin`).
+
+```zsh
+# e.g. v13.12.0
+% cd /path/to/gitlab-runner
+% git checkout v13.12.0 -b v13.12.0
+% make gitlab-runner-bin
+% sudo cp out/binaries/gitlab-runner-linux-amd64 /usr/local/bin/
+
+% cd /path/to/eloquentlog-web-console
+% cp .env.ci.sample .env.ci
+% make build-<job>
+```
+
 
 ## License
 

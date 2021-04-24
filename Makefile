@@ -69,6 +69,21 @@ clean:  ## Tidy up
 	@rm dst/css/index*.css*
 .PHONY: clean
 
+runner-%:
+	@set -uo pipefail; \
+	job=$(subst runner-,,$@); \
+	opt=""; \
+	while read line; do \
+	  opt+=" --env $$(echo $$line | sed -E 's/^export //')"; \
+	done < .env.ci; \
+	gitlab-runner exec docker \
+	  --executor docker \
+	  --cache-dir /cache \
+	  --docker-volumes $$(pwd)/tmp/_cache:/cache \
+	  --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+	  $${opt} $${job}
+.PHONY: runner
+
 help:  ## Display this message
 	@grep --extended-regexp '^[0-9a-z\:\\]+: ' $(MAKEFILE_LIST) | \
 	  grep --extended-regexp '  ## ' | \
