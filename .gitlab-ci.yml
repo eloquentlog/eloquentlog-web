@@ -71,7 +71,7 @@ build-release:
   variables:
     NODE_ENV: production
   script:
-    - cp $CONFIG_JSON_FILE config.json
+    - cp config.json.sample config.json
     - make build:release
     - |
       sed -i "s/index.\(\(css\|js\)\)/index.min.\1?v=$(date +%s)/" \
