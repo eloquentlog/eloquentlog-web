@@ -88,6 +88,11 @@ const handleHoldClick = (_: SidebarProps, event: Event): void => {
 
     box.classList.add('pinned');
     target.innerHTML = 'Unpin';
+
+    // const height = document.body.scrollHeight;
+    // console.log(height);
+    // const sidebar = document.getElementById('sidebar') as HTMLLabelElement;
+    // sidebar.style.minHeight = `${height}px`;
   } else {
     saveState(cookieKey, 'unlocked');
 

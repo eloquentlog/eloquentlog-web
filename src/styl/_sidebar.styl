@@ -4,22 +4,20 @@
   background-color $sidebar-bg-colour
   border-right 0
   display none
-  max-width 18.97rem
-  min-height 100%
-  min-width 16.78rem
-  position fixed
   transition transform 0.28s ease 0.08s
   visibility hidden
   z-index 2147483647
 
   .inner-header
     background-color $sidebar-inner-header-bg-colour
+    vertical-align middle
     .logo
       img
-        margin 0.11rem 0.38rem -0.18rem -0.08rem
+        margin 0.11rem 0.38rem -0.18rem 0.02rem
       margin 0
       padding 0
     .version
+      font-size 94%
       display inline-block
       float right
       margin-left 0.41rem
@@ -27,7 +25,7 @@
       text-align right
       vertical-align bottom
 
-    & ~ .item.right
+    & ~ .item
       margin 0.99rem 0.02rem 0.82rem 0
 
   .item
@@ -67,11 +65,10 @@
     margin-top 0
 
   > .item.active.expanded
-    padding-left 0
-    padding-right 0
+    padding 0
+    margin 0
     .item
-      padding-left 1.06rem
-      padding-right 0
+      padding-left -1.29rem
 
     .item-container
       font-weight normal
@@ -97,10 +94,10 @@
     border 1px solid $sidebar-search-border-colour
     border-radius 0.14rem
     color $sidebar-search-txt-colour
+    width inherit
     height 2.11rem
-    margin 0.26rem 0 1.64rem 0.02rem
+    margin 0.26rem 0 1.64rem -0.02rem
     padding 0 0.48rem 0 1.12rem
-    max-width 14.08rem
 
   .item > span.description
     display block
@@ -108,8 +105,9 @@
     margin-left 0.11rem
     margin-top 0.18rem
 
-  a.item
-    &.active
+  .item.active
+    font-weight bold
+    a.item:first-child
       font-weight bold
 
   .item
@@ -188,26 +186,18 @@
   #sidebar
     max-width 25%
     min-width 16.97rem
-    input[type="text"].search
-      max-width 14.26rem
 @media only screen and (max-width: 980px)
   #sidebar
     max-width 30%
     min-width 14.97rem
-    input[type="text"].search
-      max-width 12.64rem
 @media only screen and (max-width: 768px)
   #sidebar
     max-width 40%
     min-width 12.97rem
-    input[type="text"].search
-      max-width 10.26rem
 @media only screen and (max-width: 640px)
   #sidebar
     max-width 30%
     min-width 12.97rem
-    input[type="text"].search
-      max-width 10.36rem
   #sidebar .note.item
     display none
 @media print

@@ -2,25 +2,47 @@
 
 html
   box-sizing border-box
-  height 100%
+  min-height 100%
+  width 100%
+  position relative
 
 body
-  min-height 100%
-  position relative
+  height 100%
+  width 100%
 
   > .wrapper
     display flex
     flex-direction row
-    margin 0
-    min-height 100%
     padding 0
-    position relative
+    // cloud container
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+    width 100%
+    margin 0
 
   #sidebar
-    min-height 100%
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+    overflow-y auto
+    overflow-x hidden
+    max-width 16.78rem
+    margin 0
+    // scrollbar
+    &::-webkit-scrollbar
+      display none
+    -ms-overflow-style none
+    scrollbar-width none
 
   #content
     width 100%
+    overflow-y auto
+    overflow-x clip
 
   .container
     margin-bottom 0.28rem
