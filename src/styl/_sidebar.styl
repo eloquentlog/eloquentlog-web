@@ -16,7 +16,7 @@
     background-color $sidebar-inner-header-bg-colour
     .logo
       img
-        margin 0.11rem 0.38rem -0.18rem -0.06rem
+        margin 0.11rem 0.38rem -0.18rem -0.08rem
       margin 0
       padding 0
     .version
@@ -100,7 +100,7 @@
     height 2.11rem
     margin 0.26rem 0 1.64rem 0.02rem
     padding 0 0.48rem 0 1.12rem
-    width 14.08rem
+    max-width 14.08rem
 
   .item > span.description
     display block
@@ -188,18 +188,26 @@
   #sidebar
     max-width 25%
     min-width 16.97rem
+    input[type="text"].search
+      max-width 14.26rem
 @media only screen and (max-width: 980px)
   #sidebar
     max-width 30%
     min-width 14.97rem
+    input[type="text"].search
+      max-width 12.64rem
 @media only screen and (max-width: 768px)
   #sidebar
     max-width 40%
     min-width 12.97rem
+    input[type="text"].search
+      max-width 10.26rem
 @media only screen and (max-width: 640px)
   #sidebar
     max-width 30%
-    min-width 10.97rem
+    min-width 12.97rem
+    input[type="text"].search
+      max-width 10.36rem
   #sidebar .note.item
     display none
 @media print
