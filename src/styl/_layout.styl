@@ -3,46 +3,46 @@
 html
   box-sizing border-box
   min-height 100%
-  width 100%
   position relative
+  width 100%
 
 body
   height 100%
   width 100%
 
   > .wrapper
+    bottom 0
     display flex
     flex-direction row
+    left 0
+    margin 0
     padding 0
     // cloud container
     position absolute
-    top 0
-    bottom 0
-    left 0
     right 0
+    top 0
     width 100%
-    margin 0
 
   #sidebar
-    position absolute
-    top 0
     bottom 0
     left 0
-    right 0
-    overflow-y auto
-    overflow-x hidden
-    max-width 16.78rem
     margin 0
+    max-width 16.78rem
+    overflow-x hidden
+    overflow-y auto
+    position absolute
+    right 0
+    top 0
     // scrollbar
     &::-webkit-scrollbar
       display none
     -ms-overflow-style none
-    scrollbar-width none
+    scrollbar-width none // @stylint ignore
 
   #content
-    width 100%
-    overflow-y auto
     overflow-x clip
+    overflow-y auto
+    width 100%
 
   .container
     margin-bottom 0.28rem
@@ -51,11 +51,11 @@ body
     h4.header
       border-bottom 1px solid $header-border-colour
       color $header-txt-colour
-      font-size 0.962em
+      font-size 1.182em
       font-weight 700
-      line-height 1.283em
-      margin-bottom 1.02rem
-      margin-left 0.07rem
+      line-height 1.383em
+      margin-bottom 1.32rem
+      margin-left 0.12rem
       margin-right 0.07rem
       margin-top 0.74rem
       padding-bottom 0.41rem
