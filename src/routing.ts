@@ -14,7 +14,13 @@ import { UserActivation } from './user/activation';
 import { Top } from './top';
 import { NamespaceIndex } from './namespace/index';
 import { NamespaceNew } from './namespace/new';
+import { NamespaceShow } from './namespace/show';
 import { AccessToken } from './settings/access_token';
+
+import * as cfg from '../config.json';
+
+const baseURL = `${cfg.Server.Protocol}://
+${cfg.Server.Host}:${cfg.Server.Port}`;
 
 export interface RouteProps {
   history: H.History;
@@ -58,19 +64,33 @@ export const Routing = (props: RouteProps): VNode => {
     })
   , h(Route, {
       exact: true
-    , path: '/namespace'
+    , path: '/namespace/new'
     , render: () => {
         return props.signedIn() ?
-          h(NamespaceIndex, props) :
+          h(NamespaceNew, props) :
           redirectToSignin();
       }
     })
   , h(Route, {
       exact: true
-    , path: '/namespace/new'
+    , path: '/namespace/:id'
+    , render: () => {
+        const url = new URL(window.location.pathname, baseURL);
+        const id = url.pathname.replace('/namespace/', '');
+        return props.signedIn() ?
+          h(NamespaceShow, {
+            id
+          , ...props
+          }) :
+          redirectToSignin();
+      }
+    })
+  , h(Route, {
+      exact: true
+    , path: '/namespace'
     , render: () => {
         return props.signedIn() ?
-          h(NamespaceNew, props) :
+          h(NamespaceIndex, props) :
           redirectToSignin();
       }
     })
