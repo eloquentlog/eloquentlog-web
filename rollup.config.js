@@ -6,6 +6,7 @@ import css from 'rollup-plugin-css-only';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
+import polyfills from 'rollup-plugin-node-polyfills';
 import strip from 'rollup-plugin-strip';
 import stylus from 'rollup-plugin-stylus-compiler';
 import { terser } from 'rollup-plugin-terser';
@@ -76,6 +77,7 @@ const test = {
     , cacheRoot: '.cache'
     })
   , commonjs()
+  , polyfills()
   , replace({
       'process.env.NODE_ENV': JSON.stringify('development')
     })
@@ -87,6 +89,9 @@ const test = {
     , extensions: ['.js', '.json', '.ts']
     })
   , stylus()
+  , css({
+      output: path.join('test', 'dst', 'css', 'index.css')
+    })
   , buble({
       objectAssign: 'Object.assign'
     , transforms: {

@@ -29,14 +29,14 @@ describe('Sidebar', () => {
   , setTheme: (_theme: Theme, _update: boolean) => { return 1; }
   };
 
-  test('has valid classNames', async () => {
+  test('has valid classNames', () => {
     const props = { ...routeProps } as SidebarProps;
     const [checkbox, sidebar] = Sidebar(props);
     expect(checkbox.className).toBe('sidebar-checkbox');
     expect(sidebar.className).toBe('sidebar');
   });
 
-  test('renders items', async () => {
+  test('renders items', () => {
     const props = { ...routeProps } as SidebarProps;
     const renderedTree = renderIntoContainer(
       h(BrowserRouter, {}, h(Sidebar, props))
