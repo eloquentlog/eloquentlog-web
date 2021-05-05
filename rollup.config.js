@@ -101,7 +101,7 @@ const test = {
     })
   , strip({
       debugger: true
-    , functions: []
+    , functions: ['console.log']
     , include: [
         path.join(src, '**/*.ts')
       , path.join(mod, '**/*.(ts|js)')
