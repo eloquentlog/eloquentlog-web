@@ -13,14 +13,14 @@ import { appClient, Headers } from '../util/client';
 
 import '../styl/namespace/index.styl';
 
-interface NamespaceIndexProps extends RouteProps {}
+export interface NamespaceIndexProps extends RouteProps {}
 
 interface NamespaceIndexState {
-  namespaces: { attribute: NamespaceObject }[];
+  namespaces: NamespaceObject[];
 }
 
 // tslint:disable-next-line
-const client = appClient((status: number): boolean => {
+export const client = appClient((status: number): boolean => {
   return (status >= 200 && status < 300) ||
          [400, 404, 422].some((n: number): boolean => n === status);
 });
@@ -40,29 +40,29 @@ export class NamespaceIndex extends
     this.fetchNamespaces();
   }
 
-  private fetchNamespaces() {
+  private async fetchNamespaces() {
     const t = this.props.getToken();
-    client.get('/namespace/hgetall', {
+    const data = await client.get('/namespace/hgetall', {
       withCredentials: true
     , transformRequest: [(_: any, headers: Headers) => {
         headers.Authorization = `Bearer ${t}`;
       }]
     })
-    .then((res: any): void => {
+    .then((res: any): NamespaceObject[] => {
       if (res.status === 200 && Array.isArray(res.data)) {
-        const data = res.data.map((obj: any) => {
+        return res.data.map((obj: any) => {
           return obj.namespace ?
-            { attribute: NamespaceObject.deserialize(obj.namespace) } : null;
+            NamespaceObject.deserialize(obj.namespace) : null;
         });
-        this.setState({ namespaces: data });
-        return;
       }
       throw new Error(`unexpected response: ${res}`);
     })
-    .catch((err: any): void => {
-      // TODO
+    .catch((err: any): NamespaceObject[] => {
       console.log(err);
+      return [];
     });
+
+    this.setState({ namespaces: data });
   }
 
   public render(props: NamespaceIndexProps): VNode {
@@ -94,10 +94,10 @@ export class NamespaceIndex extends
                     , h('th', {}, '')
                     ]))
                   , h('tbody', this.state.namespaces.map(
-                      (n: any, i: number) => {
+                      (n: NamespaceObject, i: number) => {
                         return h(Namespace, {
                           index: i
-                        , ...n
+                        , attribute: n
                         });
                       }
                     ))
