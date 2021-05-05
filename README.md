@@ -12,6 +12,11 @@ Eloquentlog
 
 The console web application of [Eloquentlog](https://eloquentlog.com).
 
+
+## Overview
+
+### Screenshots
+
 ![screenshot](
 doc/img/screenshot-2021050513024622.png?raw=true "Screenshot - 2021-05-05T13:02:46:22+00:00")
 
@@ -23,29 +28,47 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 
 ## Requirements
 
-* Node.js `>= 12.18.3`
+* Node.js `>= 12.22.1`
 
 
 ## Setup
 
 ```zsh
-% npm install
+% make setup
 ```
 
 ## Build
 
 ```zsh
-% make build
+% make build:debug
+% make build:release
 ```
 
 
 ## Development
 
+See `make help`.
+
 ### Vet
+
+#### TypeScript
 
 ```zsh
 : using `tslint`
-% make lint
+% make verify:lint:ts
+```
+
+#### Stylus
+
+```zsh
+: using `stylint`
+% make verify:lint:styl
+```
+
+### Test
+
+```zsh
+% make test
 ```
 
 ### Run
@@ -56,7 +79,7 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 
 ### Update version
 
-Update `version` in:
+In additon to `CHANGELOG`, update `version` in following files:
 
 * package.json
 * package-lock.json
@@ -81,7 +104,7 @@ https://gitlab.com/gitlab-org/gitlab-runner) (`gitlab-runner-bin`).
 
 % cd /path/to/eloquentlog-web-console
 % cp .env.ci.sample .env.ci
-% make build-<job>
+% make runner-<job>
 ```
 
 
@@ -93,7 +116,7 @@ https://gitlab.com/gitlab-org/gitlab-runner) (`gitlab-runner-bin`).
 ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
 
 Web Console
-Copyright (c) 2019 Lupine Software LLC
+Copyright (c) 2019-2021 Lupine Software LLC
 ```
 
 `AGPL-3.0-or-later`
