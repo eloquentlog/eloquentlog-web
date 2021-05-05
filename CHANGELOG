@@ -1,4 +1,5 @@
 Wed 05 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Add a screenshot in README.md
 	* Release v0.0.12
 	* Make fetchNamespaces() async
 	* Add a test for NamespaceIndex with using mocked axios
