@@ -43,7 +43,10 @@ const development = {
     })
   , commonjs()
   , replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      preventAssignment: true
+    , values: {
+        'process.env.NODE_ENV': JSON.stringify('development')
+      }
     })
   , resolve({
       browser: true
@@ -90,7 +93,7 @@ const test = {
   , commonjs()
   , polyfill()
   , replace({
-      preventAssignment: false
+      preventAssignment: true
     , values: {
         'process.env.NODE_ENV': JSON.stringify('development')
       }
@@ -139,7 +142,10 @@ const production = {
     })
   , commonjs()
   , replace({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      preventAssignment: true
+    , values: {
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }
     })
   , resolve({
       browser: true
