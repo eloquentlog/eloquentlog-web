@@ -1,3 +1,7 @@
+Sun 09 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Update rollup plugins
+	* Update a node-polyfill package for testing
+
 Wed 05 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Add a screenshot in README.md
 	* Release v0.0.12
