@@ -1,16 +1,27 @@
 import path from 'path';
 
-import buble from 'rollup-plugin-buble';
-import commonjs from 'rollup-plugin-commonjs';
-import css from 'rollup-plugin-css-only';
-import json from 'rollup-plugin-json';
-import resolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
-import polyfills from 'rollup-plugin-node-polyfills';
+import buble from '@rollup/plugin-buble';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+
+// NOTE:
+// It seems that @rollup/pluginutils's createFilter returns inconsistent result
+// for now. So we use an old plugin here to use rollup-pluginutils instead.
+// import strip from '@rollup/plugin-strip';
 import strip from 'rollup-plugin-strip';
-import stylus from 'rollup-plugin-stylus-compiler';
+
+// NOTE:
+// Circular dependency
+// https://github.com/snowpackjs/rollup-plugin-polyfill-node/issues/21
+import polyfill from 'rollup-plugin-polyfill-node';
+
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
+import stylus from 'rollup-plugin-stylus-compiler';
+import css from 'rollup-plugin-css-only';
+
 
 const root = __dirname
     , src = path.join(root, 'src')
@@ -32,15 +43,18 @@ const development = {
     })
   , commonjs()
   , replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      preventAssignment: true
+    , values: {
+        'process.env.NODE_ENV': JSON.stringify('development')
+      }
     })
-  , json()
   , resolve({
       browser: true
     , preferBuiltins: false
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , json()
   , stylus()
   , css({
       output: path.join(dst, 'css', 'index.css')
@@ -77,17 +91,20 @@ const test = {
     , cacheRoot: '.cache'
     })
   , commonjs()
-  , polyfills()
+  , polyfill()
   , replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      preventAssignment: true
+    , values: {
+        'process.env.NODE_ENV': JSON.stringify('development')
+      }
     })
-  , json()
   , resolve({
       browser: true
-    , preferBuiltins: true
+    , preferBuiltins: false
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , json()
   , stylus()
   , css({
       output: path.join('test', 'dst', 'css', 'index.css')
@@ -125,15 +142,18 @@ const production = {
     })
   , commonjs()
   , replace({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      preventAssignment: true
+    , values: {
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }
     })
-  , json()
   , resolve({
       browser: true
     , preferBuiltins: false
     , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , json()
   , stylus()
   , css({
       output: path.join(dst, 'css', 'index.min.css')
