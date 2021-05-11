@@ -51,7 +51,7 @@ test:
   script:
     - cp config.json.sample config.json
     - make coverage
-  coverage: "All files[^|]*\|[^|]*\s+([\d\.]+)"
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   except:
     - tags
 # }}}
