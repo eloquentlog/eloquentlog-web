@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-// import * as Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 import * as H from 'history';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter } from 'inferno-router';
@@ -20,7 +20,7 @@ import {
 , NamespaceIndexProps } from '../../src/namespace/index';
 
 const mockedClient = mocked(client, true);
-// const mockedCookies = mocked(Cookies, true);
+const mockedCookies = mocked(Cookies, true);
 
 const history = H.createBrowserHistory({
   forceRefresh: true
@@ -62,10 +62,15 @@ describe('NamespaceIndex', () => {
   };
 
   beforeEach(() => {
-    // mockedCookies.getJSON = jest.fn();
-    // mockedCookies.getJSON.mockImplementationOnce(() => ({
-    //   value: ''
-    // }));
+    mockedCookies.getJSON = jest.fn();
+    mockedCookies.getJSON.mockImplementationOnce(() => ({
+      value: ''
+    }));
+  });
+
+  afterEach(() => {
+    mockedCookies.getJSON.mockReset();
+    mockedClient.get.mockReset();
   });
 
   test('does not render any namespace on error', (done) => {
