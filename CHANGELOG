@@ -1,3 +1,7 @@
+Tue 11 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Enable test coverage by using Jest
+	* Remove a config of Rollup for test (Use directly Jest)
+
 Sun 09 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Release v0.0.13
 	* Update rollup plugins

@@ -1,4 +1,6 @@
-config.json
+config.json*
+config.*.json
+!config.json.sample
 
 .env*
 !.env*.sample

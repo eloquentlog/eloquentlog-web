@@ -1,14 +1,18 @@
 import * as H from 'history';
+// import * as Cookies from 'js-cookie';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter } from 'inferno-router';
 import {
   renderIntoContainer
 , scryRenderedDOMElementsWithTag
 } from 'inferno-test-utils';
+// import { mocked } from 'ts-jest/utils';
 
 import { Theme } from '../../src/util/theme';
 import { RouteProps } from '../../src/routing';
 import { Sidebar, SidebarProps } from '../../src/prtl/sidebar';
+
+// const mockedCookies = mocked(Cookies, true);
 
 describe('Sidebar', () => {
   const history = H.createBrowserHistory({
@@ -28,6 +32,13 @@ describe('Sidebar', () => {
   , getTheme: () => { return Theme.Dark; }
   , setTheme: (_theme: Theme, _update: boolean) => { return 1; }
   };
+
+  // beforeEach(() => {
+  //   mockedCookies.getJSON = jest.fn();
+  //   mockedCookies.getJSON.mockImplementationOnce(() => ({
+  //     value: ''
+  //   }));
+  // });
 
   test('has valid classNames', () => {
     const props = { ...routeProps } as SidebarProps;

@@ -1,7 +1,7 @@
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
-import Cookie from 'js-cookie';
+import * as Cookies from 'js-cookie';
 
 import * as cfg from '../../config.json';
 
@@ -19,7 +19,7 @@ const inOneYear = 525600; // 60 * 24 * 365
 const cookieKey = 'console.sidebar';
 
 const readState = (k: string): string | null => {
-  const cookie = Cookie.getJSON(k);
+  const cookie = Cookies.getJSON(k);
   return (cookie && cookie.value || null);
 };
 
@@ -38,7 +38,7 @@ const saveState = (k: string, state: string) => {
     value: v
   , limit: new Date((new Date()).getTime() + inOneYear * 864e+5)
   };
-  let attributes: Cookie.CookieAttributes = {
+  let attributes: Cookies.CookieAttributes = {
     path
   , domain
   , secure
@@ -48,7 +48,7 @@ const saveState = (k: string, state: string) => {
   attributes = Object.assign(attributes, {
     sameSite: 'Strict'
   });
-  Cookie.set(k, value, attributes as any);
+  Cookies.set(k, value, attributes as any);
 };
 
 const handleHideClick = (_: SidebarProps, event: Event): void => {

@@ -50,7 +50,8 @@ test:
     NODE_ENV: development
   script:
     - cp config.json.sample config.json
-    - make test
+    - make coverage
+  coverage: "All files[^|]*\|[^|]*\s+([\d\.]+)"
   except:
     - tags
 # }}}

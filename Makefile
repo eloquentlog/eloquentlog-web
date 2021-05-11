@@ -37,9 +37,16 @@ verify: verify\:check ## Synonym for verify:check
 .PHONY: verify
 
 # test
-test:
+test: ## Run test
 	@npm run test
 .PHONY: test
+
+coverage: ## Run test and generates a coverage report [alias: cov]
+	@npm run coverage
+.PHONY: coverage
+
+cov: coverage
+.PHONY: cov
 
 # utility
 watch\:build: ## Start a process for build [alias: watch]
