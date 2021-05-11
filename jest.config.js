@@ -9,6 +9,7 @@ module.exports = {
 , coverageReporters: [
     'text'
   ]
+, clearMocks: true
 , moduleDirectories: [
     'node_modules'
   ]
