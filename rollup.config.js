@@ -12,11 +12,6 @@ import replace from '@rollup/plugin-replace';
 // import strip from '@rollup/plugin-strip';
 import strip from 'rollup-plugin-strip';
 
-// NOTE:
-// Circular dependency
-// https://github.com/snowpackjs/rollup-plugin-polyfill-node/issues/21
-import polyfill from 'rollup-plugin-polyfill-node';
-
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import stylus from 'rollup-plugin-stylus-compiler';
@@ -78,56 +73,6 @@ const development = {
   ]
 };
 
-const test = {
-  input: path.join('test', 'index.test.ts')
-, output: {
-    file: path.join('test', 'dst', 'js', 'index.js')
-  , format: 'iife'
-  , sourcemap: true
-  }
-, plugins: [
-    typescript({
-      abortOnError: false
-    , cacheRoot: '.cache'
-    })
-  , commonjs()
-  , polyfill()
-  , replace({
-      preventAssignment: true
-    , values: {
-        'process.env.NODE_ENV': JSON.stringify('development')
-      }
-    })
-  , resolve({
-      browser: true
-    , preferBuiltins: false
-    , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
-    , extensions: ['.js', '.json', '.ts']
-    })
-  , json()
-  , stylus()
-  , css({
-      output: path.join('test', 'dst', 'css', 'index.css')
-    })
-  , buble({
-      objectAssign: 'Object.assign'
-    , transforms: {
-        asyncAwait: false
-      , forOf: false
-      }
-    })
-  , strip({
-      debugger: true
-    , functions: ['console.log']
-    , include: [
-        path.join(src, '**/*.ts')
-      , path.join(mod, '**/*.(ts|js)')
-      ]
-    , sourceMap: false
-    })
-  ]
-};
-
 const production = {
   input: path.join(src, 'index.ts')
 , output: [{
@@ -181,8 +126,6 @@ const production = {
 export default (args) => {
   if (args.configBuildDevelopment) {
     return development;
-  } else if (args.configBuildTest) {
-    return test;
   } else if (args.configRunServer) {
     // NOTE:
     // The import of rollup-plugin-serve makes

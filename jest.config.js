@@ -1,18 +1,35 @@
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
-  coverageDirectory: "dst/coverage"
-, coverageProvider: "v8"
+  collectCoverage: false
+, collectCoverageFrom: [
+    '**/src/**/*.ts'
+  ]
+, coverageDirectory: 'test/dst/coverage'
+, coverageProvider: 'v8'
+, coverageReporters: [
+    'text'
+  ]
 , moduleDirectories: [
-    "node_modules"
+    'node_modules'
   ]
 , moduleFileExtensions: [
-    "js"
+    'js'
+  , 'ts'
   ]
+, moduleNameMapper: {
+    '\\.(css|styl)$': 'identity-obj-proxy'
+  }
+, setupFilesAfterEnv: [
+    './test/jest.setup.js'
+  ]
+, testEnvironment: 'jsdom'
 , testMatch: [
-    "**/test/dst/**/*.js"
+    '**/test/**/*.ts'
   ]
 , testPathIgnorePatterns: [
-    "/node_modules/"
+    '/node_modules/'
   ]
-, transform: {}
+, transform: {
+    '^.+\\.ts?$': 'ts-jest'
+  }
 };

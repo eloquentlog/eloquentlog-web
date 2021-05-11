@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+// import * as Cookies from 'js-cookie';
 import * as H from 'history';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter } from 'inferno-router';
@@ -18,7 +19,8 @@ import {
 , NamespaceIndex
 , NamespaceIndexProps } from '../../src/namespace/index';
 
-const mock = mocked(client, true);
+const mockedClient = mocked(client, true);
+// const mockedCookies = mocked(Cookies, true);
 
 const history = H.createBrowserHistory({
   forceRefresh: true
@@ -59,9 +61,16 @@ describe('NamespaceIndex', () => {
   , config: {}
   };
 
+  beforeEach(() => {
+    // mockedCookies.getJSON = jest.fn();
+    // mockedCookies.getJSON.mockImplementationOnce(() => ({
+    //   value: ''
+    // }));
+  });
+
   test('does not render any namespace on error', (done) => {
-    mock.get = jest.fn();
-    mock.get.mockImplementationOnce(() => Promise.reject(err));
+    mockedClient.get = jest.fn();
+    mockedClient.get.mockImplementationOnce(() => Promise.reject(err));
 
     const props = { ...routeProps } as NamespaceIndexProps;
     const renderedTree = renderIntoContainer(
@@ -80,15 +89,15 @@ describe('NamespaceIndex', () => {
       const names = scryRenderedDOMElementsWithClass(renderedTree, 'name');
       expect(names).toHaveLength(0);
 
-      expect(mock.get).toHaveBeenCalledTimes(1);
+      expect(mockedClient.get).toHaveBeenCalledTimes(1);
 
       done();
     });
   });
 
   test('renders fetched objects on success', (done) => {
-    mock.get = jest.fn();
-    mock.get.mockImplementationOnce(() => Promise.resolve(res));
+    mockedClient.get = jest.fn();
+    mockedClient.get.mockImplementationOnce(() => Promise.resolve(res));
 
     const props = { ...routeProps } as NamespaceIndexProps;
     const renderedTree = renderIntoContainer(
@@ -108,7 +117,7 @@ describe('NamespaceIndex', () => {
       expect(names).toHaveLength(1);
       expect(names[0].innerHTML).toContain(uuid);
 
-      expect(mock.get).toHaveBeenCalledTimes(1);
+      expect(mockedClient.get).toHaveBeenCalledTimes(1);
 
       done();
     });
