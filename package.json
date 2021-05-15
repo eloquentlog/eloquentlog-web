@@ -10,6 +10,7 @@
   "scripts": {
     "build:production": "rollup -c --configBuildProduction",
     "build:development": "rollup -c --configBuildDevelopment",
+    "check": "tsc --project tsconfig.json --noEmit --pretty",
     "lint:styl": "stylint -c .stylintrc src",
     "lint:ts": "tslint -c tslint.json -p tsconfig.json",
     "test": "jest --no-cache",

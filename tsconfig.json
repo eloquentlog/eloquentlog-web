@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "allowJs": true
+  , "checkJs": true
+  , "alwaysStrict": true
   , "allowSyntheticDefaultImports": true
   , "baseUrl": "."
   , "module": "esnext"
@@ -24,4 +26,10 @@
       "./node_modules/@types"
     ]
   }
+  , "exclude": [
+    "config.json"
+  , "rollup.config.js"
+  , "jest.config.js"
+  , "dst/**/*"
+  ]
 }

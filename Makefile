@@ -4,7 +4,7 @@ setup: ## Install node dev modules
 .PHONY: setup
 
 # build
-build\:debug: ## Build in development mode [alias: build]
+build\:debug: ## Build in development mode
 	npm run build:development
 .PHONY: build\:debug
 
@@ -12,11 +12,18 @@ build\:release: ## Build in production mode
 	npm run build:production
 .PHONY: build\:release
 
-build: build\:debug
+build: build\:debug ## Synonym of build:debug
 .PHONY: build
 
 # verify
-verify\:lint\:ts: ## Verify coding style for TypScript [alias: verify:lint, lint]
+verify\:check: ## Check TypeScript codes [alias: check]
+	@npm run check
+.PHONY: verify\:check
+
+check: verify\:check
+.PHONY: check
+
+verify\:lint\:ts: ## Verify coding style for TypeScript
 	@npm run lint:ts
 .PHONY: verify\:lint\:ts
 
@@ -24,7 +31,7 @@ verify\:lint\:styl: ## Verify coding style for Stylus
 	@npm run lint:styl
 .PHONY: verify\:lint\:styl
 
-verify\:lint: verify\:lint\:ts
+verify\:lint: verify\:lint\:ts ## Synonym of verify:lint:ts [alias: lint]
 .PHONY: verify\:lint
 
 lint: verify\:lint\:ts
@@ -49,23 +56,15 @@ cov: coverage
 .PHONY: cov
 
 # utility
-watch\:build: ## Start a process for build [alias: watch]
+watch\:build: ## Start a process for build
 	@npm run watch:build
 .PHONY: watch\:build
-
-watch\:lint\:ts: ## Start a process for tslint
-	@npm run watch:lint:ts
-.PHONY: watch\:lint\:ts
-
-watch\:lint\:styl: ## Start a process for stylus lint
-	@npm run watch:lint:styl
-.PHONY: watch\:lint\:styl
 
 watch\:server: ## Start a process for development server [alias: server]
 	@npm run watch:server
 .PHONY: watch\:server
 
-watch: watch\:build
+watch: watch\:build ## Synonym of watch:build
 .PHONY: watch
 
 server: watch\:server
