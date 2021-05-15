@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 
 import buble from '@rollup/plugin-buble';
@@ -52,7 +53,14 @@ const development = {
   , json()
   , stylus()
   , css({
-      output: path.join(dst, 'css', 'index.css')
+			// https://github.com/thgh/rollup-plugin-css-only/issues/34
+			output: function (data, _nodes) {
+        const file = path.join(dst, 'css', 'index.css');
+        fs.mkdir(path.dirname(file), {recursive: true}, (err) => {
+          if (err) throw err;
+          fs.writeFileSync(file, data);
+        });
+			}
     })
   , buble({
       objectAssign: 'Object.assign'
@@ -101,7 +109,13 @@ const production = {
   , json()
   , stylus()
   , css({
-      output: path.join(dst, 'css', 'index.min.css')
+			output: function (data, _nodes) {
+        const file = path.join(dst, 'css', 'index.min.css');
+        fs.mkdir(path.dirname(file), {recursive: true}, (err) => {
+          if (err) throw err;
+          fs.writeFileSync(file, data);
+        });
+			}
     })
   , buble({
       objectAssign: 'Object.assign'
