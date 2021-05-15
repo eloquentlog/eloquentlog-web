@@ -23,7 +23,8 @@ doc/img/screenshot-2021050513024622.png?raw=true "Screenshot - 2021-05-05T13:02:
 
 ## Repository
 
-https://gitlab.com/eloquentlog/eloquentlog-web-console
+The main [repository][gitlab] is hosted on GitLab.com.  
+\# A [mirror][github] is available also on GitHub.
 
 
 ## Requirements
@@ -49,19 +50,24 @@ https://gitlab.com/eloquentlog/eloquentlog-web-console
 
 See `make help`.
 
-### Vet
+### Verify
 
 #### TypeScript
 
 ```zsh
-: using `tslint`
+: check by using `tsc`
+% make verify:check
+```
+
+```zsh
+: lint using `tslint`
 % make verify:lint:ts
 ```
 
 #### Stylus
 
 ```zsh
-: using `stylint`
+: lint using `stylint`
 % make verify:lint:styl
 ```
 
@@ -71,13 +77,13 @@ See `make help`.
 % make test
 ```
 
-### Run
+### Run server
 
 ```zsh
 % make watch:server
 ```
 
-### Update version
+### Release
 
 In additon to `CHANGELOG`, update `version` in following files:
 
@@ -101,7 +107,11 @@ https://gitlab.com/gitlab-org/gitlab-runner) (`gitlab-runner-bin`).
 % git checkout v13.12.0 -b v13.12.0
 % make gitlab-runner-bin
 % sudo cp out/binaries/gitlab-runner-linux-amd64 /usr/local/bin/
+```
 
+Run a job like below:
+
+```zsh
 % cd /path/to/eloquentlog-web-console
 % cp .env.ci.sample .env.ci
 % make runner-<job>
@@ -139,3 +149,5 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 [pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/pipeline.svg
 [coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/coverage.svg
 [ci]: https://gitlab.com/eloquentlog/eloquentlog-web-console/pipelines
+[gitlab]: https://gitlab.com/eloquentlog/eloquentlog-web-console
+[github]: https://github.com/eloquentlog/eloquentlog-web-console
