@@ -21,6 +21,17 @@ variables:
     - make setup
 
 # verify {{{
+check:
+  stage: verify
+  <<: *nodejs
+  variables:
+    NODE_ENV: development
+  script:
+    - cp config.json{.sample,}
+    - make verify:check
+  except:
+    - tags
+
 tslint:
   stage: verify
   <<: *nodejs
