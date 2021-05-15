@@ -27,6 +27,7 @@ check:
   variables:
     NODE_ENV: development
   script:
+    - cp config.json{.sample,}
     - make verify:check
   except:
     - tags
