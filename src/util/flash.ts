@@ -1,8 +1,8 @@
 import * as H from 'history';
 
-interface FlashLocationState extends H.LocationState {
+type FlashLocationState = H.LocationState & {
   flash: string;
-}
+};
 
 export const getFlashMessage = (history: H.History): string => {
   const { location } = history;
