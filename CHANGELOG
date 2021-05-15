@@ -1,4 +1,5 @@
 Sat 15 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Release v0.0.14
 	* Fix an interface for flash
 	* Fix an issue by plugin-css-only on file generation
 	* Update dependencies
