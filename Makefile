@@ -72,8 +72,9 @@ server: watch\:server
 .PHONY: server
 
 clean: ## Tidy up
-	@rm dst/js/index*.js*
-	@rm dst/css/index*.css*
+	@rm -fr .cache/*
+	@rm -f dst/js/index*.js*
+	@rm -f dst/css/index*.css*
 .PHONY: clean
 
 runner-%: ## Run a CI job on local (on Docker)
