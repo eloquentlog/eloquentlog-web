@@ -1,5 +1,5 @@
 stages:
-  - verify
+  - vet
   - test
   - build
   - upload
@@ -20,35 +20,35 @@ variables:
     - npm --version
     - make setup
 
-# verify {{{
+# vet {{{
 check:
-  stage: verify
+  stage: vet
   <<: *nodejs
   variables:
     NODE_ENV: development
   script:
     - cp config.json{.sample,}
-    - make verify:check
+    - make vet:check
   except:
     - tags
 
 tslint:
-  stage: verify
+  stage: vet
   <<: *nodejs
   variables:
     NODE_ENV: development
   script:
-    - make verify:lint:ts
+    - make vet:lint:ts
   except:
     - tags
 
 stylint:
-  stage: verify
+  stage: vet
   <<: *nodejs
   variables:
     NODE_ENV: development
   script:
-    - make verify:lint:styl
+    - make vet:lint:styl
   except:
     - tags
 # }}}

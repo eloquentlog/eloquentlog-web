@@ -50,25 +50,25 @@ The main [repository][gitlab] is hosted on GitLab.com.
 
 See `make help`.
 
-### Verify
+### Vet
 
 #### TypeScript
 
 ```zsh
 : check by using `tsc`
-% make verify:check
+% make vet:check
 ```
 
 ```zsh
 : lint using `tslint`
-% make verify:lint:ts
+% make vet:lint:ts
 ```
 
 #### Stylus
 
 ```zsh
 : lint using `stylint`
-% make verify:lint:styl
+% make vet:lint:styl
 ```
 
 ### Test
