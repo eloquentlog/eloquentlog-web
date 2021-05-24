@@ -1,3 +1,6 @@
+Mon 24 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Rename make verify to vet
+
 Sat 15 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Add .renovaterc.json
 	* Release v0.0.14

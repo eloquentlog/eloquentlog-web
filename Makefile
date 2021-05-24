@@ -15,33 +15,33 @@ build\:release: ## Build in production mode
 build: build\:debug ## Synonym of build:debug
 .PHONY: build
 
-# verify
-verify\:check: ## Check TypeScript codes [alias: check]
+# vet
+vet\:check: ## Check TypeScript codes [alias: check]
 	@npm run check
-.PHONY: verify\:check
+.PHONY: vet\:check
 
-check: verify\:check
+check: vet\:check
 .PHONY: check
 
-verify\:lint\:ts: ## Verify coding style for TypeScript
+vet\:lint\:ts: ## vet coding style for TypeScript
 	@npm run lint:ts
-.PHONY: verify\:lint\:ts
+.PHONY: vet\:lint\:ts
 
-verify\:lint\:styl: ## Verify coding style for Stylus
+vet\:lint\:styl: ## vet coding style for Stylus
 	@npm run lint:styl
-.PHONY: verify\:lint\:styl
+.PHONY: vet\:lint\:styl
 
-verify\:lint: verify\:lint\:ts ## Synonym of verify:lint:ts [alias: lint]
-.PHONY: verify\:lint
+vet\:lint: vet\:lint\:ts ## Synonym of vet:lint:ts [alias: lint]
+.PHONY: vet\:lint
 
-lint: verify\:lint\:ts
+lint: vet\:lint\:ts
 .PHONY: lint
 
-verify\:all: verify\:lint\:ts verify\:lint\:styl ## Check code using all verify targets
-.PHONY: verify\:all
+vet\:all: vet\:lint\:ts vet\:lint\:styl ## Check code using all vet targets
+.PHONY: vet\:all
 
-verify: verify\:check ## Synonym for verify:check
-.PHONY: verify
+vet: vet\:check ## Synonym for vet:check
+.PHONY: vet
 
 # test
 test: ## Run test
