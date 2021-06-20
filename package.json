@@ -1,11 +1,11 @@
 {
-  "name": "eloquentlog-web-console",
-  "descrpiton": "The console web application of Eloquentlog.",
+  "name": "eloquentlog-web",
+  "descrpiton": "The web application of Eloquentlog.",
   "version": "0.0.14",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/eloquentlog/eloquentlog-web-console"
+    "url": "https://gitlab.com/eloquentlog/eloquentlog-web"
   },
   "scripts": {
     "build:production": "rollup -c --configBuildProduction",

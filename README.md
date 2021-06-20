@@ -1,4 +1,4 @@
-# Eloquentlog Web Console
+# Eloquentlog Web
 
 [![pipeline status][pipeline]][ci] [![coverage report][coverage]][ci]
 
@@ -10,7 +10,7 @@ Eloquentlog
 ╚╩╝└─┘└─┘  ╚═╝└─┘┘└┘└─┘└─┘┴─┘└─┘
 ```
 
-The console web application of [Eloquentlog](https://eloquentlog.com).
+The web application of [Eloquentlog](https://eloquentlog.com).
 
 
 ## Overview
@@ -112,7 +112,7 @@ https://gitlab.com/gitlab-org/gitlab-runner) (`gitlab-runner-bin`).
 Run a job like below:
 
 ```zsh
-% cd /path/to/eloquentlog-web-console
+% cd /path/to/eloquentlog-web
 % cp .env.ci.sample .env.ci
 % make runner-<job>
 ```
@@ -125,7 +125,7 @@ Run a job like below:
 ┣╸ ┃  ┃ ┃┃┓┃┃ ┃┣╸ ┃┗┫ ┃ ┃  ┃ ┃┃╺┓
 ┗━╸┗━╸┗━┛┗┻┛┗━┛┗━╸╹ ╹ ╹ ┗━╸┗━┛┗━┛
 
-Web Console
+Web
 Copyright (c) 2019-2021 Lupine Software LLC
 ```
 
@@ -146,8 +146,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 ```
 
-[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/pipeline.svg
-[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web-console/badges/trunk/coverage.svg
-[ci]: https://gitlab.com/eloquentlog/eloquentlog-web-console/pipelines
-[gitlab]: https://gitlab.com/eloquentlog/eloquentlog-web-console
-[github]: https://github.com/eloquentlog/eloquentlog-web-console
+[pipeline]: https://gitlab.com/eloquentlog/eloquentlog-web/badges/trunk/pipeline.svg
+[coverage]: https://gitlab.com/eloquentlog/eloquentlog-web/badges/trunk/coverage.svg
+[ci]: https://gitlab.com/eloquentlog/eloquentlog-web/pipelines
+[gitlab]: https://gitlab.com/eloquentlog/eloquentlog-web
+[github]: https://github.com/eloquentlog/eloquentlog-web
