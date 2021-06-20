@@ -1,17 +1,22 @@
 @require './prtl/_colour'
 
+message =
+  .message
+    margin-bottom 0.84rem
+    margin-top 0
+    &.hidden
+      display none
+
 .wrapper
+  {message}
+
   // form
   form.form
     .header
       margin-bottom 1.03rem
       margin-left 0.06rem
 
-    .message
-      margin-bottom 0.84rem
-      margin-top 0
-      &.hidden
-        display none
+    {message}
 
     input.has-errors
       border 1px solid $err-border-colour

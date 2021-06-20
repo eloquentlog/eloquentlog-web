@@ -21,9 +21,11 @@ export enum NamespaceFormContext {
 }
 
 interface NamespaceFormProps {
-  errors: ValidationError[];
   parent: RouteProps;
   context: NamespaceFormContext;
+  redirect: (url?: string) => void;
+
+  errors: ValidationError[];
 }
 
 // a check if required field is not empty
@@ -118,9 +120,18 @@ const handleSubmit = (props: NamespaceFormProps, event: Event): void => {
     return;
   }
 
-  client.put('/namespace/hset', {
+  const t = props.parent.getToken();
+  if (t == null) {
+    return;
+  }
+  client.post('/namespace/hset', {
     name
   , description
+  }, {
+    withCredentials: true
+  , headers: {
+      Authorization: `Bearer ${t}`
+    }
   })
   .then((res: any): void => {
     if (res.status !== 200) {
@@ -136,14 +147,19 @@ const handleSubmit = (props: NamespaceFormProps, event: Event): void => {
       return;
     }
 
-    const uuid = res.data.uuid;
-    props.parent.history.push(`/namespace/${uuid}`);
+    if (res.data.namespace && res.data.namespace.uuid) {
+      const uuid = res.data.namespace.uuid;
+      props.redirect(`/namespace/${uuid}`);
+      return;
+    }
+    props.redirect();
   })
   .catch((err: any): void => {
-    unlock(f);
-
-    // TODO
     console.log(err);
+
+    displayMessage(msg.flash.namespace.create.failure);
+    handleErrors(f, []);
+    unlock(f);
   });
 };
 
@@ -177,4 +193,10 @@ export const NamespaceForm = (props: NamespaceFormProps): VNode => {
         'Create')
     , h('span.loading.hidden')
     ]);
+};
+
+NamespaceForm.defaultProps = {
+  errors: []
+, parent: null
+, context: null
 };

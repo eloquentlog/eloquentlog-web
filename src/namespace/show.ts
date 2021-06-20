@@ -7,6 +7,7 @@ import { RouteProps } from '../routing';
 import { Layout } from '../prtl/layout';
 import { NamespaceObject } from '../prtl/namespace';
 
+import { getFlashMessage } from '../util/flash';
 import { validateUUID } from '../util/uuid';
 import { appClient, Headers } from '../util/client';
 
@@ -72,6 +73,7 @@ export class NamespaceShow extends
   }
 
   public render(props: NamespaceShowProps): VNode {
+    const flashMessage = getFlashMessage(props.history);
     const ns = this.state.namespace;
     return ns === null ?
       h(Layout, {
@@ -100,14 +102,16 @@ export class NamespaceShow extends
                         ns.uuid)
                   ])
                 , h('h4.header', {}, ns.name)
+                , (flashMessage === undefined) ?
+                    h('#message.message.hidden', { role: 'alert' }) :
+                    h('#message.message.warn', { role: 'alert' },
+                      h('p', {}, flashMessage))
                 , h('.container', [
                     h('.status', [
                       // TODO: archived
                       h('label.primary.label', {}, 'Opened')
                     , h('span', {}, 'created at')
                     , h('span', {}, ns.createdAt)
-                    , h('span', {}, 'by')
-                    , h('span', {}, 'System')
                     ])
                   , h('p', {}, ns.description)
                   , h('.description', {}, ns.description)
