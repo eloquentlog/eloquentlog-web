@@ -1,3 +1,9 @@
+Mon 21 Jun 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Release v0.0.15
+
+Sun 20 Jun 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Add support create action for namespace
+
 Mon 24 May 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Rename make verify to vet
 
