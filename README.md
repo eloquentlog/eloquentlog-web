@@ -5,17 +5,12 @@
 ```text
 Eloquentlog
 
-╦ ╦┌─┐┌┐   ╔═╗┌─┐┌┐┌┌─┐┌─┐┬  ┌─┐
-║║║├┤ ├┴┐  ║  │ ││││└─┐│ ││  ├┤
-╚╩╝└─┘└─┘  ╚═╝└─┘┘└┘└─┘└─┘┴─┘└─┘
+╦ ╦┌─┐┌┐
+║║║├┤ ├┴┐
+╚╩╝└─┘└─┘
 ```
 
 The web application of [Eloquentlog](https://eloquentlog.com).
-
-
-## Overview
-
-### Screenshots
 
 ![screenshot](
 doc/img/screenshot-2021050513024622.png?raw=true "Screenshot - 2021-05-05T13:02:46:22+00:00")
