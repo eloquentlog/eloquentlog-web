@@ -28,7 +28,7 @@
     "@types/history": "4.7.9",
     "@types/jest": "^26.0.23",
     "@types/js-cookie": "3.0.0",
-    "axios": "0.21.4",
+    "axios": "0.23.0",
     "history": "4.10.1",
     "identity-obj-proxy": "3.0.0",
     "inferno": "^7.4.3",
