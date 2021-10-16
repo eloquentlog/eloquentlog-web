@@ -4,6 +4,7 @@
   , "checkJs": true
   , "alwaysStrict": true
   , "allowSyntheticDefaultImports": true
+  , "esModuleInterop": false
   , "baseUrl": "."
   , "module": "esnext"
   , "moduleResolution": "node"

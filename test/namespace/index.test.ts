@@ -62,14 +62,14 @@ describe('NamespaceIndex', () => {
   };
 
   beforeEach(() => {
-    mockedCookies.getJSON = jest.fn();
-    mockedCookies.getJSON.mockImplementationOnce(() => ({
-      value: ''
+    mockedCookies.get = jest.fn();
+    mockedCookies.get.mockImplementationOnce(() => ({
+      name: ''
     }));
   });
 
   afterEach(() => {
-    mockedCookies.getJSON.mockReset();
+    mockedCookies.get.mockReset();
     mockedClient.get.mockReset();
   });
 

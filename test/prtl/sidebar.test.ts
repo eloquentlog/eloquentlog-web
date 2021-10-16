@@ -34,14 +34,22 @@ describe('Sidebar', () => {
   };
 
   beforeEach(() => {
-    mockedCookies.getJSON = jest.fn();
-    mockedCookies.getJSON.mockImplementationOnce(() => ({
-      value: ''
+    mockedCookies.get = jest.fn();
+    // FIXME:
+    // Apparently, it seems that jest.fn() can't distinguish followings :'(
+    // So, use the latter one here for now. See also util/token.ts.
+    //
+    // * Cookies.get(name: string): string | undefined
+    // * Cookies.get(): {[key: string]: string}
+    //
+    // mockedCookies.get.mockImplementation((_: string) => '{name: ""}');
+    mockedCookies.get.mockImplementationOnce(() => ({
+      name: ''
     }));
   });
 
   afterEach(() => {
-    mockedCookies.getJSON.mockReset();
+    mockedCookies.get.mockReset();
   });
 
   test('has valid classNames', () => {
