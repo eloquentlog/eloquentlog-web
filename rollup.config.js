@@ -37,7 +37,6 @@ const development = {
       abortOnError: false
     , cacheRoot: '.cache'
     })
-  , commonjs()
   , replace({
       preventAssignment: true
     , values: {
@@ -50,6 +49,7 @@ const development = {
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , commonjs()
   , json()
   , stylus()
   , css({
@@ -93,7 +93,6 @@ const production = {
       abortOnError: true
     , cacheRoot: '.cache'
     })
-  , commonjs()
   , replace({
       preventAssignment: true
     , values: {
@@ -106,6 +105,7 @@ const production = {
     , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , commonjs()
   , json()
   , stylus()
   , css({

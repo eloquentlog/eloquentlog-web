@@ -18,7 +18,10 @@ export const extendToken = (): boolean => {
 };
 
 export const readToken = (): Token => {
-  return Cookies.getJSON(tokenKey);
+  // FIXME:
+  // use Cookies.get(name: string): string
+  const c = Cookies.get() || {};
+  return JSON.parse(c[tokenKey] || '{}');
 };
 
 export const saveToken = (value: string): string => {
@@ -56,7 +59,7 @@ export const saveToken = (value: string): string => {
         sameSite: 'Strict'
       });
 
-      Cookies.set(tokenKey, token, attributes);
+      Cookies.set(tokenKey, JSON.stringify(token), attributes);
     }
   }
   return value;

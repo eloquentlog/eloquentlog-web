@@ -19,8 +19,11 @@ const inOneYear = 525600; // 60 * 24 * 365
 const cookieKey = 'console.sidebar';
 
 const readState = (k: string): string | null => {
-  const cookie = Cookies.getJSON(k);
-  return (cookie && cookie.value || null);
+  // FIXME:
+  // use Cookies.get(name: string): string
+  const v = Cookies.get() || {};
+  const cookie = JSON.parse(v[k] || '{}');
+  return ((cookie && cookie.value) || null);
 };
 
 const saveState = (k: string, state: string) => {
@@ -48,7 +51,7 @@ const saveState = (k: string, state: string) => {
   attributes = Object.assign(attributes, {
     sameSite: 'Strict'
   });
-  Cookies.set(k, value, attributes as any);
+  Cookies.set(k, JSON.stringify(value), attributes as any);
 };
 
 const handleHideClick = (_: SidebarProps, event: Event): void => {
