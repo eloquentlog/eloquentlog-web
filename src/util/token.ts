@@ -7,7 +7,7 @@ export interface Token {
   value: string;
 }
 
-const tokenKey = 'header.payload';
+export const tokenKey = 'header.payload';
 
 export const extendToken = (): boolean => {
   const token = readToken();
