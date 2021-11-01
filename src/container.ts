@@ -8,7 +8,7 @@ import { readToken, saveToken } from './util/token';
 
 import { Routing } from './routing';
 
-interface ContainerProps {
+export interface ContainerProps {
   history: H.History;
 }
 
@@ -97,7 +97,7 @@ export class Container extends BaseComponent<ContainerProps, ContainerState> {
   private getStamp (): string {
     const token = readToken();
     // TODO: consider this (for now, just return the limit as stamp)
-    if (token !== undefined) {
+    if (token !== undefined && token.limit !== undefined) {
       return token.limit.toString();
     }
     return undefined;
