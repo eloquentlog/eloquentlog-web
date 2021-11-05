@@ -7,16 +7,16 @@ message =
     &.hidden
       display none
 
-.wrapper
+.wrapper .message,
+.wrapper form.form .message
   {message}
 
+.wrapper
   // form
   form.form
     .header
       margin-bottom 1.03rem
       margin-left 0.06rem
-
-    {message}
 
     input.has-errors
       border 1px solid $err-border-colour
