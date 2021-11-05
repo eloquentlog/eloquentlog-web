@@ -24,7 +24,7 @@ The main [repository][gitlab] is hosted on GitLab.com.
 
 ## Requirements
 
-* Node.js `>= 12.22.1`
+* Node.js `>= 16.13.0`
 
 
 ## Setup
