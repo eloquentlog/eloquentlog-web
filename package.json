@@ -26,7 +26,7 @@
     "@rollup/plugin-node-resolve": "13.0.5",
     "@rollup/plugin-replace": "3.0.0",
     "@types/history": "4.7.9",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.0",
     "@types/js-cookie": "3.0.0",
     "axios": "0.24.0",
     "history": "4.10.1",
