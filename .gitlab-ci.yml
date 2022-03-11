@@ -95,8 +95,8 @@ build-release:
       - dst.tar.gz
     expire_in: 3 days
   only:
-    - release@eloquentlog/eloquentlog-web-console
-    - tags@eloquentlog/eloquentlog-web-console
+    - release@eloquentlog/eloquentlog-web
+    - tags@eloquentlog/eloquentlog-web
 # }}}
 
 # publish {{{
@@ -110,7 +110,7 @@ upload:
   dependencies:
     - build-release
   only:
-    - tags@eloquentlog/eloquentlog-web-console
+    - tags@eloquentlog/eloquentlog-web
 
 release:
   stage: release
@@ -124,5 +124,5 @@ release:
   dependencies:
     - upload
   only:
-    - tags@eloquentlog/eloquentlog-web-console
+    - tags@eloquentlog/eloquentlog-web
 # }}}
