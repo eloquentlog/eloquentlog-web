@@ -1,7 +1,7 @@
 {
   "name": "eloquentlog-web",
   "descrpiton": "The web application of Eloquentlog.",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
