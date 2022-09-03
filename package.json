@@ -8,14 +8,14 @@
     "url": "https://gitlab.com/eloquentlog/eloquentlog-web"
   },
   "scripts": {
-    "build:production": "rollup -c --configBuildProduction",
-    "build:development": "rollup -c --configBuildDevelopment",
+    "build:release": "rollup -c --configBuildRelease",
+    "build:debug": "rollup -c --configBuildDebug",
     "check": "tsc --project tsconfig.json --noEmit --pretty",
     "lint:styl": "stylint -c .stylintrc src",
     "lint:ts": "tslint -c tslint.json -p tsconfig.json",
     "test": "jest --no-cache",
     "coverage": "jest --no-cache --coverage",
-    "watch:build": "rollup -w -c --configBuildDevelopment",
+    "watch:build": "rollup -w -c --configBuildDebug",
     "watch:server": "rollup -w -c --configRunServer"
   },
   "devDependencies": {
