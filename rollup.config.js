@@ -26,7 +26,7 @@ const root = __dirname
     , mod = path.join(root, 'node_modules')
     ;
 
-const development = {
+const debug = {
   input: path.join(src, 'index.ts')
 , output: {
     file: path.join(dst, 'js', 'index.js')
@@ -84,7 +84,7 @@ const development = {
   ]
 };
 
-const production = {
+const release = {
   input: path.join(src, 'index.ts')
 , output: [{
     file: path.join(dst, 'js', 'index.min.js')
@@ -143,15 +143,15 @@ const production = {
 };
 
 export default (args) => {
-  if (args.configBuildDevelopment) {
-    return development;
+  if (args.configBuildDebug) {
+    return debug;
   } else if (args.configRunServer) {
     // NOTE:
     // The import of rollup-plugin-serve makes
     // rollup never stopping :'(
     const s = 'rollup-plugin-serve';
     import(s).then((serve) => {
-      development.plugins.push(
+      debug.plugins.push(
         serve.default({
           contentBase: ['dst']
         , historyApiFallback: [
@@ -164,7 +164,7 @@ export default (args) => {
     }).catch((e) => {
       console.log(e);
     });
-    return development;
+    return debug;
   }
-  return production;
+  return release;
 };

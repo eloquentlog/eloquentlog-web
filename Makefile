@@ -4,12 +4,12 @@ setup: ## Install node dev modules
 .PHONY: setup
 
 # build
-build\:debug: ## Build in development mode
-	npm run build:development
+build\:debug: ## Build application in debug mode (for development env)
+	npm run build:debug
 .PHONY: build\:debug
 
-build\:release: ## Build in production mode
-	npm run build:production
+build\:release: ## Build application in release mode (for production env)
+	npm run build:release
 .PHONY: build\:release
 
 build: build\:debug ## Synonym of build:debug
@@ -60,7 +60,7 @@ watch\:build: ## Start a process for build
 	@npm run watch:build
 .PHONY: watch\:build
 
-watch\:server: ## Start a process for development server [alias: server]
+watch\:server: ## Start a process for the development server [alias: server]
 	@npm run watch:server
 .PHONY: watch\:server
 
