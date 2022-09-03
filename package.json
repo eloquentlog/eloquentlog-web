@@ -31,7 +31,7 @@
     "axios": "0.27.2",
     "history": "4.10.1",
     "identity-obj-proxy": "3.0.0",
-    "inferno": "^7.4.3",
+    "inferno": "^8.0.0",
     "inferno-hyperscript": "^7.4.8",
     "inferno-router": "^7.4.8",
     "inferno-test-utils": "^8.0.0",
