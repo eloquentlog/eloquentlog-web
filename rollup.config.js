@@ -16,6 +16,7 @@ import strip from 'rollup-plugin-strip';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import stylus from 'rollup-plugin-stylus-compiler';
+import polyfill from 'rollup-plugin-polyfill-node';
 import css from 'rollup-plugin-css-only';
 
 
@@ -32,6 +33,7 @@ const development = {
   , format: 'iife'
   , sourcemap: true
   }
+, external: ['http', 'https', 'url', 'stream', 'assert', 'zlib']
 , plugins: [
     typescript({
       abortOnError: false
@@ -49,6 +51,7 @@ const development = {
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , polyfill()
   , commonjs()
   , json()
   , stylus()
@@ -88,6 +91,7 @@ const production = {
   , format: 'iife'
   , sourcemap: false
   }]
+, external: ['http', 'https', 'url', 'stream', 'assert', 'zlib']
 , plugins: [
     typescript({
       abortOnError: true
@@ -105,6 +109,7 @@ const production = {
     , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
+  , polyfill()
   , commonjs()
   , json()
   , stylus()
