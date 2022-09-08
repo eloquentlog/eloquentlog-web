@@ -23,7 +23,7 @@
     "@rollup/plugin-buble": "0.21.3",
     "@rollup/plugin-commonjs": "21.1.0",
     "@rollup/plugin-json": "4.1.0",
-    "@rollup/plugin-node-resolve": "13.3.0",
+    "@rollup/plugin-node-resolve": "14.0.1",
     "@rollup/plugin-replace": "4.0.0",
     "@types/history": "4.7.11",
     "@types/jest": "^27.0.0",
