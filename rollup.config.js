@@ -16,7 +16,6 @@ import strip from 'rollup-plugin-strip';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import stylus from 'rollup-plugin-stylus-compiler';
-import polyfill from 'rollup-plugin-polyfill-node';
 import css from 'rollup-plugin-css-only';
 
 
@@ -51,7 +50,6 @@ const debug = {
     , mainFields: ['dev:module', 'module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
-  , polyfill()
   , commonjs()
   , json()
   , stylus()
@@ -109,7 +107,6 @@ const release = {
     , mainFields: ['module', 'main', 'jsnext:main']
     , extensions: ['.js', '.json', '.ts']
     })
-  , polyfill()
   , commonjs()
   , json()
   , stylus()
