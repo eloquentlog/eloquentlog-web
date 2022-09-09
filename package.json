@@ -50,7 +50,7 @@
     "stylint": "^2.0.0",
     "stylus": "0.59.0",
     "styr": "0.0.32",
-    "ts-jest": "^27.0.7",
+    "ts-jest": "^29.0.0",
     "tslint": "6.1.3",
     "tslint-config-prettier": "1.18.0",
     "typescript": "4.8.2",
