@@ -38,7 +38,7 @@
     "jest": "^27.3.1",
     "js-cookie": "2.2.1",
     "magic-string": "0.26.3",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.0.0",
     "rollup": "2.79.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-polyfill-node": "^0.10.2",
