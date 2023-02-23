@@ -37,7 +37,7 @@
     "inferno-test-utils": "^8.0.0",
     "jest": "^27.3.1",
     "js-cookie": "2.2.1",
-    "magic-string": "0.26.3",
+    "magic-string": "0.30.0",
     "mkdirp": "^1.0.4",
     "rollup": "2.79.0",
     "rollup-plugin-css-only": "^3.1.0",
