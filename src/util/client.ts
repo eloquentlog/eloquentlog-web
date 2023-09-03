@@ -49,12 +49,18 @@ const getClient = (
     return res;
   }, (err: any) => {
     return new Promise((_, reject) => {
-      if (err && err.response &&
-        [401, 403, 440].some((n: number): boolean => {
+      if (err && err.response) {
+        // TODO: do we need to implement "Are you still there?"
+        if ([400, 401, 403].some((n: number): boolean => {
           return n === err.response.status;
         })) {
-        // NOTE: do we need to implement "Are you still there?"
-        window.location.replace(`${siteURL}/signin`);
+          // NOTE: In dev mode, `secret key` will be regenerated on the boot
+          // of backend server.
+          window.location.replace(`${siteURL}/signout`);
+        } else if (err.code === 'ERR_NETWORK') {
+          // TODO: show the static error page
+          console.log(err);
+        }
       }
       reject(err);
     });
