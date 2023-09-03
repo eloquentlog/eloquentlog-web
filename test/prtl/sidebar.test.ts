@@ -1,18 +1,25 @@
 import * as H from 'history';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter } from 'inferno-router';
 import {
   renderIntoContainer
 , scryRenderedDOMElementsWithTag
 } from 'inferno-test-utils';
-import { mocked } from 'ts-jest/utils';
 
 import { Theme } from '../../src/util/theme';
 import { RouteProps } from '../../src/routing';
 import { Sidebar, SidebarProps } from '../../src/prtl/sidebar';
 
-const mockedCookies = mocked(Cookies, true);
+jest.mock('js-cookie', () => {
+  return {
+    default: {
+      get: jest.fn()
+    }
+  };
+});
+
+const mockedCookies = jest.mocked(Cookies);
 
 describe('Sidebar', () => {
   const history = H.createBrowserHistory({
@@ -34,7 +41,6 @@ describe('Sidebar', () => {
   };
 
   beforeEach(() => {
-    mockedCookies.get = jest.fn();
     // FIXME:
     // Apparently, it seems that jest.fn() can't distinguish followings :'(
     // So, use the latter one here for now. See also util/token.ts.

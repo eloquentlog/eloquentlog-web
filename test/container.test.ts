@@ -1,13 +1,21 @@
 import * as H from 'history';
-import * as Cookies from 'js-cookie';
-import { mocked } from 'ts-jest/utils';
+import Cookies from 'js-cookie';
 
 import { tokenKey } from '../src/util/token';
 import { Container, ContainerProps } from '../src/container';
 
-const mockedCookies = mocked(Cookies, true);
+jest.mock('js-cookie', () => {
+  return {
+    default: {
+      get: jest.fn()
+    }
+  };
+});
+
+const mockedCookies = jest.mocked(Cookies);
 
 describe('Container', () => {
+
   const history = H.createBrowserHistory({
     forceRefresh: true
   });
@@ -15,8 +23,6 @@ describe('Container', () => {
   const containerProps: ContainerProps = {
     history
   };
-
-  mockedCookies.get = jest.fn();
 
   afterEach(() => {
     mockedCookies.get.mockReset();

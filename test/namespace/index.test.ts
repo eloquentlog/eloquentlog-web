@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import * as H from 'history';
 import { h } from 'inferno-hyperscript';
 import { BrowserRouter } from 'inferno-router';
@@ -10,7 +10,6 @@ import {
 , scryRenderedDOMElementsWithClass
 , scryRenderedDOMElementsWithTag
 } from 'inferno-test-utils';
-import { mocked } from 'ts-jest/utils';
 
 import { Theme } from '../../src/util/theme';
 import { RouteProps } from '../../src/routing';
@@ -19,8 +18,16 @@ import {
 , NamespaceIndex
 , NamespaceIndexProps } from '../../src/namespace/index';
 
-const mockedClient = mocked(client, true);
-const mockedCookies = mocked(Cookies, true);
+jest.mock('js-cookie', () => {
+  return {
+    default: {
+      get: jest.fn()
+    }
+  };
+});
+
+const mockedClient = jest.mocked(client);
+const mockedCookies = jest.mocked(Cookies);
 
 const history = H.createBrowserHistory({
   forceRefresh: true
@@ -62,7 +69,6 @@ describe('NamespaceIndex', () => {
   };
 
   beforeEach(() => {
-    mockedCookies.get = jest.fn();
     mockedCookies.get.mockImplementationOnce(() => ({
       name: ''
     }));

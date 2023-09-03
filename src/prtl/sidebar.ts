@@ -1,7 +1,7 @@
 import { linkEvent, VNode } from 'inferno';
 import { h } from 'inferno-hyperscript';
 import { Link } from 'inferno-router';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import * as cfg from '../../config.json';
 
