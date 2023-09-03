@@ -11,7 +11,7 @@ variables:
   PACKAGE_NAME: "${CI_PROJECT_NAME}-v${PACKAGE_VERSION}"
 
 .nodejs: &nodejs
-  image: node:12.22.1
+  image: node:18.17.1
   cache:
     paths:
       - node_modules
