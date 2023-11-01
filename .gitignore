@@ -9,6 +9,7 @@ config.*.json
 !/dst/
 !/dst/img
 !/dst/index.html
+!/dst/favicon.ico
 
 /test/dst/*
 !/test/dst/.gitignore
